@@ -126,59 +126,57 @@ Write-Host "Ready to deploy! 🚀`n" -ForegroundColor Green
 
 # Create a deployment checklist file
 $checklistPath = Join-Path $prodDir "DEPLOYMENT_CHECKLIST.txt"
-$checklist = @"
-===========================================
-DEPLOYMENT CHECKLIST
-===========================================
-
-PRE-DEPLOYMENT:
-[ ] Database created on production server
-[ ] Database credentials ready
-[ ] FTP access credentials ready
-[ ] Domain/subdomain configured
-
-DEPLOYMENT:
-[ ] Uploaded all files from PRODUCTION_READY folder via FTP
-[ ] Imported database_complete.sql via phpMyAdmin
-[ ] Created includes/config.php with production settings
-[ ] Set file permissions (755 for directories, 644 for files)
-[ ] Created admin user using create_admin.sql
-
-TESTING:
-[ ] Test database connection: /admin/system-test.php
-[ ] Test admin login: /admin/
-[ ] Test main site: /
-[ ] Test search functionality
-[ ] Test language switching
-[ ] Test country detail pages
-[ ] Test contact form
-[ ] Test feedback buttons
-
-SECURITY:
-[ ] Changed default admin password
-[ ] Removed test files (if any leaked through)
-[ ] Set config.php to 640 permissions
-[ ] Verified .htaccess is working
-[ ] Enabled HTTPS/SSL
-[ ] Hidden includes/config.php from web access
-
-POST-DEPLOYMENT:
-[ ] Configure Google AdSense in admin panel
-[ ] Update privacy policy with your details
-[ ] Submit sitemap to Google Search Console
-[ ] Set up database backup schedule
-[ ] Monitor error logs for 24 hours
-
-MAINTENANCE:
-[ ] Document admin credentials safely
-[ ] Set calendar reminder for content updates
-[ ] Plan for regular visa info updates
-[ ] Monitor analytics and view counts
-
-===========================================
-Site is LIVE! 🎉
-===========================================
-"@
+$checklist = "===========================================" + [Environment]::NewLine
+$checklist += "DEPLOYMENT CHECKLIST" + [Environment]::NewLine
+$checklist += "===========================================" + [Environment]::NewLine
+$checklist += "" + [Environment]::NewLine
+$checklist += "PRE-DEPLOYMENT:" + [Environment]::NewLine
+$checklist += "[ ] Database created on production server" + [Environment]::NewLine
+$checklist += "[ ] Database credentials ready" + [Environment]::NewLine
+$checklist += "[ ] FTP access credentials ready" + [Environment]::NewLine
+$checklist += "[ ] Domain/subdomain configured" + [Environment]::NewLine
+$checklist += "" + [Environment]::NewLine
+$checklist += "DEPLOYMENT:" + [Environment]::NewLine
+$checklist += "[ ] Uploaded all files from PRODUCTION_READY folder via FTP" + [Environment]::NewLine
+$checklist += "[ ] Imported database_complete.sql via phpMyAdmin" + [Environment]::NewLine
+$checklist += "[ ] Created includes/config.php with production settings" + [Environment]::NewLine
+$checklist += "[ ] Set file permissions - 755 for directories and 644 for files" + [Environment]::NewLine
+$checklist += "[ ] Created admin user using create_admin.sql" + [Environment]::NewLine
+$checklist += "" + [Environment]::NewLine
+$checklist += "TESTING:" + [Environment]::NewLine
+$checklist += "[ ] Test database connection: /admin/system-test.php" + [Environment]::NewLine
+$checklist += "[ ] Test admin login: /admin/" + [Environment]::NewLine
+$checklist += "[ ] Test main site: /" + [Environment]::NewLine
+$checklist += "[ ] Test search functionality" + [Environment]::NewLine
+$checklist += "[ ] Test language switching" + [Environment]::NewLine
+$checklist += "[ ] Test country detail pages" + [Environment]::NewLine
+$checklist += "[ ] Test contact form" + [Environment]::NewLine
+$checklist += "[ ] Test feedback buttons" + [Environment]::NewLine
+$checklist += "" + [Environment]::NewLine
+$checklist += "SECURITY:" + [Environment]::NewLine
+$checklist += "[ ] Changed default admin password" + [Environment]::NewLine
+$checklist += "[ ] Removed test files if any leaked through" + [Environment]::NewLine
+$checklist += "[ ] Set config.php to 640 permissions" + [Environment]::NewLine
+$checklist += "[ ] Verified .htaccess is working" + [Environment]::NewLine
+$checklist += "[ ] Enabled HTTPS/SSL" + [Environment]::NewLine
+$checklist += "[ ] Hidden includes/config.php from web access" + [Environment]::NewLine
+$checklist += "" + [Environment]::NewLine
+$checklist += "POST-DEPLOYMENT:" + [Environment]::NewLine
+$checklist += "[ ] Configure Google AdSense in admin panel" + [Environment]::NewLine
+$checklist += "[ ] Update privacy policy with your details" + [Environment]::NewLine
+$checklist += "[ ] Submit sitemap to Google Search Console" + [Environment]::NewLine
+$checklist += "[ ] Set up database backup schedule" + [Environment]::NewLine
+$checklist += "[ ] Monitor error logs for 24 hours" + [Environment]::NewLine
+$checklist += "" + [Environment]::NewLine
+$checklist += "MAINTENANCE:" + [Environment]::NewLine
+$checklist += "[ ] Document admin credentials safely" + [Environment]::NewLine
+$checklist += "[ ] Set calendar reminder for content updates" + [Environment]::NewLine
+$checklist += "[ ] Plan for regular visa info updates" + [Environment]::NewLine
+$checklist += "[ ] Monitor analytics and view counts" + [Environment]::NewLine
+$checklist += "" + [Environment]::NewLine
+$checklist += "===========================================" + [Environment]::NewLine
+$checklist += "Site is LIVE! 🎉" + [Environment]::NewLine
+$checklist += "===========================================" + [Environment]::NewLine
 
 Set-Content -Path $checklistPath -Value $checklist
 
