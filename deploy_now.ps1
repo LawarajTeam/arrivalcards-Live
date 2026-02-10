@@ -17,7 +17,9 @@ $filesToUpload = @(
     @{Local=".\PRODUCTION_READY\index.php"; Remote="/public_html/index.php"},
     @{Local=".\PRODUCTION_READY\includes\functions.php"; Remote="/public_html/includes/functions.php"},
     @{Local=".\PRODUCTION_READY\includes\header.php"; Remote="/public_html/includes/header.php"},
-    @{Local=".\PRODUCTION_READY\includes\footer.php"; Remote="/public_html/includes/footer.php"}
+    @{Local=".\PRODUCTION_READY\includes\footer.php"; Remote="/public_html/includes/footer.php"},
+    @{Local=".\PRODUCTION_READY\assets\css\style.css"; Remote="/public_html/assets/css/style.css"},
+    @{Local=".\PRODUCTION_READY\run_database_optimization.php"; Remote="/public_html/run_database_optimization.php"}
 )
 
 $uploadedCount = 0

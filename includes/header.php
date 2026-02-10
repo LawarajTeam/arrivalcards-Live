@@ -1,11 +1,13 @@
 <?php
-// Force UTF-8 output
-header('Content-Type: text/html; charset=utf-8');
-
 if (!defined('CURRENT_LANG')) {
     require_once __DIR__ . '/config.php';
 }
 require_once __DIR__ . '/functions.php';
+
+// Force UTF-8 output - moved after includes to prevent header warning
+if (!headers_sent()) {
+    header('Content-Type: text/html; charset=utf-8');
+}
 
 $pageTitle = $pageTitle ?? t('site_title');
 $languages = getLanguages();
