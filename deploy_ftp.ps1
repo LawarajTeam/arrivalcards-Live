@@ -75,7 +75,7 @@ Write-Host "`n===========================================`n" -ForegroundColor Cy
 Write-Host "Upload completed!`n" -ForegroundColor Green
 Write-Host "Next steps:`n" -ForegroundColor Yellow
 Write-Host "1. Login to cPanel: https://101.0.92.142:2083" -ForegroundColor White
-Write-Host "2. Create MySQL database via 'MySQL Databases'" -ForegroundColor White
+Write-Host "2. Create MySQL database via MySQL Databases" -ForegroundColor White
 Write-Host "3. Import database_complete.sql via phpMyAdmin" -ForegroundColor White
 Write-Host "4. Edit includes/config.php with database credentials" -ForegroundColor White
 Write-Host "5. Visit: https://www.arrivalcards.com/admin/system-test.php`n" -ForegroundColor White
