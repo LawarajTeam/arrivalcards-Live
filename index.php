@@ -41,9 +41,8 @@ $organizationData = [
     'description' => 'Global visa information and travel requirements resource',
     'sameAs' => []
 ];
-?>
 
-<?php include __DIR__ . '/includes/header.php'; ?>
+include __DIR__ . '/includes/header.php'; ?>
 
 <!-- Hero Section -->
 <section class="hero-section">
