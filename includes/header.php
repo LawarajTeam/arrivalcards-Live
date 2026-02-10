@@ -27,6 +27,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="<?php echo APP_URL; ?>/assets/images/logo.svg">
     
+    <!-- Preload critical resources -->
+    <link rel="preload" href="<?php echo APP_URL; ?>/assets/css/style.css" as="style">
+    
     <!-- Stylesheets -->
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/style.css">
     

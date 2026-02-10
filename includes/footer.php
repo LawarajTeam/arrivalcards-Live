@@ -36,7 +36,7 @@
     </footer>
     
     <!-- JavaScript -->
-    <script src="<?php echo APP_URL; ?>/assets/js/main.js"></script>
+    <script src="<?php echo APP_URL; ?>/assets/js/main.js" defer></script>
     <?php if (isset($additionalJS)): ?>
         <script src="<?php echo APP_URL; ?>/assets/js/<?php echo $additionalJS; ?>"></script>
     <?php endif; ?>

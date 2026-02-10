@@ -111,10 +111,20 @@ function getVisaTypes() {
 }
 
 /**
- * Get countries with translations
+ * Get countries with translations (with caching)
  */
 function getCountries($region = null, $visaType = null, $search = null) {
     global $pdo;
+    
+    // Create cache key based on parameters
+    $cacheKey = 'countries_' . CURRENT_LANG . '_' . ($region ?? 'all') . '_' . ($visaType ?? 'all') . '_' . ($search ?? 'none');
+    
+    // Check if we have cached data (valid for 5 minutes)
+    if (isset($_SESSION[$cacheKey]) && isset($_SESSION[$cacheKey . '_time'])) {
+        if (time() - $_SESSION[$cacheKey . '_time'] < 300) { // 5 minutes
+            return $_SESSION[$cacheKey];
+        }
+    }
     
     $sql = "SELECT c.*, ct.country_name, ct.entry_summary, ct.visa_requirements, ct.last_verified,
             COALESCE(cv.views, 0) as view_count
@@ -144,7 +154,13 @@ function getCountries($region = null, $visaType = null, $search = null) {
     
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
-    return $stmt->fetchAll();
+    $results = $stmt->fetchAll();
+    
+    // Cache the results
+    $_SESSION[$cacheKey] = $results;
+    $_SESSION[$cacheKey . '_time'] = time();
+    
+    return $results;
 }
 
 /**

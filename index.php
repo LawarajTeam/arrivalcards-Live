@@ -143,8 +143,12 @@ include __DIR__ . '/includes/header.php'; ?>
             }
             
             $counter = 0;
+            $initialLoad = 30; // Show first 30 countries immediately
             foreach ($countries as $country): 
                 $counter++;
+                $isInitialLoad = ($counter <= $initialLoad);
+                $lazyClass = $isInitialLoad ? '' : ' lazy-load';
+                $displayStyle = $isInitialLoad ? '' : ' style="display:none"';
                 
                 // Check if we should insert ad card at this position
                 if (in_array($counter, $adPositions)) {
@@ -157,10 +161,10 @@ include __DIR__ . '/includes/header.php'; ?>
                 }
             ?>
                 <article 
-                    class="country-card"
+                    class="country-card<?php echo $lazyClass; ?>"
                     data-name="<?php echo e($country['country_name']); ?>"
                     data-region="<?php echo e($country['region']); ?>"
-                    data-visa-type="<?php echo e($country['visa_type']); ?>"
+                    data-visa-type="<?php echo e($country['visa_type']); ?>"<?php echo $displayStyle; ?>
                 >
                     <!-- View Counter Badge -->
                     <div class="view-counter" title="<?php echo number_format($country['view_count']); ?> views">
@@ -175,15 +179,9 @@ include __DIR__ . '/includes/header.php'; ?>
                         <?php 
                         $flagCode = strtolower(getCountryCode2Letter($country['country_code']));
                         $flagPath = APP_URL . '/assets/images/flags/' . $flagCode . '.svg';
-                        $localFlagPath = __DIR__ . '/assets/images/flags/' . $flagCode . '.svg';
-                        
-                        if (file_exists($localFlagPath)) {
-                            // Use local flag image
-                            echo '<img src="' . $flagPath . '" alt="' . e($country['country_name']) . ' flag" class="country-flag-img">';
-                        } else {
-                            // Fallback to styled country code
-                            echo '<span class="country-code-flag" role="img" aria-label="' . e($country['country_name']) . ' country code">' . strtoupper($flagCode) . '</span>';
-                        }
+                        // Always use img with fallback - browser will handle missing images faster
+                        echo '<img src="' . $flagPath . '" alt="' . e($country['country_name']) . ' flag" class="country-flag-img" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline-flex\'">';
+                        echo '<span class="country-code-flag" style="display:none" role="img" aria-label="' . e($country['country_name']) . ' country code">' . strtoupper($flagCode) . '</span>';
                         ?>
                         <h3 class="country-name"><?php echo e($country['country_name']); ?></h3>
                     </div>
@@ -318,6 +316,42 @@ include __DIR__ . '/includes/header.php'; ?>
     // Initialize all AdSense ads on the page
     (adsbygoogle = window.adsbygoogle || []).push({});
 <?php endif; ?>
+
+// Lazy load remaining countries for better performance
+(function() {
+    const lazyLoadCountries = () => {
+        const lazyCards = document.querySelectorAll('.country-card.lazy-load');
+        if (lazyCards.length === 0) return;
+        
+        // Show cards in smaller batches with fade-in animation
+        let index = 0;
+        const batchSize = 15;
+        
+        const showBatch = () => {
+            const end = Math.min(index + batchSize, lazyCards.length);
+            for (let i = index; i < end; i++) {
+                lazyCards[i].style.display = '';
+                lazyCards[i].style.animation = 'fadeIn 0.4s ease-in';
+                lazyCards[i].classList.remove('lazy-load');
+            }
+            index = end;
+            
+            if (index < lazyCards.length) {
+                requestAnimationFrame(() => setTimeout(showBatch, 50));
+            }
+        };
+        
+        // Start loading after initial render
+        requestAnimationFrame(() => setTimeout(showBatch, 150));
+    };
+    
+    // Start lazy loading when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', lazyLoadCountries);
+    } else {
+        lazyLoadCountries();
+    }
+})();
 </script>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>
