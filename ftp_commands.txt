@@ -1,0 +1,8 @@
+open 101.0.92.142
+arrivalcards
+Ijmb)%v]If
+cd /public_html
+lcd PRODUCTION_READY
+prompt
+mput *
+bye

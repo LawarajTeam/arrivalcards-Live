@@ -1,0 +1,47 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to www.arrivalcards.com
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: FTP Deploy
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: 101.0.92.142
+        username: arrivalcards
+        password: ${{ secrets.FTP_PASSWORD }}
+        server-dir: /public_html/
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/node_modules/**
+          **/vendor/**
+          **/.env.example
+          **/README.md
+          **/DEPLOYMENT*.md
+          **/config.production.php
+          **/create_admin.sql
+          **/prepare_production.ps1
+          **/deploy_ftp.ps1
+          **/upload_to_server.ps1
+          **/ftp_commands.txt
+          **/test_*.php
+          **/check_*.php
+          **/setup_*.php
+          **/verify_*.php
+          **/populate_*.php
+          **/update_*.php
+          **/complete_*.php
+          **/export_*.php
+          **/final_*.php
+          **/PRODUCTION_READY/**
