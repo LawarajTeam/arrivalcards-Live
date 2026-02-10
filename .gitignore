@@ -51,3 +51,7 @@ sessions/
 # Cache
 cache/
 *.cache
+
+# Deployment files with sensitive data
+SERVER_CREDENTIALS.txt
+PRODUCTION_READY/

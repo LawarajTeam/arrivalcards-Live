@@ -61,9 +61,9 @@ date_default_timezone_set('UTC');  // Change to your timezone
 // ============================================
 // SITE CONFIGURATION
 // ============================================
-define('SITE_URL', 'https://yourdomain.com');  // Change to your domain
+define('SITE_URL', 'https://www.arrivalcards.com');
 define('SITE_NAME', 'Arrival Cards');
-define('CONTACT_EMAIL', 'info@yourdomain.com'); // Change to your email
+define('CONTACT_EMAIL', 'info@arrivalcards.com'); // Change to your email
 
 // ============================================
 // SECURITY SETTINGS
