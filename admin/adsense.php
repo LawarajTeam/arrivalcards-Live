@@ -216,6 +216,19 @@ while ($row = $stmt->fetch()) {
         </form>
     </div>
 
+    <div class="card" style="margin-top: 2rem;">
+        <h3>🔍 Verify AdSense Setup</h3>
+        <p style="color: #6b7280; margin-bottom: 1.5rem;">Check if your AdSense code is properly configured and appearing on your website.</p>
+        
+        <button type="button" onclick="verifyAdSense()" class="btn btn-primary" style="margin-bottom: 1rem;">
+            🔍 Run Verification Check
+        </button>
+        
+        <div id="verification-results" style="display: none;">
+            <div id="verification-content"></div>
+        </div>
+    </div>
+
     <div class="card" style="margin-top: 2rem; background: #f9fafb;">
         <h3>📘 Setup Instructions</h3>
         <ol style="line-height: 1.8;">
@@ -315,5 +328,60 @@ hr {
 
     <script src="<?php echo APP_URL; ?>/assets/js/admin.js"></script>
     <script src="<?php echo APP_URL; ?>/assets/js/main.js"></script>
+    <script>
+    function verifyAdSense() {
+        const resultsDiv = document.getElementById('verification-results');
+        const contentDiv = document.getElementById('verification-content');
+        
+        resultsDiv.style.display = 'block';
+        contentDiv.innerHTML = '<div style="padding: 1rem; background: #f3f4f6; border-radius: 4px; text-align: center;"><span style="font-size: 1.5rem;">⏳</span> Checking AdSense configuration...</div>';
+        
+        fetch('<?php echo APP_URL; ?>/admin/verify_adsense.php')
+            .then(response => response.json())
+            .then(data => {
+                let html = '<div style="margin-top: 1rem;">';
+                
+                // Overall status
+                if (data.allPassed) {
+                    html += '<div style="padding: 1rem; background: #d1fae5; color: #065f46; border-radius: 4px; border-left: 4px solid #10b981; margin-bottom: 1rem;">';
+                    html += '<strong>✅ All Checks Passed!</strong><br>';
+                    html += 'Your AdSense is properly configured and should be displaying on your site.';
+                    html += '</div>';
+                } else {
+                    html += '<div style="padding: 1rem; background: #fee2e2; color: #991b1b; border-radius: 4px; border-left: 4px solid #ef4444; margin-bottom: 1rem;">';
+                    html += '<strong>⚠️ Configuration Issues Found</strong><br>';
+                    html += 'Please review the checks below and fix any issues.';
+                    html += '</div>';
+                }
+                
+                // Individual checks
+                html += '<div style="background: white; border: 1px solid #e5e7eb; border-radius: 4px; overflow: hidden;">';
+                
+                data.checks.forEach((check, index) => {
+                    const bgColor = index % 2 === 0 ? '#f9fafb' : '#ffffff';
+                    const icon = check.passed ? '✅' : '❌';
+                    const textColor = check.passed ? '#065f46' : '#991b1b';
+                    
+                    html += `<div style="padding: 1rem; background: ${bgColor}; border-bottom: 1px solid #e5e7eb;">`;
+                    html += `<div style="display: flex; align-items: flex-start; gap: 0.75rem;">`;
+                    html += `<span style="font-size: 1.25rem;">${icon}</span>`;
+                    html += `<div style="flex: 1;">`;
+                    html += `<strong style="color: ${textColor};">${check.name}</strong>`;
+                    html += `<p style="margin: 0.25rem 0 0 0; color: #6b7280; font-size: 0.875rem;">${check.message}</p>`;
+                    if (check.details) {
+                        html += `<div style="margin-top: 0.5rem; padding: 0.5rem; background: #f3f4f6; border-radius: 4px; font-size: 0.813rem; color: #4b5563;">${check.details}</div>`;
+                    }
+                    html += `</div></div></div>`;
+                });
+                
+                html += '</div></div>';
+                
+                contentDiv.innerHTML = html;
+            })
+            .catch(error => {
+                contentDiv.innerHTML = '<div style="padding: 1rem; background: #fee2e2; color: #991b1b; border-radius: 4px;">❌ Error running verification: ' + error.message + '</div>';
+            });
+    }
+    </script>
 </body>
 </html>
