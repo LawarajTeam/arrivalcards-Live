@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /test.php
+Disallow: /process_contact.php
+Disallow: /set_language.php
+
+# Disallow config files
+Disallow: /.env
+Disallow: /database.sql
+
+# Sitemap location
+Sitemap: <?php echo getenv('APP_URL') ?: 'http://localhost/ArrivalCards'; ?>/sitemap.xml

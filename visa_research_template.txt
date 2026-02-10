@@ -1,0 +1,196 @@
+# VISA RESEARCH TEMPLATE
+## Country: _______________ (Code: ___)
+
+---
+
+### BASIC INFORMATION
+- [ ] Country Code: ___
+- [ ] Current Visa Type in DB: ___
+- [ ] Research Date: ___________
+- [ ] Researcher: ___________
+
+---
+
+### OFFICIAL SOURCES CHECKED
+1. [ ] Official Government Website: _______________________
+2. [ ] Immigration Department: _______________________
+3. [ ] Embassy Website (US/UK/AU): _______________________
+4. [ ] IATA Travel Centre: _______________________
+5. [ ] Other: _______________________
+
+---
+
+### VISA INFORMATION FOR U.S. PASSPORT HOLDERS
+
+#### Entry Requirements:
+- [ ] Visa Type: [ ] Visa Free [ ] E-Visa [ ] Visa on Arrival [ ] Visa Required
+- [ ] Maximum Stay Duration: ___________
+- [ ] Passport Validity Required: ___________
+- [ ] Visa Fee: ___________
+- [ ] Processing Time: ___________
+
+#### Required Documents:
+- [ ] Valid Passport (validity: ___ months)
+- [ ] Return/Onward Ticket: [ ] Yes [ ] No [ ] Recommended
+- [ ] Proof of Accommodation: [ ] Yes [ ] No [ ] Recommended
+- [ ] Proof of Funds: [ ] Yes [ ] No (Amount if required: _______)
+- [ ] Travel Insurance: [ ] Yes [ ] No (Minimum coverage: _______)
+- [ ] Passport Photos: [ ] Yes [ ] No (Quantity: ___, Specs: _______)
+- [ ] Visa Application Form: [ ] Yes [ ] No
+- [ ] Invitation Letter: [ ] Yes [ ] No [ ] Depends on purpose
+- [ ] Hotel Booking: [ ] Yes [ ] No [ ] Recommended
+- [ ] Bank Statement: [ ] Yes [ ] No (How recent: _______)
+- [ ] Other Documents: _______________________
+
+#### Application Process:
+**For Visa Free:**
+- Entry points: [ ] Airport [ ] Land Border [ ] Seaport [ ] All
+- Arrival card: [ ] Yes [ ] No [ ] Online pre-registration
+- Customs declaration: [ ] Yes [ ] No
+
+**For E-Visa:**
+- Official Portal URL: _______________________
+- Fee: _______
+- Payment Methods: _______________________
+- Processing Time: Standard: _____ / Expedited: _____
+- Validity Period: _______
+- Number of Entries: [ ] Single [ ] Multiple
+- Application Tips/Common Issues: _______________________
+
+**For Visa on Arrival:**
+- Available at: [ ] Airport [ ] Land Border [ ] Seaport
+- Specific Locations: _______________________
+- Fee: _______ (Currency accepted: _______)
+- Payment Methods: [ ] Cash [ ] Card [ ] Both
+- Processing Time: _______
+- Documents Needed at Border: _______________________
+- Photo Required: [ ] Yes [ ] No (Quantity: ___)
+
+**For Visa Required:**
+- Apply at: [ ] Embassy [ ] Consulate [ ] Visa Center [ ] Online
+- Location/Address: _______________________
+- Fee: _______ (Different types: _______)
+- Processing Time: Standard: _____ / Expedited: _____
+- Interview Required: [ ] Yes [ ] No [ ] Sometimes
+- Appointment Needed: [ ] Yes [ ] No
+- Submission Method: [ ] In-person [ ] Mail [ ] Drop-off [ ] Online
+- Validity Period: _______
+- Number of Entries: [ ] Single [ ] Multiple
+- Extension Possible: [ ] Yes [ ] No (Where: _______)
+
+---
+
+### ADDITIONAL REQUIREMENTS
+
+#### Health Requirements:
+- [ ] COVID-19 Vaccine: [ ] Required [ ] Recommended [ ] Not Required
+- [ ] COVID-19 Test: [ ] Required [ ] Not Required (Type: _____, Timing: _____)
+- [ ] Yellow Fever Vaccine: [ ] Required [ ] Not Required (If arriving from: _______)
+- [ ] Other Vaccinations: _______________________
+- [ ] Health Insurance: [ ] Required [ ] Recommended (Min coverage: _______)
+
+#### Customs & Entry:
+- [ ] Arrival Card: [ ] Paper [ ] Electronic [ ] Not Required
+- [ ] Customs Declaration: [ ] Yes [ ] No
+- [ ] Pre-registration System: [ ] Yes [ ] No (URL: _______)
+- [ ] Biometrics: [ ] Fingerprints [ ] Photo [ ] Not Required
+
+#### Special Notes:
+- Tourist activities allowed: [ ] Yes [ ] Limited [ ] No
+- Work/Business activities: [ ] Not allowed [ ] Separate visa needed [ ] Allowed with tourist visa
+- Study allowed: [ ] Not allowed [ ] Separate visa needed
+- Extension available: [ ] Yes [ ] No (Where to apply: _______)
+- Overstay penalties: _______________________
+- Re-entry restrictions: _______________________
+
+---
+
+### FOR UK PASSPORT HOLDERS (If different from US)
+- Visa Type: _______
+- Duration: _______
+- Fee: _______
+- Key Differences: _______________________
+
+### FOR EU PASSPORT HOLDERS (If different from US)
+- Visa Type: _______
+- Duration: _______
+- Fee: _______
+- Key Differences: _______________________
+
+### FOR AUSTRALIAN PASSPORT HOLDERS (If different from US)
+- Visa Type: _______
+- Duration: _______
+- Fee: _______
+- Key Differences: _______________________
+
+### FOR CANADIAN PASSPORT HOLDERS (If different from US)
+- Visa Type: _______
+- Duration: _______
+- Fee: _______
+- Key Differences: _______________________
+
+---
+
+### OFFICIAL LINKS
+- Government Visa Portal: _______________________
+- Immigration Department: _______________________
+- E-Visa Application: _______________________
+- Embassy Locator: _______________________
+- Travel Advisory: _______________________
+
+---
+
+### IMPORTANT NOTES & TIPS
+(Any special considerations, recent changes, common mistakes, seasonal restrictions, etc.)
+
+_______________________
+_______________________
+_______________________
+
+---
+
+### VERIFICATION
+- [ ] Information cross-checked with multiple sources
+- [ ] Official government source confirmed
+- [ ] Links tested and working
+- [ ] Recent updates checked (within 6 months)
+- [ ] Data entered into database
+- [ ] Quality check completed
+
+---
+
+### RESEARCH STATUS
+- [ ] Not Started
+- [ ] In Progress
+- [ ] Research Complete
+- [ ] Data Entered
+- [ ] Verified
+- [ ] Final Approval
+
+**Last Updated:** ___________
+**Next Review Date:** ___________
+
+---
+
+## NOTES FOR DATABASE ENTRY
+
+**visa_requirements field** (Main detailed text):
+```
+Write comprehensive, clear text using the information above.
+Format with bullet points, bold key info, keep language simple.
+Target length: 500-1000 characters
+```
+
+**Quick Fields:**
+- visa_duration: ___________
+- passport_validity: ___________
+- visa_fee: ___________
+- processing_time: ___________
+- official_visa_url: ___________
+- arrival_card_required: ___________
+- last_verified: ___________
+
+---
+
+## TEMPLATE END
+Save this file as: visa_research_[COUNTRY_CODE].txt
