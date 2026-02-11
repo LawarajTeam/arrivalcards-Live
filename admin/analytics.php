@@ -103,7 +103,7 @@ try {
     exit;
 }
 
-// Top 10 countries viewed
+// Top 10 countries viewed (from page_views tracking)
 $stmt = $pdo->prepare("
     SELECT 
         c.country_code,
@@ -120,6 +120,21 @@ $stmt = $pdo->prepare("
     LIMIT 10
 ");
 $stmt->execute([$dateFrom]);
+$topCountriesDetailed = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Top 10 countries by total view count (all time from countries table)
+$stmt = $pdo->query("
+    SELECT 
+        c.country_code,
+        ct.country_name,
+        c.view_count,
+        c.id as country_id
+    FROM countries c
+    LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = 'en'
+    WHERE c.view_count > 0
+    ORDER BY c.view_count DESC
+    LIMIT 10
+");
 $topCountries = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Traffic by location (visitor countries)
@@ -459,7 +474,8 @@ function formatDuration($seconds) {
         
         <!-- Top Countries Viewed -->
         <div class="analytics-table">
-            <h3>🌍 Most Viewed Countries</h3>
+            <h3>🌍 Most Viewed Countries (All Time)</h3>
+            <p style="color: #6b7280; font-size: 0.875rem; margin: -0.5rem 0 1rem 0;">Total cumulative views from country cards</p>
             <table>
                 <thead>
                     <tr>
@@ -489,18 +505,37 @@ function formatDuration($seconds) {
                                     <strong><?php echo e($country['country_name']); ?></strong>
                                 </td>
                                 <td><?php echo number_format($country['view_count']); ?></td>
-                                <td><?php echo number_format($country['unique_viewers']); ?></td>
-                                <td><?php echo formatDuration($country['avg_time_on_page'] ?? 0); ?></td>
                                 <td>
                                     <?php 
-                                    $avgTime = $country['avg_time_on_page'] ?? 0;
-                                    if ($avgTime > 60) {
+                                    if (isset($country['unique_viewers'])) {
+                                        echo number_format($country['unique_viewers']);
+                                    } else {
+                                        echo '<span style="color: #9ca3af;">—</span>';
+                                    }
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                    if (isset($country['avg_time_on_page'])) {
+                                        echo formatDuration($country['avg_time_on_page'] ?? 0);
+                                    } else {
+                                        echo '<span style="color: #9ca3af;">—</span>';
+                                    }
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                    $avgTime = $country['avg_time_on_page'] ?? null;
+                                    if ($avgTime === null) {
+                                        echo '<span style="color: #9ca3af;">—</span>';
+                                    } elseif ($avgTime > 60) {
                                         echo '<span class="metric-badge success">High</span>';
                                     } elseif ($avgTime > 30) {
                                         echo '<span class="metric-badge">Medium</span>';
                                     } else {
                                         echo '<span class="metric-badge warning">Low</span>';
                                     }
+                                    ?>
                                     ?>
                                 </td>
                             </tr>
