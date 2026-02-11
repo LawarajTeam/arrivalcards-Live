@@ -1,0 +1,4 @@
+# ads.txt for arrivalcards.com
+# Authorized Digital Sellers for AdSense
+
+google.com, pub-3368423914848945, DIRECT, f08c47fec0942fa0
