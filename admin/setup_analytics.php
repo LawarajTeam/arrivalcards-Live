@@ -39,20 +39,27 @@ try {
         // Split by semicolon and execute each statement
         $statements = array_filter(array_map('trim', explode(';', $sql)));
         
-        foreach ($statements as $statement) {
+        echo "Found " . count($statements) . " SQL statements\n\n";
+        
+        foreach ($statements as $idx => $statement) {
             if (empty($statement) || strpos($statement, '--') === 0) {
                 continue;
             }
             
+            // Show first 100 chars of statement
+            $preview = substr(str_replace(["\n", "\r"], ' ', $statement), 0, 100);
+            echo "Statement " . ($idx + 1) . ": " . $preview . "...\n";
+            
             try {
-                $pdo->exec($statement);
-                echo "✓ Executed successfully\n";
+                $result = $pdo->exec($statement);
+                echo "  ✓ Executed successfully (affected rows: " . ($result === false ? 'N/A' : $result) . ")\n\n";
             } catch (PDOException $e) {
-                // Check if error is about table already exists
-                if (strpos($e->getMessage(), 'already exists') !== false) {
-                    echo "ℹ️ Already exists (skipped)\n";
+                // Check if error is about table/column already exists
+                if (strpos($e->getMessage(), 'already exists') !== false || 
+                    strpos($e->getMessage(), 'Duplicate column') !== false) {
+                    echo "  ℹ️ Already exists (skipped)\n\n";
                 } else {
-                    echo "❌ Error: " . $e->getMessage() . "\n";
+                    echo "  ❌ Error: " . $e->getMessage() . "\n\n";
                 }
             }
         }
