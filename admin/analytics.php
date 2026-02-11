@@ -225,9 +225,16 @@ $browserBreakdown = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Format duration helper
 function formatDuration($seconds) {
+    $seconds = (float)$seconds; // Explicitly cast to float to avoid deprecation warnings
     if ($seconds < 60) return round($seconds) . 's';
-    if ($seconds < 3600) return round($seconds / 60) . 'm ' . ($seconds % 60) . 's';
-    return round($seconds / 3600, 1) . 'h';
+    if ($seconds < 3600) {
+        $minutes = floor($seconds / 60);
+        $secs = round($seconds % 60);
+        return $minutes . 'm ' . $secs . 's';
+    }
+    $hours = floor($seconds / 3600);
+    $minutes = round(($seconds % 3600) / 60);
+    return $hours . 'h ' . $minutes . 'm';
 }
 
 ?>
