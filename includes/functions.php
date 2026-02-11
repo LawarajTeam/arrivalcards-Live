@@ -127,10 +127,9 @@ function getCountries($region = null, $visaType = null, $search = null) {
     }
     
     $sql = "SELECT c.*, ct.country_name, ct.entry_summary, ct.visa_requirements, ct.last_verified,
-            COALESCE(cv.views, 0) as view_count
+            c.view_count
             FROM countries c
             INNER JOIN country_translations ct ON c.id = ct.country_id
-            LEFT JOIN country_views cv ON c.id = cv.country_id
             WHERE c.is_active = 1 AND ct.lang_code = ?";
     
     $params = [CURRENT_LANG];
@@ -171,10 +170,9 @@ function getCountryById($id) {
     
     $stmt = $pdo->prepare("
         SELECT c.*, ct.country_name, ct.entry_summary, ct.visa_requirements, ct.last_verified,
-        COALESCE(cv.views, 0) as view_count
+        c.view_count
         FROM countries c
         INNER JOIN country_translations ct ON c.id = ct.country_id
-        LEFT JOIN country_views cv ON c.id = cv.country_id
         WHERE c.id = ? AND ct.lang_code = ?
     ");
     $stmt->execute([$id, CURRENT_LANG]);
