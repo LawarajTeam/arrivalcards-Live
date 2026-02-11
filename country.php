@@ -550,11 +550,53 @@ include __DIR__ . '/includes/header.php';
                 <?php echo nl2br(e($country['visa_requirements'])); ?>
             </div>
 
-            <!-- Required Documents -->
+            <!-- Required Documents / Additional Information -->
             <?php if (!empty($country['additional_docs'])): ?>
-            <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">📄 Required Documents</h3>
-            <div class="description-text" style="background: #f9fafb; padding: 1.25rem; border-radius: 0.5rem; border: 1px solid #e5e7eb;">
-                <?php echo nl2br(e($country['additional_docs'])); ?>
+            <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">📄 Additional Requirements & Important Information</h3>
+            <div class="additional-docs-formatted">
+                <?php
+                // Format the additional_docs content
+                $additionalDocs = $country['additional_docs'];
+                
+                // Split by double newlines to get sections
+                $sections = preg_split('/\n\n+/', trim($additionalDocs));
+                
+                foreach ($sections as $section) {
+                    $section = trim($section);
+                    if (empty($section)) continue;
+                    
+                    // Check if section starts with a heading (ALL CAPS followed by colon)
+                    if (preg_match('/^([A-Z][A-Z\s]+):\s*(.+)/s', $section, $matches)) {
+                        $heading = trim($matches[1]);
+                        $content = trim($matches[2]);
+                        
+                        // Determine styling based on heading
+                        $isWarning = stripos($heading, 'CRITICAL') !== false || 
+                                    stripos($heading, 'WARNING') !== false || 
+                                    stripos($heading, 'RISK') !== false ||
+                                    stripos($heading, 'PROHIBITED') !== false;
+                        
+                        $boxStyle = $isWarning 
+                            ? 'background: #fee2e2; border-left: 4px solid #dc2626; padding: 1rem; margin: 1rem 0; border-radius: 0.5rem;'
+                            : 'background: #f9fafb; border-left: 4px solid #3b82f6; padding: 1rem; margin: 1rem 0; border-radius: 0.5rem;';
+                        
+                        $iconStyle = $isWarning ? 'color: #dc2626; font-size: 1.25rem;' : 'color: #3b82f6;';
+                        $icon = $isWarning ? '⚠️' : '📌';
+                        
+                        echo '<div style="' . $boxStyle . '">';
+                        echo '<h4 style="margin: 0 0 0.75rem 0; ' . $iconStyle . ' display: flex; align-items: center; gap: 0.5rem; font-size: 1rem;">';
+                        echo '<span>' . $icon . '</span><span>' . e($heading) . '</span>';
+                        echo '</h4>';
+                        echo '<div style="color: #1f2937; line-height: 1.6;">' . nl2br(e($content)) . '</div>';
+                        echo '</div>';
+                    } else {
+                        // Regular paragraph
+                        echo '<div style="background: #f9fafb; padding: 1rem; margin: 0.5rem 0; border-radius: 0.5rem; line-height: 1.6;">';
+                        echo nl2br(e($section));
+                        echo '</div>';
+                    }
+                }
+                ?>
             </div>
             <?php endif; ?>
 
