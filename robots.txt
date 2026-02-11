@@ -1,16 +1,38 @@
+# ArrivalCards.com - Robots.txt
+# Optimized for SEO and search engine crawling
+
+# Allow all search engines
 User-agent: *
 Allow: /
 
-# Disallow admin areas
+# Crawl delay (optional - helps with server load)
+Crawl-delay: 1
+
+# Disallow admin areas and sensitive files
 Disallow: /admin/
 Disallow: /includes/
-Disallow: /test.php
+Disallow: /PRODUCTION_READY/
+Disallow: /.git/
+
+# Disallow utility and processing scripts
 Disallow: /process_contact.php
+Disallow: /submit_feedback.php
 Disallow: /set_language.php
+Disallow: /run_database_optimization.php
 
-# Disallow config files
+# Disallow database and config files
+Disallow: /*.sql$
 Disallow: /.env
-Disallow: /database.sql
+Disallow: /config*.php
 
-# Sitemap location
-Sitemap: <?php echo getenv('APP_URL') ?: 'http://localhost/ArrivalCards'; ?>/sitemap.xml
+# Allow CSS, JS, and image files for proper rendering
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /assets/images/
+
+# Sitemap location (primary)
+Sitemap: https://arrivalcards.com/sitemap.xml.php
+Sitemap: https://arrivalcards.com/sitemap.xml
+
+# Host (preferred domain)
+Host: https://arrivalcards.com
