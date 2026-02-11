@@ -16,6 +16,11 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 echo "<h1>Analytics Database Setup</h1>";
 echo "<pre>";
 
+// Set error mode for better debugging
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+echo "Database connection: OK\n";
+echo "Database name: " . $pdo->query("SELECT DATABASE()")->fetchColumn() . "\n\n";
+
 try {
     // Read SQL files
     $sqlFiles = [
@@ -36,30 +41,57 @@ try {
         
         $sql = file_get_contents($sqlFile);
         
+        // Show raw SQL content for debugging
+        echo "Raw SQL content:\n";
+        echo str_repeat('-', 60) . "\n";
+        echo substr($sql, 0, 500) . "...\n";
+        echo str_repeat('-', 60) . "\n\n";
+        
         // Split by semicolon and execute each statement
         $statements = array_filter(array_map('trim', explode(';', $sql)));
         
         echo "Found " . count($statements) . " SQL statements\n\n";
         
         foreach ($statements as $idx => $statement) {
-            if (empty($statement) || strpos($statement, '--') === 0) {
+            // Skip empty statements and pure comment lines
+            if (empty($statement)) {
+                echo "Statement " . ($idx + 1) . ": [EMPTY - SKIPPED]\n\n";
                 continue;
             }
             
-            // Show first 100 chars of statement
-            $preview = substr(str_replace(["\n", "\r"], ' ', $statement), 0, 100);
+            // Skip if starts with comment
+            if (preg_match('/^\s*--/', $statement)) {
+                echo "Statement " . ($idx + 1) . ": [COMMENT - SKIPPED]\n\n";
+                continue;
+            }
+            
+            // Show first 150 chars of statement
+            $preview = substr(str_replace(["\n", "\r", "\t"], ' ', $statement), 0, 150);
+            $preview = preg_replace('/\s+/', ' ', $preview);
             echo "Statement " . ($idx + 1) . ": " . $preview . "...\n";
             
             try {
                 $result = $pdo->exec($statement);
-                echo "  ✓ Executed successfully (affected rows: " . ($result === false ? 'N/A' : $result) . ")\n\n";
+                echo "  ✓ SUCCESS (affected rows: " . ($result === false ? '0' : $result) . ")\n";
+                
+                // Check what was created
+                if (stripos($statement, 'CREATE TABLE') !== false) {
+                    preg_match('/CREATE TABLE[^`]*`([^`]+)`/i', $statement, $matches);
+                    if ($matches) {
+                        $tableName = $matches[1];
+                        $check = $pdo->query("SHOW TABLES LIKE '$tableName'")->fetch();
+                        echo "  → Table '$tableName' exists: " . ($check ? 'YES' : 'NO') . "\n";
+                    }
+                }
+                echo "\n";
             } catch (PDOException $e) {
                 // Check if error is about table/column already exists
                 if (strpos($e->getMessage(), 'already exists') !== false || 
                     strpos($e->getMessage(), 'Duplicate column') !== false) {
                     echo "  ℹ️ Already exists (skipped)\n\n";
                 } else {
-                    echo "  ❌ Error: " . $e->getMessage() . "\n\n";
+                    echo "  ❌ ERROR: " . $e->getMessage() . "\n";
+                    echo "  Error Code: " . $e->getCode() . "\n\n";
                 }
             }
         }
