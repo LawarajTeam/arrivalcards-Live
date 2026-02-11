@@ -5,10 +5,12 @@
  */
 
 require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/functions.php';
 
-// Check if admin or run from CLI
-if (php_sapi_name() !== 'cli' && !isset($_SESSION['admin_logged_in'])) {
-    die('Access denied');
+// Check if admin
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    // Try to authenticate
+    requireAdmin();
 }
 
 echo "<h1>Analytics Database Setup</h1>";

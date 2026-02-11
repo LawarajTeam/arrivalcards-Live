@@ -11,41 +11,97 @@ requireAdmin();
 
 $pageTitle = 'Analytics Dashboard';
 
+// Check if analytics tables exist
+$tablesExist = false;
+try {
+    $stmt = $pdo->query("SHOW TABLES LIKE 'page_views'");
+    $tablesExist = $stmt->rowCount() > 0;
+} catch (PDOException $e) {
+    $tablesExist = false;
+}
+
+// If tables don't exist, show setup message
+if (!$tablesExist) {
+    ?>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><?php echo e($pageTitle); ?> - Arrival Cards</title>
+        <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/style.css">
+        <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/admin.css">
+    </head>
+    <body>
+        <?php include __DIR__ . '/includes/admin_header.php'; ?>
+        
+        <div class="admin-container">
+            <div style="max-width: 600px; margin: 4rem auto; text-align: center;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">📊</div>
+                <h1>Analytics Setup Required</h1>
+                <p style="color: var(--text-secondary); margin: 1.5rem 0;">
+                    The analytics database tables haven't been created yet. 
+                    Click the button below to run the one-time setup.
+                </p>
+                <a href="setup_analytics.php" class="btn btn-primary" style="margin-top: 1rem;">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" style="margin-right: 0.5rem;">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/>
+                    </svg>
+                    Run Analytics Setup
+                </a>
+                <p style="color: var(--text-light); font-size: 0.875rem; margin-top: 2rem;">
+                    This will create the necessary database tables to track:<br>
+                    Page views, Visitor sessions, Geographic data, Device info, and more
+                </p>
+            </div>
+        </div>
+    </body>
+    </html>
+    <?php
+    exit;
+}
+
 // Date range filter
 $dateRange = isset($_GET['range']) ? $_GET['range'] : '7';
 $dateFrom = date('Y-m-d 00:00:00', strtotime("-{$dateRange} days"));
 $dateTo = date('Y-m-d 23:59:59');
 
-// Total page views
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM page_views WHERE viewed_at >= ?");
-$stmt->execute([$dateFrom]);
-$totalPageViews = $stmt->fetchColumn();
+try {
+    // Total page views
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM page_views WHERE viewed_at >= ?");
+    $stmt->execute([$dateFrom]);
+    $totalPageViews = $stmt->fetchColumn();
 
-// Unique visitors (by IP)
-$stmt = $pdo->prepare("SELECT COUNT(DISTINCT visitor_ip) FROM page_views WHERE viewed_at >= ?");
-$stmt->execute([$dateFrom]);
-$uniqueVisitors = $stmt->fetchColumn();
+    // Unique visitors (by IP)
+    $stmt = $pdo->prepare("SELECT COUNT(DISTINCT visitor_ip) FROM page_views WHERE viewed_at >= ?");
+    $stmt->execute([$dateFrom]);
+    $uniqueVisitors = $stmt->fetchColumn();
 
-// Average session duration (in seconds)
-$stmt = $pdo->prepare("
-    SELECT AVG(session_duration) 
-    FROM page_views 
-    WHERE viewed_at >= ? AND session_duration > 0
-");
-$stmt->execute([$dateFrom]);
-$avgSessionDuration = round($stmt->fetchColumn() ?? 0);
+    // Average session duration (in seconds)
+    $stmt = $pdo->prepare("
+        SELECT AVG(session_duration) 
+        FROM page_views 
+        WHERE viewed_at >= ? AND session_duration > 0
+    ");
+    $stmt->execute([$dateFrom]);
+    $avgSessionDuration = round($stmt->fetchColumn() ?? 0);
 
-// Bounce rate (single page sessions)
-$stmt = $pdo->prepare("
-    SELECT 
-        (SELECT COUNT(DISTINCT session_id) FROM page_views WHERE viewed_at >= ? 
-         GROUP BY session_id HAVING COUNT(*) = 1) * 100.0 / 
-        COUNT(DISTINCT session_id) as bounce_rate
-    FROM page_views 
-    WHERE viewed_at >= ?
-");
-$stmt->execute([$dateFrom, $dateFrom]);
-$bounceRate = round($stmt->fetchColumn() ?? 0, 1);
+    // Bounce rate (single page sessions)
+    $stmt = $pdo->prepare("
+        SELECT 
+            (SELECT COUNT(DISTINCT session_id) FROM page_views WHERE viewed_at >= ? 
+             GROUP BY session_id HAVING COUNT(*) = 1) * 100.0 / 
+            COUNT(DISTINCT session_id) as bounce_rate
+        FROM page_views 
+        WHERE viewed_at >= ?
+    ");
+    $stmt->execute([$dateFrom, $dateFrom]);
+    $bounceRate = round($stmt->fetchColumn() ?? 0, 1);
+} catch (PDOException $e) {
+    // If there's an error, redirect to setup
+    header('Location: setup_analytics.php?error=' . urlencode($e->getMessage()));
+    exit;
+}
 
 // Top 10 countries viewed
 $stmt = $pdo->prepare("
