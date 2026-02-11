@@ -558,6 +558,9 @@ include __DIR__ . '/includes/header.php';
                 // Format the additional_docs content
                 $additionalDocs = $country['additional_docs'];
                 
+                // First, convert literal \n to actual newlines if they exist
+                $additionalDocs = str_replace(['\\n\\n', '\\n'], ["\n\n", "\n"], $additionalDocs);
+                
                 // Split by double newlines to get sections
                 $sections = preg_split('/\n\n+/', trim($additionalDocs));
                 
@@ -566,7 +569,7 @@ include __DIR__ . '/includes/header.php';
                     if (empty($section)) continue;
                     
                     // Check if section starts with a heading (ALL CAPS followed by colon)
-                    if (preg_match('/^([A-Z][A-Z\s]+):\s*(.+)/s', $section, $matches)) {
+                    if (preg_match('/^([A-Z][A-Z\s&\(\)]+?):\s*(.+)/s', $section, $matches)) {
                         $heading = trim($matches[1]);
                         $content = trim($matches[2]);
                         
@@ -574,25 +577,56 @@ include __DIR__ . '/includes/header.php';
                         $isWarning = stripos($heading, 'CRITICAL') !== false || 
                                     stripos($heading, 'WARNING') !== false || 
                                     stripos($heading, 'RISK') !== false ||
-                                    stripos($heading, 'PROHIBITED') !== false;
+                                    stripos($heading, 'PROHIBITED') !== false ||
+                                    stripos($heading, 'SEVERE') !== false;
                         
                         $boxStyle = $isWarning 
-                            ? 'background: #fee2e2; border-left: 4px solid #dc2626; padding: 1rem; margin: 1rem 0; border-radius: 0.5rem;'
-                            : 'background: #f9fafb; border-left: 4px solid #3b82f6; padding: 1rem; margin: 1rem 0; border-radius: 0.5rem;';
+                            ? 'background: #fee2e2; border-left: 4px solid #dc2626; padding: 1.25rem; margin: 1rem 0; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);'
+                            : 'background: #f9fafb; border-left: 4px solid #3b82f6; padding: 1.25rem; margin: 1rem 0; border-radius: 0.5rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05);';
                         
-                        $iconStyle = $isWarning ? 'color: #dc2626; font-size: 1.25rem;' : 'color: #3b82f6;';
+                        $iconStyle = $isWarning ? 'color: #dc2626; font-size: 1.25rem;' : 'color: #3b82f6; font-size: 1.1rem;';
                         $icon = $isWarning ? '⚠️' : '📌';
                         
                         echo '<div style="' . $boxStyle . '">';
-                        echo '<h4 style="margin: 0 0 0.75rem 0; ' . $iconStyle . ' display: flex; align-items: center; gap: 0.5rem; font-size: 1rem;">';
+                        echo '<h4 style="margin: 0 0 1rem 0; ' . $iconStyle . ' display: flex; align-items: center; gap: 0.5rem; font-size: 1.05rem; font-weight: 600;">';
                         echo '<span>' . $icon . '</span><span>' . e($heading) . '</span>';
                         echo '</h4>';
-                        echo '<div style="color: #1f2937; line-height: 1.6;">' . nl2br(e($content)) . '</div>';
+                        
+                        // Format content with better readability
+                        $contentLines = explode("\n", $content);
+                        echo '<div style="color: #1f2937; line-height: 1.8;">';
+                        
+                        $currentList = false;
+                        foreach ($contentLines as $line) {
+                            $line = trim($line);
+                            if (empty($line)) continue;
+                            
+                            // Check if line is a bullet point
+                            if (preg_match('/^[-•]\s*(.+)/', $line, $listMatch)) {
+                                if (!$currentList) {
+                                    echo '<ul style="margin: 0.5rem 0; padding-left: 1.5rem;">';
+                                    $currentList = true;
+                                }
+                                echo '<li style="margin: 0.4rem 0;">' . e($listMatch[1]) . '</li>';
+                            } else {
+                                if ($currentList) {
+                                    echo '</ul>';
+                                    $currentList = false;
+                                }
+                                echo '<p style="margin: 0.5rem 0;">' . e($line) . '</p>';
+                            }
+                        }
+                        
+                        if ($currentList) {
+                            echo '</ul>';
+                        }
+                        
+                        echo '</div>';
                         echo '</div>';
                     } else {
-                        // Regular paragraph
-                        echo '<div style="background: #f9fafb; padding: 1rem; margin: 0.5rem 0; border-radius: 0.5rem; line-height: 1.6;">';
-                        echo nl2br(e($section));
+                        // Regular paragraph without heading
+                        echo '<div style="background: #f9fafb; padding: 1rem; margin: 0.5rem 0; border-radius: 0.5rem; line-height: 1.7;">';
+                        echo '<p style="margin: 0; color: #374151;">' . nl2br(e($section)) . '</p>';
                         echo '</div>';
                     }
                 }
