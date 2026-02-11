@@ -89,9 +89,16 @@ try {
     // Bounce rate (single page sessions)
     $stmt = $pdo->prepare("
         SELECT 
-            (SELECT COUNT(DISTINCT session_id) FROM page_views WHERE viewed_at >= ? 
-             GROUP BY session_id HAVING COUNT(*) = 1) * 100.0 / 
-            COUNT(DISTINCT session_id) as bounce_rate
+            CASE 
+                WHEN COUNT(DISTINCT session_id) > 0 THEN
+                    (SELECT COUNT(*) FROM (
+                        SELECT session_id FROM page_views 
+                        WHERE viewed_at >= ? 
+                        GROUP BY session_id 
+                        HAVING COUNT(*) = 1
+                    ) single_sessions) * 100.0 / COUNT(DISTINCT session_id)
+                ELSE 0
+            END as bounce_rate
         FROM page_views 
         WHERE viewed_at >= ?
     ");
