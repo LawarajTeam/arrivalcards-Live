@@ -11,6 +11,9 @@ if (php_sapi_name() !== 'cli' && (!isset($_SESSION['admin_id']))) {
     die('Access denied. Run from command line or login as admin.');
 }
 
+// Enable buffered queries to prevent PDO errors
+$pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+
 echo "============================================\n";
 echo "Database Performance Optimization\n";
 echo "============================================\n\n";
@@ -103,25 +106,16 @@ try {
     // 4. Optimize tables
     echo "Optimizing tables...\n";
     
-    try {
-        $pdo->exec("OPTIMIZE TABLE countries");
-        $success[] = "✓ Optimized countries table";
-    } catch (PDOException $e) {
-        $errors[] = "✗ Failed to optimize countries: " . $e->getMessage();
-    }
-    
-    try {
-        $pdo->exec("OPTIMIZE TABLE country_translations");
-        $success[] = "✓ Optimized country_translations table";
-    } catch (PDOException $e) {
-        $errors[] = "✗ Failed to optimize country_translations: " . $e->getMessage();
-    }
-    
-    try {
-        $pdo->exec("OPTIMIZE TABLE country_views");
-        $success[] = "✓ Optimized country_views table";
-    } catch (PDOException $e) {
-        $errors[] = "✗ Failed to optimize country_views: " . $e->getMessage();
+    $tablesToOptimize = ['countries', 'country_translations', 'country_views'];
+    foreach ($tablesToOptimize as $table) {
+        try {
+            $stmt = $pdo->query("OPTIMIZE TABLE `{$table}`");
+            $stmt->fetchAll(); // Consume the result set
+            $stmt = null; // Close the statement
+            $success[] = "✓ Optimized {$table} table";
+        } catch (PDOException $e) {
+            $errors[] = "✗ Failed to optimize {$table}: " . $e->getMessage();
+        }
     }
     
 } catch (Exception $e) {
@@ -176,16 +170,27 @@ try {
     echo "\nCountry translations indexes:\n";
     $stmt = $pdo->query("SHOW INDEX FROM country_translations");
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        echo "  - {$row['Key_name']} on ({$row['Column_name']})\n";
-    }
+    $tables = [
+        'countries' => 'Countries table',
+        'country_translations' => 'Country translations',
+        'country_views' => 'Country views'
+    ];
     
-    echo "\nCountry views indexes:\n";
-    $stmt = $pdo->query("SHOW INDEX FROM country_views");
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        echo "  - {$row['Key_name']} on ({$row['Column_name']})\n";
-    }
-} catch (Exception $e) {
-    echo "Could not list indexes: " . $e->getMessage() . "\n";
-}
-
-echo "\nDone!\n";
+    foreach ($tables as $table => $label) {
+        echo "{$label} indexes:\n";
+        $stmt = $pdo->query("SHOW INDEX FROM `{$table}`");
+        $indexes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = null; // Close the statement
+        
+        if (!empty($indexes)) {
+            $displayedKeys = [];
+            foreach ($indexes as $row) {
+                if (!in_array($row['Key_name'], $displayedKeys)) {
+                    echo "  - {$row['Key_name']}\n";
+                    $displayedKeys[] = $row['Key_name'];
+                }
+            }
+        } else {
+            echo "  (none)\n";
+        }
+        echo "
