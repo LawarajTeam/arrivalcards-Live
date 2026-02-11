@@ -26,8 +26,7 @@ CREATE TABLE IF NOT EXISTS `page_views` (
   KEY `idx_country` (`country_id`),
   KEY `idx_viewed_at` (`viewed_at`),
   KEY `idx_visitor_country` (`visitor_country`),
-  KEY `idx_device` (`device_type`),
-  CONSTRAINT `fk_page_views_country` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE SET NULL
+  KEY `idx_device` (`device_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Session Tracking Table
@@ -47,7 +46,3 @@ CREATE TABLE IF NOT EXISTS `visitor_sessions` (
   KEY `idx_visitor_ip` (`visitor_ip`),
   KEY `idx_started_at` (`started_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Add indexes for better query performance
-CREATE INDEX IF NOT EXISTS idx_page_url ON page_views(page_url(191));
-CREATE INDEX IF NOT EXISTS idx_browser ON page_views(browser);
