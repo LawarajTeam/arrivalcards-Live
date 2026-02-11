@@ -53,36 +53,53 @@ try {
         echo "Found " . count($statements) . " SQL statements\n\n";
         
         foreach ($statements as $idx => $statement) {
-            // Skip empty statements and pure comment lines
+            // Skip empty statements
             if (empty($statement)) {
-                echo "Statement " . ($idx + 1) . ": [EMPTY - SKIPPED]\n\n";
                 continue;
             }
             
-            // Skip if starts with comment
-            if (preg_match('/^\s*--/', $statement)) {
-                echo "Statement " . ($idx + 1) . ": [COMMENT - SKIPPED]\n\n";
+            // Remove comment lines from the statement
+            $lines = explode("\n", $statement);
+            $cleanedLines = [];
+            foreach ($lines as $line) {
+                $trimmedLine = trim($line);
+                // Skip lines that are only comments
+                if (empty($trimmedLine) || preg_match('/^--/', $trimmedLine)) {
+                    continue;
+                }
+                $cleanedLines[] = $line;
+            }
+            
+            $cleanedStatement = trim(implode("\n", $cleanedLines));
+            
+            // Skip if nothing left after removing comments
+            if (empty($cleanedStatement)) {
                 continue;
             }
             
-            // Show first 150 chars of statement
-            $preview = substr(str_replace(["\n", "\r", "\t"], ' ', $statement), 0, 150);
+            // Show first 150 chars of cleaned statement
+            $preview = substr(str_replace(["\n", "\r", "\t"], ' ', $cleanedStatement), 0, 150);
             $preview = preg_replace('/\s+/', ' ', $preview);
             echo "Statement " . ($idx + 1) . ": " . $preview . "...\n";
             
             try {
-                $result = $pdo->exec($statement);
+                $result = $pdo->exec($cleanedStatement);
                 echo "  ✓ SUCCESS (affected rows: " . ($result === false ? '0' : $result) . ")\n";
                 
                 // Check what was created
-                if (stripos($statement, 'CREATE TABLE') !== false) {
-                    preg_match('/CREATE TABLE[^`]*`([^`]+)`/i', $statement, $matches);
+                if (stripos($cleanedStatement, 'CREATE TABLE') !== false) {
+                    preg_match('/CREATE TABLE[^`]*`([^`]+)`/i', $cleanedStatement, $matches);
                     if ($matches) {
                         $tableName = $matches[1];
                         $check = $pdo->query("SHOW TABLES LIKE '$tableName'")->fetch();
                         echo "  → Table '$tableName' exists: " . ($check ? 'YES' : 'NO') . "\n";
                     }
                 }
+                
+                if (stripos($cleanedStatement, 'ALTER TABLE') !== false) {
+                    echo "  → Table altered successfully\n";
+                }
+                
                 echo "\n";
             } catch (PDOException $e) {
                 // Check if error is about table/column already exists
