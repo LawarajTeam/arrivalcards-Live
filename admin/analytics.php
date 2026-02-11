@@ -137,6 +137,23 @@ $stmt = $pdo->query("
 ");
 $topCountries = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// ALL countries view counter report (matches homepage cards)
+$stmt = $pdo->query("
+    SELECT 
+        c.id,
+        c.country_code,
+        ct.country_name,
+        c.view_count,
+        c.created_at,
+        c.updated_at
+    FROM countries c
+    LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = 'en'
+    ORDER BY c.view_count DESC, ct.country_name ASC
+");
+$allCountriesViewCount = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$totalCountriesTracked = count($allCountriesViewCount);
+$totalViewsAllCountries = array_sum(array_column($allCountriesViewCount, 'view_count'));
+
 // Traffic by location (visitor countries)
 $stmt = $pdo->prepare("
     SELECT 
@@ -543,7 +560,6 @@ function formatDuration($seconds) {
                                         echo '<span class="metric-badge warning">Low</span>';
                                     }
                                     ?>
-                                    ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -658,6 +674,86 @@ function formatDuration($seconds) {
             </div>
         </div>
         
+        <!-- Country View Counter Report - Matches Homepage Cards -->
+        <div class="analytics-table">
+            <h3>🎯 Country View Counter Report</h3>
+            <p style="color: #6b7280; font-size: 0.875rem; margin: -0.5rem 0 1rem 0;">
+                Complete view count data from homepage country cards (<?php echo number_format($totalCountriesTracked); ?> countries, <?php echo number_format($totalViewsAllCountries); ?> total views)
+            </p>
+            <div style="margin-bottom: 1rem;">
+                <input type="text" id="countrySearchInput" placeholder="Search countries..." 
+                       style="padding: 0.5rem; width: 100%; max-width: 400px; border: 1px solid #d1d5db; border-radius: 0.375rem;" 
+                       onkeyup="filterCountryTable()">
+            </div>
+            <div style="max-height: 600px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+                <table id="countryViewTable">
+                    <thead style="position: sticky; top: 0; background: white; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <tr>
+                            <th>Rank</th>
+                            <th>Country</th>
+                            <th>Country Code</th>
+                            <th>View Count</th>
+                            <th>% of Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($allCountriesViewCount)): ?>
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                    No countries found
+                                </td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach ($allCountriesViewCount as $index => $country): ?>
+                                <?php 
+                                $percentage = $totalViewsAllCountries > 0 ? ($country['view_count'] / $totalViewsAllCountries * 100) : 0;
+                                $hasViews = $country['view_count'] > 0;
+                                ?>
+                                <tr style="<?php echo !$hasViews ? 'opacity: 0.5;' : ''; ?>">
+                                    <td><strong>#<?php echo $index + 1; ?></strong></td>
+                                    <td>
+                                        <img src="<?php echo APP_URL; ?>/assets/images/flags/<?php echo strtolower($country['country_code']); ?>.svg" 
+                                             class="country-flag-small" 
+                                             onerror="this.style.display='none'"
+                                             style="width: 24px; height: 16px; margin-right: 0.5rem; vertical-align: middle;">
+                                        <strong><?php echo e($country['country_name'] ?? 'Unknown'); ?></strong>
+                                    </td>
+                                    <td><code style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.813rem;"><?php echo e($country['country_code']); ?></code></td>
+                                    <td>
+                                        <strong style="color: <?php echo $hasViews ? '#059669' : '#9ca3af'; ?>; font-size: 1.1rem;">
+                                            <?php echo number_format($country['view_count']); ?>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <?php if ($hasViews): ?>
+                                            <?php echo number_format($percentage, 2); ?>%
+                                            <div class="progress-bar" style="margin-top: 0.25rem;">
+                                                <div class="progress-fill" style="width: <?php echo min($percentage * 5, 100); ?>%; background: #3b82f6;"></div>
+                                            </div>
+                                        <?php else: ?>
+                                            <span style="color: #9ca3af;">—</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?php if ($country['view_count'] > 100): ?>
+                                            <span class="metric-badge success">🔥 Hot</span>
+                                        <?php elseif ($country['view_count'] > 10): ?>
+                                            <span class="metric-badge">📈 Growing</span>
+                                        <?php elseif ($country['view_count'] > 0): ?>
+                                            <span class="metric-badge warning">👁️ Viewed</span>
+                                        <?php else: ?>
+                                            <span style="color: #9ca3af; font-size: 0.875rem;">No views</span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
         <!-- Top Pages -->
         <div class="analytics-table">
             <h3>📄 Most Visited Pages</h3>
@@ -695,6 +791,28 @@ function formatDuration($seconds) {
     </div>
     
     <script>
+        // Country table search filter
+        function filterCountryTable() {
+            const input = document.getElementById('countrySearchInput');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('countryViewTable');
+            const tr = table.getElementsByTagName('tr');
+            
+            for (let i = 1; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td')[1]; // Country name column
+                const td2 = tr[i].getElementsByTagName('td')[2]; // Country code column
+                if (td || td2) {
+                    const txtValue = (td ? td.textContent || td.innerText : '') + ' ' + 
+                                    (td2 ? td2.textContent || td2.innerText : '');
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = '';
+                    } else {
+                        tr[i].style.display = 'none';
+                    }
+                }
+            }
+        }
+        
         // Daily Traffic Chart
         const dailyLabels = <?php echo json_encode(array_map(function($d) { 
             return date('M d', strtotime($d['view_date'])); 
