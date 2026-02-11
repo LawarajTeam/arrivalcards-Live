@@ -106,15 +106,16 @@ try {
 // Top 10 countries viewed
 $stmt = $pdo->prepare("
     SELECT 
-        c.code,
-        c.name_en,
+        c.country_code,
+        ct.country_name,
         COUNT(*) as view_count,
         COUNT(DISTINCT pv.visitor_ip) as unique_viewers,
         AVG(pv.session_duration) as avg_time_on_page
     FROM page_views pv
     INNER JOIN countries c ON pv.country_id = c.id
+    LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = 'en'
     WHERE pv.viewed_at >= ? AND pv.country_id IS NOT NULL
-    GROUP BY c.id, c.code, c.name_en
+    GROUP BY c.id, c.country_code, ct.country_name
     ORDER BY view_count DESC
     LIMIT 10
 ");
@@ -482,10 +483,10 @@ function formatDuration($seconds) {
                             <tr>
                                 <td><strong>#<?php echo $index + 1; ?></strong></td>
                                 <td>
-                                    <img src="<?php echo APP_URL; ?>/assets/images/flags/<?php echo strtolower($country['code']); ?>.svg" 
+                                    <img src="<?php echo APP_URL; ?>/assets/images/flags/<?php echo strtolower($country['country_code']); ?>.svg" 
                                          class="country-flag-small" 
                                          onerror="this.style.display='none'">
-                                    <strong><?php echo e($country['name_en']); ?></strong>
+                                    <strong><?php echo e($country['country_name']); ?></strong>
                                 </td>
                                 <td><?php echo number_format($country['view_count']); ?></td>
                                 <td><?php echo number_format($country['unique_viewers']); ?></td>
