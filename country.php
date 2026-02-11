@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
+require_once __DIR__ . '/includes/analytics_functions.php';
 
 // Get country ID from URL
 $countryId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -35,6 +36,10 @@ if (!$country) {
     header('Location: index.php');
     exit;
 }
+
+// Track page view with country ID
+$countryName = $country['country_name'] ?? $country['name_en'];
+trackPageView($countryId, $countryName . ' - Visa Requirements');
 
 // Increment view counter
 try {

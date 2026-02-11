@@ -7,10 +7,14 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/adsense_functions.php';
+require_once __DIR__ . '/includes/analytics_functions.php';
 
 $pageTitle = 'Visa Requirements & Arrival Cards for 156 Countries | Arrival Cards';
 $pageDescription = 'Free visa information, entry requirements, and arrival card details for 156 countries worldwide. Find out if you need a visa, eVisa, or visa on arrival in 6 languages.';
 $pageKeywords = 'visa requirements, arrival cards, visa information, travel visa, eVisa, visa on arrival, visa free countries, international travel, passport requirements';
+
+// Track page view
+trackPageView(null, $pageTitle);
 
 // Get countries
 $countries = getCountries();
