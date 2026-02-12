@@ -55,6 +55,20 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     </script>
     <?php endif; ?>
     
+    <?php if (isset($breadcrumbSchema)): ?>
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    <?php echo json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>
+    </script>
+    <?php endif; ?>
+    
+    <?php if (isset($faqSchema)): ?>
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    <?php echo json_encode($faqSchema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>
+    </script>
+    <?php endif; ?>
+    
     <?php if (isset($organizationData)): ?>
     <script type="application/ld+json">
     <?php echo json_encode($organizationData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>

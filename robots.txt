@@ -4,6 +4,11 @@
 # Allow all search engines
 User-agent: *
 Allow: /
+Allow: /index.php
+Allow: /country.php
+Allow: /contact.php
+Allow: /privacy.php
+Allow: /report-error.php
 
 # Crawl delay (optional - helps with server load)
 Crawl-delay: 1
@@ -13,22 +18,47 @@ Disallow: /admin/
 Disallow: /includes/
 Disallow: /PRODUCTION_READY/
 Disallow: /.git/
+Disallow: /.github/
+Disallow: /.vscode/
+Disallow: /.env*
 
 # Disallow utility and processing scripts
 Disallow: /process_contact.php
 Disallow: /submit_feedback.php
 Disallow: /set_language.php
 Disallow: /run_database_optimization.php
+Disallow: /*_cli.php
+Disallow: /add_*.php
+Disallow: /check_*.php
+Disallow: /fix_*.php
+Disallow: /task*.php
+Disallow: /test*.php
+Disallow: /update_*.php
+Disallow: /verify_*.php
+Disallow: /validate_*.php
+Disallow: /populate_*.php
+Disallow: /setup_*.php
 
 # Disallow database and config files
 Disallow: /*.sql$
-Disallow: /.env
+Disallow: /*.md$
 Disallow: /config*.php
+Disallow: /*.txt$
+
+# Disallow deployment scripts
+Disallow: /*.ps1$
+Disallow: /deploy*.php
+Disallow: /prepare_*.php
+Disallow: /quick_*.php
 
 # Allow CSS, JS, and image files for proper rendering
 Allow: /assets/css/
 Allow: /assets/js/
-Allow: /assets/images/
+Allow: /assets/images/*.svg
+Allow: /assets/images/*.png
+Allow: /assets/images/*.jpg
+Allow: /assets/images/*.jpeg
+Allow: /assets/images/*.webp
 
 # Sitemap location (primary)
 Sitemap: https://arrivalcards.com/sitemap.xml.php
@@ -36,3 +66,26 @@ Sitemap: https://arrivalcards.com/sitemap.xml
 
 # Host (preferred domain)
 Host: https://arrivalcards.com
+
+# Specific rules for major search engines
+
+# Googlebot
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bingbot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Yandex
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+# Baidu (for Chinese market)
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+

@@ -61,28 +61,120 @@ $stmt = $pdo->prepare("SELECT * FROM airports WHERE country_id = ? ORDER BY is_m
 $stmt->execute([$countryId]);
 $airports = $stmt->fetchAll();
 
-// SEO
-$pageTitle = $country['country_name'] . ' - ' . t('site_title');
-$pageDescription = truncate($country['entry_summary'], 160);
+// SEO - Enhanced with comprehensive keywords
+$pageTitle = $country['country_name'] . ' Visa Requirements & Entry Information | Arrival Cards';
+$pageDescription = truncate($country['entry_summary'], 155) . ' Get visa info, eVisa, visa on arrival details.';
 
-// Structured data for SEO
+// Dynamic SEO keywords based on visa type
+$visaTypeKeywords = [
+    'visa_free' => 'visa free, no visa required, visa exemption, visa waiver',
+    'visa_on_arrival' => 'visa on arrival, airport visa, border visa, instant visa',
+    'evisa' => 'eVisa, electronic visa, online visa, visa application online',
+    'visa_required' => 'embassy visa, consulate visa, visa application, visa process'
+];
+$specificKeywords = $visaTypeKeywords[$country['visa_type']] ?? 'visa information';
+
+$pageKeywords = $country['country_name'] . ' visa requirements, ' . $country['country_name'] . ' visa, ' . 
+                $country['country_name'] . ' entry requirements, ' . $country['country_name'] . ' travel visa, ' .
+                $country['country_name'] . ' arrival card, ' . $specificKeywords . ', ' .
+                'passport requirements, travel documents, immigration, border crossing, ' .
+                $country['country_name'] . ' tourism, international travel';
+
+// Breadcrumb Schema
+$breadcrumbSchema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Home',
+            'item' => APP_URL
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => $country['region'],
+            'item' => APP_URL . '/?region=' . urlencode($country['region'])
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 3,
+            'name' => $country['country_name'],
+            'item' => APP_URL . '/country.php?id=' . $countryId
+        ]
+    ]
+];
+
+// Enhanced Travel Action Schema
 $structuredData = [
     '@context' => 'https://schema.org',
     '@type' => 'TravelAction',
-    'name' => $country['country_name'] . ' Visa Information',
+    'name' => $country['country_name'] . ' Visa & Entry Requirements',
     'description' => $pageDescription,
     'target' => [
         '@type' => 'EntryPoint',
         'urlTemplate' => APP_URL . '/country.php?id=' . $countryId,
         'actionPlatform' => [
             'http://schema.org/DesktopWebPlatform',
-            'http://schema.org/MobileWebPlatform'
+            'http://schema.org/MobileWebPlatform',
+            'http://schema.org/IOSPlatform',
+            'http://schema.org/AndroidPlatform'
+        ]
+    ],
+    'result' => [
+        '@type' => 'Thing',
+        'name' => 'Visa Information for ' . $country['country_name'],
+        'description' => 'Complete visa requirements and entry documentation'
+    ]
+];
+
+// FAQ Schema for common visa questions
+$faqSchema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'FAQPage',
+    'mainEntity' => [
+        [
+            '@type' => 'Question',
+            'name' => 'Do I need a visa for ' . $country['country_name'] . '?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => $country['entry_summary']
+            ]
+        ],
+        [
+            '@type' => 'Question',
+            'name' => 'What type of visa does ' . $country['country_name'] . ' require?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => 'Visa Type: ' . ucwords(str_replace('_', ' ', $country['visa_type'])) . '. ' . substr($country['visa_requirements'], 0, 200)
+            ]
+        ],
+        [
+            '@type' => 'Question',
+            'name' => 'How long can I stay in ' . $country['country_name'] . '?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => 'Stay duration varies by nationality and visa type. Check specific requirements for your passport.'
+            ]
         ]
     ]
 ];
 
+// Setup visual breadcrumbs for user navigation
+$breadcrumbs = [
+    ['name' => t('home'), 'url' => APP_URL . '/index.php'],
+    ['name' => $country['region'], 'url' => APP_URL . '/index.php?region=' . urlencode($country['region'])],
+    ['name' => $country['country_name'], 'url' => null]
+];
+
 include __DIR__ . '/includes/header.php';
 ?>
+
+<!-- Breadcrumb Navigation -->
+<div class="container">
+    <?php include __DIR__ . '/includes/breadcrumbs.php'; ?>
+</div>
 
 <style>
 .country-hero {

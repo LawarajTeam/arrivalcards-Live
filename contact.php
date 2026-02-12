@@ -7,7 +7,9 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 
-$pageTitle = t('contact_us');
+$pageTitle = 'Contact Us - Visa Information Support | Arrival Cards';
+$pageDescription = 'Contact Arrival Cards for visa information support, report errors, or provide feedback. We help travelers with visa requirements for 196 countries worldwide.';
+$pageKeywords = 'contact visa support, visa help, travel visa questions, visa inquiry, report visa error, visa information support, customer service';
 ?>
 
 <?php include __DIR__ . '/includes/header.php'; ?>

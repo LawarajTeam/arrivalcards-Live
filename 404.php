@@ -7,7 +7,9 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 
-$pageTitle = 'Page Not Found';
+$pageTitle = '404 - Page Not Found | Arrival Cards';
+$pageDescription = 'The visa information page you are looking for cannot be found. View our complete list of 196 countries with visa requirements and entry information.';
+$pageKeywords = '404 error, page not found, visa information, country list';
 http_response_code(404);
 ?>
 
