@@ -9,7 +9,7 @@ require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/adsense_functions.php';
 require_once __DIR__ . '/includes/analytics_functions.php';
 
-$pageTitle = 'Visa Requirements & Arrival Cards for 156 Countries | Arrival Cards';
+$pageTitle = 'Visa Requirements & Arrival Cards for 196 Countries | Arrival Cards';
 $pageDescription = 'Free visa information, entry requirements, and arrival card details for 196 countries worldwide. Find out if you need a visa, eVisa, or visa on arrival in 7 languages. Fast search, comprehensive guides.';
 $pageKeywords = 'visa requirements, arrival cards, visa information, travel visa, eVisa, electronic visa, visa on arrival, visa free countries, visa waiver, international travel, passport requirements, entry requirements, immigration, border crossing, tourist visa, travel documents, visa application, visa exemption, travel authorization, consulate visa, embassy visa, travel planning, visa processing, visa fees, online visa, airport visa, visa guide, multilingual visa information';
 
