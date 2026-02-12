@@ -27,13 +27,13 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <title><?php echo e(isset($pageTitle) ? $pageTitle : t('site_title')); ?></title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="<?php echo APP_URL; ?>/assets/images/logo.svg">
+    <link rel="icon" type="image/svg+xml" href="/assets/images/logo.svg">
     
     <!-- Preload critical resources -->
-    <link rel="preload" href="<?php echo APP_URL; ?>/assets/css/style.css" as="style">
+    <link rel="preload" href="/assets/css/style.css" as="style">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
     
     <!-- Open Graph for social sharing -->
     <meta property="og:title" content="<?php echo e(isset($pageTitle) ? $pageTitle : t('site_title')); ?>">
@@ -72,7 +72,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <link rel="alternate" hreflang="x-default" href="<?php echo APP_URL . $currentUrl; ?>">
     
     <?php if (isset($additionalCSS)): ?>
-        <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/<?php echo $additionalCSS; ?>">
+        <link rel="stylesheet" href="/assets/css/<?php echo $additionalCSS; ?>">
     <?php endif; ?>
     
     <!-- Google Analytics - Add your tracking ID -->
@@ -101,7 +101,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 <!-- Logo -->
                 <div class="logo">
                     <a href="<?php echo APP_URL; ?>/index.php" aria-label="Home">
-                        <img src="<?php echo APP_URL; ?>/assets/images/logo.svg" alt="<?php echo e(t('site_title')); ?>" class="logo-image">
+                        <img src="/assets/images/logo.svg" alt="<?php echo e(t('site_title')); ?>" class="logo-image">
                     </a>
                 </div>
                 

@@ -41,7 +41,7 @@ $organizationData = [
     '@type' => 'Organization',
     'name' => 'Arrival Cards',
     'url' => APP_URL,
-    'logo' => APP_URL . '/assets/images/logo.svg',
+    'logo' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/assets/images/logo.svg',
     'description' => 'Global visa information and travel requirements resource',
     'sameAs' => []
 ];
@@ -173,7 +173,7 @@ include __DIR__ . '/includes/header.php'; ?>
                     <div class="country-header">
                         <?php 
                         $flagCode = strtolower(getCountryCode2Letter($country['country_code']));
-                        $flagPath = APP_URL . '/assets/images/flags/' . $flagCode . '.svg';
+                        $flagPath = '/assets/images/flags/' . $flagCode . '.svg';
                         // Always use img with fallback - browser will handle missing images faster
                         echo '<img src="' . $flagPath . '" alt="' . e($country['country_name']) . ' flag" class="country-flag-img" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline-flex\'">';
                         echo '<span class="country-code-flag" style="display:none" role="img" aria-label="' . e($country['country_name']) . ' country code">' . strtoupper($flagCode) . '</span>';
