@@ -442,6 +442,22 @@ function formatDuration($seconds) {
             </div>
         </div>
         
+        <!-- Metrics Explanation Info Box -->
+        <div style="background: #fef3c7; border: 2px solid #f59e0b; border-radius: var(--radius-lg); padding: 1rem 1.5rem; margin-bottom: 2rem;">
+            <h3 style="margin: 0 0 0.5rem 0; color: #92400e; font-size: 1rem;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="#f59e0b" style="vertical-align: middle; margin-right: 0.5rem;">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+                Understanding These Metrics
+            </h3>
+            <div style="font-size: 0.875rem; color: #78350f; line-height: 1.5;">
+                <strong>Total Page Views:</strong> All pages visited (homepage, country pages, contact, etc.)<br>
+                <strong>Unique Visitors:</strong> Distinct IP addresses - one person viewing multiple pages = 1 visitor<br>
+                <strong>Country Page Views:</strong> Only country detail pages (subset of total views)<br>
+                <strong>Note:</strong> These numbers won't match because they measure different things!
+            </div>
+        </div>
+        
         <!-- Key Metrics -->
         <div class="stats-grid">
             <div class="stat-card">
@@ -454,6 +470,9 @@ function formatDuration($seconds) {
                     <div class="stat-label">Total Page Views</div>
                     <div class="stat-value"><?php echo number_format($totalPageViews); ?></div>
                     <div class="stat-sublabel">Last <?php echo $dateRange; ?> days</div>
+                    <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; font-style: italic;">
+                        All pages (homepage, countries, contact, etc.)
+                    </div>
                 </div>
             </div>
             
@@ -467,6 +486,9 @@ function formatDuration($seconds) {
                     <div class="stat-label">Unique Visitors</div>
                     <div class="stat-value"><?php echo number_format($uniqueVisitors); ?></div>
                     <div class="stat-sublabel">Distinct IP addresses</div>
+                    <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; font-style: italic;">
+                        One visitor can have multiple page views
+                    </div>
                 </div>
             </div>
             
@@ -500,20 +522,32 @@ function formatDuration($seconds) {
         <!-- Charts -->
         <div class="chart-grid">
             <div class="chart-container">
-                <h3 style="margin: 0 0 1rem 0;">Daily Traffic Trend</h3>
+                <h3 style="margin: 0 0 0.25rem 0;">Daily Traffic Trend</h3>
+                <p style="font-size: 0.75rem; color: #6b7280; margin: 0 0 1rem 0;">Page views and unique visitors per day in selected date range</p>
                 <canvas id="dailyTrafficChart"></canvas>
             </div>
             
             <div class="chart-container">
-                <h3 style="margin: 0 0 1rem 0;">Traffic by Hour (Today)</h3>
+                <h3 style="margin: 0 0 0.25rem 0;">Traffic by Hour (Today)</h3>
+                <p style="font-size: 0.75rem; color: #6b7280; margin: 0 0 1rem 0;">Number of page views per hour for today only</p>
                 <canvas id="hourlyTrafficChart"></canvas>
             </div>
         </div>
         
         <!-- Top Countries Viewed -->
         <div class="analytics-table">
-            <h3>🌍 Most Viewed Countries (All Time)</h3>
-            <p style="color: #6b7280; font-size: 0.875rem; margin: -0.5rem 0 1rem 0;">Total cumulative views from country cards</p>
+            <div style="display: flex; justify-content: space-between; align-items: start; padding: 1rem 1.5rem; background: var(--bg-secondary); border-bottom: 2px solid var(--border-color);">
+                <div>
+                    <h3 style="margin: 0;">🌍 Most Viewed Countries (All Time)</h3>
+                    <p style="color: #6b7280; font-size: 0.875rem; margin: 0.25rem 0 0 0;">
+                        Cumulative clicks on "View Details" buttons from homepage cards
+                    </p>
+                </div>
+                <div style="background: #fef3c7; border: 2px solid #f59e0b; border-radius: 6px; padding: 0.5rem 0.75rem;">
+                    <div style="font-size: 0.75rem; font-weight: 600; color: #92400e;">⚠️ ALL-TIME DATA</div>
+                    <div style="font-size: 0.688rem; color: #78350f; margin-top: 0.125rem;">Not filtered by date range</div>
+                </div>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -625,6 +659,7 @@ function formatDuration($seconds) {
         <div class="chart-grid">
             <div class="analytics-table">
                 <h3>📱 Traffic by Device</h3>
+                <p style="color: #6b7280; font-size: 0.813rem; margin: -0.5rem 0 1rem 0; padding: 0 1.5rem;">All page views grouped by device type (should total to Total Page Views)</p>
                 <table>
                     <thead>
                         <tr>
@@ -658,6 +693,7 @@ function formatDuration($seconds) {
             
             <div class="analytics-table">
                 <h3>🌐 Traffic by Browser</h3>
+                <p style="color: #6b7280; font-size: 0.813rem; margin: -0.5rem 0 1rem 0; padding: 0 1.5rem;">All page views grouped by browser (should total to Total Page Views)</p>
                 <table>
                     <thead>
                         <tr>
@@ -771,6 +807,7 @@ function formatDuration($seconds) {
         <!-- Top Pages -->
         <div class="analytics-table">
             <h3>📄 Most Visited Pages</h3>
+            <p style="color: #6b7280; font-size: 0.813rem; margin: -0.5rem 0 1rem 0; padding: 0 1.5rem;">Individual pages ranked by number of views in selected date range</p>
             <table>
                 <thead>
                     <tr>
