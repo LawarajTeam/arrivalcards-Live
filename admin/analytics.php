@@ -277,7 +277,7 @@ function formatDuration($seconds) {
     <title><?php echo e($pageTitle); ?> - Arrival Cards</title>
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/style.css">
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/admin.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="<?php echo APP_URL; ?>/assets/js/chart.min.js"></script>
     <style>
         .analytics-header {
             display: flex;
