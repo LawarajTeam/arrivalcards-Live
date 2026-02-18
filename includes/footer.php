@@ -12,8 +12,11 @@
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="<?php echo APP_URL; ?>/index.php"><?php echo e(t('home')); ?></a></li>
+                        <li><a href="<?php echo APP_URL; ?>/about.php">About Us</a></li>
+                        <li><a href="<?php echo APP_URL; ?>/faq.php">FAQ</a></li>
                         <li><a href="<?php echo APP_URL; ?>/contact.php"><?php echo e(t('contact_us')); ?></a></li>
                         <li><a href="<?php echo APP_URL; ?>/privacy.php"><?php echo e(t('privacy_policy')); ?></a></li>
+                        <li><a href="<?php echo APP_URL; ?>/terms.php">Terms of Service</a></li>
                         <li><a href="<?php echo APP_URL; ?>/report-error.php">Report an Error</a></li>
                     </ul>
                 </div>
