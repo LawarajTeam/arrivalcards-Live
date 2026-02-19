@@ -128,6 +128,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     <a href="<?php echo APP_URL; ?>/best-passports.php" class="nav-link <?php echo $currentPage == 'best-passports.php' ? 'active' : ''; ?>">
                         🏆 Best Passports
                     </a>
+                    <a href="<?php echo APP_URL; ?>/compare-passports.php" class="nav-link <?php echo $currentPage == 'compare-passports.php' ? 'active' : ''; ?>">
+                        ⚖️ Compare
+                    </a>
                 </nav>
                 
                 <!-- Language Switcher -->
