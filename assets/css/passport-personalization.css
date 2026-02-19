@@ -1,0 +1,367 @@
+/**
+ * Passport Personalization Styles
+ * Styling for passport selector and personalized country cards
+ */
+
+/* ===================================
+   Passport Selector Wrapper
+   =================================== */
+
+.passport-selector-wrapper {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin: 2rem 0;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.passport-selector-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.passport-icon {
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.passport-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.passport-selector-content {
+    display: flex;
+   gap: 0.75rem;
+    align-items: center;
+}
+
+.passport-select {
+    flex: 1;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: white;
+    color: #2d3748;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.passport-select:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.passport-select:focus {
+    outline: none;
+    border-color: #ffd700;
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+}
+
+.btn-clear-passport {
+    padding: 0.875rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-clear-passport:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.btn-clear-passport svg {
+    display: block;
+}
+
+/* ===================================
+   Personalization Banner
+   =================================== */
+
+.personalization-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s ease;
+}
+
+.personalization-banner.banner-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.banner-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    color: white;
+}
+
+.banner-passport-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.banner-flag {
+    font-size: 2rem;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.banner-text {
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.banner-text strong {
+    color: white;
+    font-weight: 600;
+}
+
+.banner-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+.banner-easy-access {
+    background: rgba(255, 215, 0, 0.2);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    color: #ffd700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ===================================
+   Personalized Country Cards
+   =================================== */
+
+.personalized-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 4px;
+    animation: fadeIn 0.5s ease;
+    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.card-updating {
+    animation: cardPulse 0.6s ease;
+}
+
+@keyframes cardPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3); }
+}
+
+/* Enhanced visa type badges when personalized */
+.country-card .visa-type-badge {
+    transition: all 0.3s ease;
+}
+
+/* ===================================
+   Responsive Design
+   =================================== */
+
+@media (max-width: 768px) {
+    .passport-selector-wrapper {
+        padding: 1.25rem;
+    }
+    
+    .passport-selector-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .passport-selector-content {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .passport-select {
+        width: 100%;
+    }
+    
+    .btn-clear-passport {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .banner-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stat-number {
+        font-size: 1.75rem;
+    }
+    
+    .banner-passport-info {
+        font-size: 1rem;
+    }
+    
+    .banner-flag {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .passport-selector-wrapper {
+        padding: 1rem;
+    }
+    
+    .passport-label {
+        font-size: 1rem;
+    }
+    
+    .passport-select {
+        font-size: 0.9rem;
+        padding: 0.75rem;
+    }
+    
+    .banner-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-item {
+        padding: 0.75rem;
+    }
+}
+
+/* ===================================
+   Loading State
+   =================================== */
+
+.passport-select:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ===================================
+   Dark Mode Support (Optional)
+   =================================== */
+
+@media (prefers-color-scheme: dark) {
+    .passport-selector-wrapper,
+    .personalization-banner {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* ===================================
+   Print Styles
+   =================================== */
+
+@media print {
+    .passport-selector-wrapper,
+    .personalization-banner,
+    .btn-clear-passport {
+        display: none !important;
+    }
+}

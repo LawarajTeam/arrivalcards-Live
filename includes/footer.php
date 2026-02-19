@@ -40,6 +40,7 @@
     
     <!-- JavaScript -->
     <script src="/assets/js/main.js" defer></script>
+    <script src="/assets/js/passport-personalization.js" defer></script>
     <?php if (isset($additionalJS)): ?>
         <script src="/assets/js/<?php echo $additionalJS; ?>"></script>
     <?php endif; ?>

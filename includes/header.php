@@ -34,6 +34,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/passport-personalization.css">
     
     <!-- Open Graph for social sharing -->
     <meta property="og:title" content="<?php echo e(isset($pageTitle) ? $pageTitle : t('site_title')); ?>">
