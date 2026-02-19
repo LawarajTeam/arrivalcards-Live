@@ -126,8 +126,7 @@ function getCountries($region = null, $visaType = null, $search = null) {
         }
     }
     
-    $sql = "SELECT c.*, ct.country_name, ct.entry_summary, ct.visa_requirements, ct.last_verified,
-            c.view_count
+    $sql = "SELECT c.*, ct.country_name, ct.entry_summary, ct.visa_requirements, ct.last_verified
             FROM countries c
             INNER JOIN country_translations ct ON c.id = ct.country_id
             WHERE c.is_active = 1 AND ct.lang_code = ?";

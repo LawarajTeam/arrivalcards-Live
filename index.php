@@ -291,13 +291,6 @@ include __DIR__ . '/includes/header.php'; ?>
                             <span class="country-meta-left">
                                 <?php echo e(t('last_updated')); ?>: <?php echo formatDate($country['last_verified']); ?>
                             </span>
-                            <div class="view-counter" title="<?php echo number_format($country['view_count']); ?> views">
-                                <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
-                                </svg>
-                                <span><?php echo number_format($country['view_count']); ?></span>
-                            </div>
                         </div>
                         <a 
                             href="country.php?id=<?php echo $country['id']; ?>&lang=<?php echo CURRENT_LANG; ?>" 
