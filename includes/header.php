@@ -120,6 +120,16 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     </a>
                 </div>
                 
+                <!-- Navigation Menu -->
+                <nav class="main-nav">
+                    <a href="<?php echo APP_URL; ?>/index.php" class="nav-link <?php echo $currentPage == 'index.php' ? 'active' : ''; ?>">
+                        🌍 Countries
+                    </a>
+                    <a href="<?php echo APP_URL; ?>/best-passports.php" class="nav-link <?php echo $currentPage == 'best-passports.php' ? 'active' : ''; ?>">
+                        🏆 Best Passports
+                    </a>
+                </nav>
+                
                 <!-- Language Switcher -->
                 <div class="language-switcher">
                     <button class="lang-dropdown-btn" aria-haspopup="true" aria-expanded="false" aria-label="<?php echo e(t('language')); ?>">

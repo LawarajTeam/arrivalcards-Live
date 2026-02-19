@@ -202,32 +202,34 @@ a:hover {
 }
 
 .main-nav {
-    display: none;
-}
-
-.main-nav ul {
     display: flex;
-    list-style: none;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-sm);
 }
 
-.main-nav a {
+.main-nav .nav-link {
     color: var(--text-secondary);
     font-weight: 500;
+    font-size: var(--font-size-sm);
     padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--radius-md);
+    text-decoration: none;
     transition: all var(--transition-fast);
+    white-space: nowrap;
 }
 
-.main-nav a:hover,
-.main-nav a.active {
+.main-nav .nav-link:hover {
     color: var(--primary-color);
     background-color: var(--bg-secondary);
 }
 
-@media (min-width: 768px) {
+.main-nav .nav-link.active {
+    color: white;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+@media (max-width: 768px) {
     .main-nav {
-        display: block;
+        display: none;
     }
 }
 
