@@ -568,12 +568,37 @@ include __DIR__ . '/includes/header.php';
 
             <!-- Visa Requirements -->
             <h2 class="section-title"><?php echo t('visa_requirements'); ?></h2>
-            <div class="description-text">
-                <?php echo nl2br(e($country['entry_summary'])); ?>
+            
+            <!-- Personalized Visa Information (shown when passport selected) -->
+            <div id="personalized-visa-section" style="display: none; margin-bottom: 2rem;">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem 1.5rem; border-radius: 0.75rem; margin-bottom: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <span id="personalized-flag" style="font-size: 2rem;"></span>
+                            <div>
+                                <div style="font-size: 0.875rem; opacity: 0.9;">Viewing as</div>
+                                <div id="personalized-passport-name" style="font-size: 1.25rem; font-weight: 600;"></div>
+                            </div>
+                        </div>
+                        <button onclick="window.PassportPersonalization.clearSelection()" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.875rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                            View Generic Info
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="personalized-visa-content">
+                    <!-- Personalized requirements will be inserted here via JavaScript -->
+                </div>
             </div>
+            
+            <!-- Generic Visa Information (always shown, but can be hidden when personalized view active) -->
+            <div id="generic-visa-section">
+                <div class="description-text">
+                    <?php echo nl2br(e($country['entry_summary'])); ?>
+                </div>
 
-            <!-- Visa Information Cards -->
-            <div class="visa-info-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+                <!-- Visa Information Cards -->
+                <div class="visa-info-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
                 
                 <?php if (!empty($country['visa_duration'])): ?>
                 <div class="visa-info-card" style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 0.5rem;">
@@ -725,6 +750,8 @@ include __DIR__ . '/includes/header.php';
                 ?>
             </div>
             <?php endif; ?>
+            
+            </div><!-- End generic-visa-section -->
 
             <!-- Last Verified -->
             <?php if (!empty($country['last_verified'])): ?>
@@ -855,5 +882,158 @@ include __DIR__ . '/includes/header.php';
         </a>
     </div>
 </div>
+
+<script>
+// Country Page Personalization
+(function() {
+    const countryCode = '<?php echo $country["country_code"]; ?>';
+    const countryName = '<?php echo addslashes($country["country_name"]); ?>';
+    
+    // Check if user has selected a passport
+    function checkPersonalization() {
+        const savedPassport = localStorage.getItem('selectedPassport');
+        if (!savedPassport) {
+            return;
+        }
+        
+        try {
+            const passportData = JSON.parse(savedPassport);
+            loadPersonalizedVisa(passportData.code, passportData);
+        } catch (e) {
+            console.error('Error parsing passport data:', e);
+        }
+    }
+    
+    // Load personalized visa data for this country
+    async function loadPersonalizedVisa(passportCode, passportData) {
+        try {
+            const response = await fetch(`/api/get_personalized_visa_requirements.php?passport=${passportCode}&destination=${countryCode}`);
+            const data = await response.json();
+            
+            if (data.success && data.destination) {
+                displayPersonalizedVisa(data.destination, passportData);
+            }
+        } catch (error) {
+            console.error('Error loading personalized visa data:', error);
+        }
+    }
+    
+    // Display personalized visa information
+    function displayPersonalizedVisa(destination, passportData) {
+        // Only show if we have personalized data
+        if (!destination.is_personalized) {
+            return;
+        }
+        
+        const personalizedSection = document.getElementById('personalized-visa-section');
+        const personalizedContent = document.getElementById('personalized-visa-content');
+        const personalizedFlag = document.getElementById('personalized-flag');
+        const personalizedName = document.getElementById('personalized-passport-name');
+        
+        // Update header
+        personalizedFlag.textContent = passportData.flag || '🛂';
+        personalizedName.textContent = passportData.name || passportData.code;
+        
+        // Build personalized content
+        let html = '';
+        
+        // Visa type badge
+        const visaTypeColors = {
+            'visa_free': { bg: '#ecfdf5', border: '#10b981', text: '#047857', label: 'Visa Free Entry' },
+            'visa_on_arrival': { bg: '#f0f9ff', border: '#3b82f6', text: '#1e40af', label: 'Visa on Arrival' },
+            'evisa': { bg: '#fef3c7', border: '#f59e0b', text: '#b45309', label: 'eVisa Available' },
+            'visa_required': { bg: '#fee2e2', border: '#dc2626', text: '#991b1b', label: 'Visa Required' },
+            'no_entry': { bg: '#fef2f2', border: '#ef4444', text: '#7f1d1d', label: 'No Entry' }
+        };
+        
+        const visaTypeStyle = visaTypeColors[destination.visa_type] || visaTypeColors['visa_required'];
+        
+        html += `<div style="margin-bottom: 1.5rem;">
+            <div style="display: inline-block; background: ${visaTypeStyle.bg}; border: 2px solid ${visaTypeStyle.border}; color: ${visaTypeStyle.text}; padding: 0.75rem 1.5rem; border-radius: 2rem; font-weight: 600; font-size: 1.125rem;">
+                ${visaTypeStyle.label}
+            </div>
+        </div>`;
+        
+        // Personalized info cards
+        html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">';
+        
+        if (destination.duration_days) {
+            html += `<div style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 0.5rem;">
+                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⏱️</div>
+                <div style="font-weight: bold; color: #1e40af; margin-bottom: 0.25rem;">Duration</div>
+                <div style="color: #374151;">${destination.duration_days} days</div>
+            </div>`;
+        }
+        
+        if (destination.cost_usd) {
+            html += `<div style="background: #ecfdf5; border-left: 4px solid #10b981; padding: 1rem; border-radius: 0.5rem;">
+                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💰</div>
+                <div style="font-weight: bold; color: #047857; margin-bottom: 0.25rem;">Visa Fee</div>
+                <div style="color: #374151;">$${destination.cost_usd}</div>
+            </div>`;
+        }
+        
+        if (destination.processing_time_days) {
+            html += `<div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 0.5rem;">
+                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⚡</div>
+                <div style="font-weight: bold; color: #b45309; margin-bottom: 0.25rem;">Processing Time</div>
+                <div style="color: #374151;">${destination.processing_time_days} days</div>
+            </div>`;
+        }
+        
+        if (destination.approval_rate_percent) {
+            html += `<div style="background: #ede9fe; border-left: 4px solid #8b5cf6; padding: 1rem; border-radius: 0.5rem;">
+                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">✓</div>
+                <div style="font-weight: bold; color: #6d28d9; margin-bottom: 0.25rem;">Approval Rate</div>
+                <div style="color: #374151;">${destination.approval_rate_percent}%</div>
+            </div>`;
+        }
+        
+        html += '</div>';
+        
+        // Requirements summary
+        if (destination.requirements_summary) {
+            html += `<div style="background: #f9fafb; border-left: 4px solid #6b7280; padding: 1.25rem; margin-bottom: 1rem; border-radius: 0.5rem;">
+                <h4 style="margin: 0 0 0.75rem 0; color: #374151; font-size: 1rem; font-weight: 600;">📋 Requirements</h4>
+                <div style="color: #4b5563; line-height: 1.7;">${destination.requirements_summary.replace(/\n/g, '<br>')}</div>
+            </div>`;
+        }
+        
+        // Special notes (highlighted)
+        if (destination.special_notes) {
+            html += `<div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b; padding: 1.25rem; margin-bottom: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="margin: 0 0 0.75rem 0; color: #b45309; font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>⚠️</span><span>Important Information for ${passportData.name} Citizens</span>
+                </h4>
+                <div style="color: #78350f; line-height: 1.7; font-weight: 500;">${destination.special_notes.replace(/\n/g, '<br>')}</div>
+            </div>`;
+        }
+        
+        // Application process
+        if (destination.application_process) {
+            html += `<div style="background: white; border: 1px solid #e5e7eb; padding: 1.25rem; margin-bottom: 1rem; border-radius: 0.5rem;">
+                <h4 style="margin: 0 0 0.75rem 0; color: #374151; font-size: 1rem; font-weight: 600;">📝 Application Process</h4>
+                <div style="color: #4b5563; line-height: 1.7;">${destination.application_process.replace(/\n/g, '<br>')}</div>
+            </div>`;
+        }
+        
+        // Show comparison note
+        html += `<div style="background: #f3f4f6; padding: 0.875rem; border-radius: 0.5rem; margin-top: 1rem; font-size: 0.875rem; color: #6b7280;">
+            <strong>Note:</strong> This information is specific to ${passportData.name} passport holders. 
+            <a href="#" onclick="window.PassportPersonalization.clearSelection(); return false;" style="color: #3b82f6; text-decoration: underline;">View generic requirements</a> for other nationalities.
+        </div>`;
+        
+        personalizedContent.innerHTML = html;
+        personalizedSection.style.display = 'block';
+    }
+    
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', checkPersonalization);
+    } else {
+        checkPersonalization();
+    }
+})();
+</script>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>
