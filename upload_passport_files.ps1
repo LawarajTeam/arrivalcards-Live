@@ -1,11 +1,15 @@
 # Simple FTP Upload for Passport Expansion Files
-Write-Host "`nUploading passport expansion files..." -ForegroundColor Cyan
+Write-Host "`nUploading files to production..." -ForegroundColor Cyan
 
 $ftpServer = "101.0.92.142"
 $ftpUsername = "arrivalcards"
 $ftpPassword = 'Ijmb)%v]If'
 
-$files = @("admin_visa_data.php", "import_priority_passports.php")
+$files = @(
+    "best-passports.php",
+    "includes/header.php",
+    "assets/css/style.css"
+)
 
 foreach ($file in $files) {
     Write-Host "Uploading $file..." -ForegroundColor Yellow
@@ -26,4 +30,4 @@ foreach ($file in $files) {
 }
 
 Write-Host "`nUpload complete!" -ForegroundColor Green
-Write-Host "`nNext: Visit https://arrivalcards.com/import_priority_passports.php" -ForegroundColor Cyan
+Write-Host "`nNext: Visit https://arrivalcards.com/best-passports.php" -ForegroundColor Cyan

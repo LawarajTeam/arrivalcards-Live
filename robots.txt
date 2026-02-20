@@ -9,6 +9,11 @@ Allow: /country.php
 Allow: /contact.php
 Allow: /privacy.php
 Allow: /report-error.php
+Allow: /best-passports.php
+Allow: /compare-passports.php
+Allow: /faq.php
+Allow: /about.php
+Allow: /ads.txt
 
 # Crawl delay (optional - helps with server load)
 Crawl-delay: 1
@@ -44,6 +49,10 @@ Disallow: /*.sql$
 Disallow: /*.md$
 Disallow: /config*.php
 Disallow: /*.txt$
+
+# Re-allow specific txt files needed by search engines/ads
+Allow: /robots.txt
+Allow: /ads.txt
 
 # Disallow deployment scripts
 Disallow: /*.ps1$

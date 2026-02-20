@@ -13,13 +13,39 @@ if (isAdminLoggedIn()) {
 
 $error = '';
 
+// Brute force protection settings
+define('MAX_LOGIN_ATTEMPTS', 5);
+define('LOGIN_LOCKOUT_TIME', 900); // 15 minutes
+
+// Check for brute force lockout
+$clientIP = $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
+$lockoutKey = 'login_attempts_' . md5($clientIP);
+if (!isset($_SESSION[$lockoutKey])) {
+    $_SESSION[$lockoutKey] = ['count' => 0, 'first_attempt' => time()];
+}
+$attempts = $_SESSION[$lockoutKey];
+$isLockedOut = ($attempts['count'] >= MAX_LOGIN_ATTEMPTS) && 
+               (time() - $attempts['first_attempt'] < LOGIN_LOCKOUT_TIME);
+
+// Reset counter if lockout period expired
+if ($attempts['count'] >= MAX_LOGIN_ATTEMPTS && (time() - $attempts['first_attempt'] >= LOGIN_LOCKOUT_TIME)) {
+    $_SESSION[$lockoutKey] = ['count' => 0, 'first_attempt' => time()];
+    $isLockedOut = false;
+}
+
 // Process login
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
     $robotCheck = $_POST['robot_check'] ?? '';
+    $csrfToken = $_POST['csrf_token'] ?? '';
     
-    if (empty($username) || empty($password)) {
+    if ($isLockedOut) {
+        $remainingTime = LOGIN_LOCKOUT_TIME - (time() - $attempts['first_attempt']);
+        $error = 'Too many failed attempts. Please try again in ' . ceil($remainingTime / 60) . ' minutes.';
+    } elseif (!verifyCSRFToken($csrfToken)) {
+        $error = 'Invalid form submission. Please try again.';
+    } elseif (empty($username) || empty($password)) {
         $error = 'Please enter both username and password.';
     } elseif ($robotCheck !== 'human') {
         $error = 'Please confirm you are not a robot.';
@@ -30,6 +56,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $admin = $stmt->fetch();
             
             if ($admin && password_verify($password, $admin['password_hash'])) {
+                // Regenerate session ID to prevent session fixation
+                session_regenerate_id(true);
+                
+                // Reset login attempts on success
+                unset($_SESSION[$lockoutKey]);
+                
                 // Login successful
                 $_SESSION['admin_id'] = $admin['id'];
                 $_SESSION['admin_username'] = $admin['username'];
@@ -44,9 +76,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 redirect(APP_URL . '/admin/index.php');
             } else {
+                // Increment failed attempt counter
+                $_SESSION[$lockoutKey]['count']++;
+                $remaining = MAX_LOGIN_ATTEMPTS - $_SESSION[$lockoutKey]['count'];
+                
                 $error = 'Invalid username or password.';
+                if ($remaining > 0 && $remaining <= 2) {
+                    $error .= " $remaining attempts remaining before lockout.";
+                }
                 // Log failed attempt
-                error_log("Failed login attempt for username: $username from IP: " . getClientIP());
+                error_log("Failed login attempt for username: $username from IP: $clientIP");
             }
         } catch (PDOException $e) {
             $error = 'An error occurred. Please try again.';
@@ -207,6 +246,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
         
         <form method="POST" action="">
+            <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
             <div class="form-group">
                 <label for="username" class="form-label">Username</label>
                 <input 
@@ -267,8 +307,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         
         <p style="text-align: center; margin-top: 2rem; font-size: 0.875rem; color: var(--text-light);">
-            Default credentials: admin / admin123<br>
-            <strong>Please change these immediately!</strong>
+            Authorized administrators only.
         </p>
     </div>
     

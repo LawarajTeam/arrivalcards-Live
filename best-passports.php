@@ -78,8 +78,47 @@ unset($passport);
 
 // Get statistics
 $totalPassportsWithData = count($passports);
-$avgVisaFree = round(array_sum(array_column($passports, 'visa_free_count')) / $totalPassportsWithData, 1);
-$avgEasyAccess = round(array_sum(array_column($passports, 'easy_access')) / $totalPassportsWithData, 1);
+$avgVisaFree = round(array_sum(array_column($passports, 'visa_free_count')) / max($totalPassportsWithData, 1), 1);
+$avgEasyAccess = round(array_sum(array_column($passports, 'easy_access')) / max($totalPassportsWithData, 1), 1);
+
+// ItemList structured data for rich results (top 10 passports)
+$topPassports = array_slice($passports, 0, 10);
+$itemListElements = [];
+foreach ($topPassports as $rank => $p) {
+    $itemListElements[] = [
+        '@type' => 'ListItem',
+        'position' => $rank + 1,
+        'name' => ($p['flag_emoji'] ?? '') . ' ' . $p['country_name'] . ' Passport',
+        'url' => APP_URL . '/country.php?id=' . $p['id']
+    ];
+}
+$structuredData = [
+    '@context' => 'https://schema.org',
+    '@type' => 'ItemList',
+    'name' => 'Best Passports in the World 2026',
+    'description' => 'Ranking of the world\'s most powerful passports by visa-free access and travel freedom.',
+    'numberOfItems' => count($topPassports),
+    'itemListElement' => $itemListElements
+];
+
+$breadcrumbSchema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Home',
+            'item' => APP_URL
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => 'Best Passports',
+            'item' => APP_URL . '/best-passports.php'
+        ]
+    ]
+];
 
 include __DIR__ . '/includes/header.php'; ?>
 

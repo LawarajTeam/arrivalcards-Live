@@ -1,6 +1,7 @@
 <?php
 /**
  * Admin - Delete Country
+ * Requires POST request with CSRF token for security
  */
 
 require_once __DIR__ . '/../includes/config.php';
@@ -8,8 +9,21 @@ require_once __DIR__ . '/../includes/functions.php';
 
 requireAdmin();
 
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $id = (int)$_GET['id'];
+// Only accept POST requests to prevent CSRF via link/image attacks
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    setFlashMessage('Invalid request method.', 'error');
+    redirect(APP_URL . '/admin/countries.php');
+}
+
+// Verify CSRF token
+$csrfToken = $_POST['csrf_token'] ?? '';
+if (!verifyCSRFToken($csrfToken)) {
+    setFlashMessage('Invalid or expired security token. Please try again.', 'error');
+    redirect(APP_URL . '/admin/countries.php');
+}
+
+if (isset($_POST['id']) && is_numeric($_POST['id'])) {
+    $id = (int)$_POST['id'];
     
     try {
         // Get country name before deleting
@@ -29,6 +43,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         error_log('Delete country error: ' . $e->getMessage());
         setFlashMessage('Error deleting country.', 'error');
     }
+} else {
+    setFlashMessage('Invalid country ID.', 'error');
 }
 
 redirect(APP_URL . '/admin/countries.php');

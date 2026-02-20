@@ -44,7 +44,7 @@ $baseUrl = rtrim(APP_URL, '/');
 $today = date('Y-m-d');
 
 // Calculate total URLs
-$totalUrls = count($languages) + (count($countries) * count($languages)) + (3 * count($languages));
+$totalUrls = count($languages) + (count($countries) * count($languages)) + (7 * count($languages));
 
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
@@ -123,6 +123,30 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
          ======================================== -->
     <?php 
     $staticPages = [
+        [
+            'file' => 'best-passports.php', 
+            'priority' => '0.8', 
+            'changefreq' => 'weekly',
+            'description' => 'Global passport power rankings'
+        ],
+        [
+            'file' => 'compare-passports.php', 
+            'priority' => '0.7', 
+            'changefreq' => 'weekly',
+            'description' => 'Compare passports side by side'
+        ],
+        [
+            'file' => 'faq.php', 
+            'priority' => '0.7', 
+            'changefreq' => 'monthly',
+            'description' => 'Frequently asked questions about visas and travel'
+        ],
+        [
+            'file' => 'about.php', 
+            'priority' => '0.6', 
+            'changefreq' => 'monthly',
+            'description' => 'About Arrival Cards'
+        ],
         [
             'file' => 'contact.php', 
             'priority' => '0.6', 

@@ -88,10 +88,12 @@ $countries = $stmt->fetchAll();
                                     </td>
                                     <td>
                                         <a href="<?php echo APP_URL; ?>/admin/edit_country.php?id=<?php echo $country['id']; ?>" class="btn btn-secondary btn-sm">Edit</a>
-                                        <a href="<?php echo APP_URL; ?>/admin/delete_country.php?id=<?php echo $country['id']; ?>" 
-                                           class="btn btn-secondary btn-sm" 
-                                           onclick="return confirm('Are you sure you want to delete this country? This cannot be undone.');"
-                                           style="color: var(--danger-color);">Delete</a>
+                                        <form method="POST" action="<?php echo APP_URL; ?>/admin/delete_country.php" style="display:inline;" 
+                                              onsubmit="return confirm('Are you sure you want to delete this country? This cannot be undone.');">
+                                            <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
+                                            <input type="hidden" name="id" value="<?php echo $country['id']; ?>">
+                                            <button type="submit" class="btn btn-secondary btn-sm" style="color: var(--danger-color);">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

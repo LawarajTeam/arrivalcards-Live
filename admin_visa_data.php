@@ -7,58 +7,9 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 
-// Simple authentication check (add proper auth later)
-session_start();
-$admin_password = 'arrivalcards2026';
-$is_authenticated = isset($_SESSION['admin_authenticated']) && $_SESSION['admin_authenticated'] === true;
-
-if (isset($_POST['admin_password'])) {
-    if ($_POST['admin_password'] === $admin_password) {
-        $_SESSION['admin_authenticated'] = true;
-        $is_authenticated = true;
-    } else {
-        $error = 'Invalid password';
-    }
-}
-
-if (isset($_GET['logout'])) {
-    session_destroy();
-    header('Location: admin_visa_data.php');
-    exit;
-}
-
-if (!$is_authenticated) {
-    ?>
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Admin Login - Visa Data Entry</title>
-        <style>
-            body { font-family: Arial, sans-serif; background: #f3f4f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-            .login-box { background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 300px; }
-            h2 { margin: 0 0 1.5rem 0; color: #1f2937; text-align: center; }
-            input { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem; margin-bottom: 1rem; box-sizing: border-box; }
-            button { width: 100%; background: #3b82f6; color: white; padding: 0.75rem; border: none; border-radius: 0.375rem; cursor: pointer; font-weight: 600; }
-            button:hover { background: #2563eb; }
-            .error { background: #fee2e2; color: #991b1b; padding: 0.75rem; border-radius: 0.375rem; margin-bottom: 1rem; font-size: 0.875rem; }
-        </style>
-    </head>
-    <body>
-        <div class="login-box">
-            <h2>🔒 Admin Login</h2>
-            <?php if (isset($error)): ?>
-                <div class="error"><?php echo $error; ?></div>
-            <?php endif; ?>
-            <form method="POST">
-                <input type="password" name="admin_password" placeholder="Admin Password" required autofocus>
-                <button type="submit">Login</button>
-            </form>
-        </div>
-    </body>
-    </html>
-    <?php
-    exit;
-}
+// Use proper admin authentication
+requireAdmin();
+$is_authenticated = true;
 
 // Get all countries
 $stmt = $pdo->query("SELECT id, country_code, flag_emoji FROM countries WHERE is_active = 1 ORDER BY country_code");

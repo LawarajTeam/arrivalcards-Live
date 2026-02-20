@@ -15,6 +15,81 @@ $pageKeywords = 'visa faq, visa questions, travel questions, passport questions,
 // Track page view
 trackPageView(null, 'FAQ');
 
+// FAQPage structured data for Google rich results
+$faqSchema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'FAQPage',
+    'mainEntity' => [
+        [
+            '@type' => 'Question',
+            'name' => 'What is Arrival Cards?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => 'Arrival Cards is a comprehensive, free information resource providing visa requirements and entry documentation details for all 196 countries worldwide. We help travelers understand what documents they need before international travel. Our service is available in 7 languages to serve global travelers.'
+            ]
+        ],
+        [
+            '@type' => 'Question',
+            'name' => 'What does "Visa Free" mean?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => 'Visa Free means citizens of certain countries can enter without obtaining a visa in advance. You can simply arrive at the border or airport with your valid passport. However, there are usually restrictions including limited stay duration (commonly 30, 60, or 90 days), travel must be for tourism or business only, your passport must meet validity requirements, and you may need proof of onward travel.'
+            ]
+        ],
+        [
+            '@type' => 'Question',
+            'name' => 'What is an eVisa?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => 'An eVisa (electronic visa) is a visa that you apply for and receive online before traveling. Instead of visiting an embassy or consulate, you complete an application on an official government website, pay the fee online, and receive your visa approval via email. You typically need to print the approval or have it available on your phone.'
+            ]
+        ],
+        [
+            '@type' => 'Question',
+            'name' => 'What is the "6-month passport validity rule"?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => 'Many countries require your passport to be valid for at least 6 months beyond your planned entry date. This means if your passport expires within 6 months of your travel dates, you may be denied boarding or entry even if your passport is technically still valid. Always check the specific passport validity requirements for your destination country.'
+            ]
+        ],
+        [
+            '@type' => 'Question',
+            'name' => 'What is an arrival card?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => 'An arrival card (also called a disembarkation card, landing card, or immigration form) is a legal document that a country requires visitors to complete upon entry. It typically asks for personal information like your name, passport number, flight details, accommodation address, and purpose of visit. Many countries have moved to electronic versions that can be completed online before arrival.'
+            ]
+        ],
+        [
+            '@type' => 'Question',
+            'name' => 'Can my visa application be rejected?',
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => 'Yes, visa applications can be rejected for various reasons including incomplete or incorrect information, insufficient financial proof, lack of ties to home country, previous visa overstays or violations, criminal history, inadequate travel insurance, and not meeting health requirements. To improve your chances, ensure all documentation is complete and accurate, provide strong evidence of ties to your home country, and demonstrate sufficient funds.'
+            ]
+        ]
+    ]
+];
+
+$breadcrumbSchema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Home',
+            'item' => APP_URL
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => 'FAQ',
+            'item' => APP_URL . '/faq.php'
+        ]
+    ]
+];
+
 include __DIR__ . '/includes/header.php'; 
 ?>
 

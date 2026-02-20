@@ -158,9 +158,21 @@ Visit: **https://www.arrivalcards.com/**
 
 ## SECURITY CHECKLIST
 
-- [ ] Changed admin password from default
-- [ ] Database password is strong
-- [ ] HTTPS is enabled on domain
+- [x] Default credentials removed from login page display
+- [x] Brute force protection added (5 attempts, 15-min lockout)
+- [x] Session fixation protection (session_regenerate_id on login)
+- [x] CSRF token added to login form
+- [x] CSRF tokens rotate after use (replay attack prevention)
+- [x] Delete country requires POST + CSRF (no GET-based deletion)
+- [x] admin_visa_data.php uses proper admin auth (hardcoded password removed)
+- [x] SameSite=Lax cookie attribute added
+- [x] getClientIP() hardened (only trusts REMOTE_ADDR unless configured)
+- [x] All .sql, .log, .md files blocked via .htaccess
+- [x] CSP updated with Google AdSense/Analytics domains
+- [x] Permissions-Policy header added
+- [ ] Changed admin password from default on production
+- [ ] Database password is strong on production
+- [ ] HTTPS is enabled on domain (uncomment .htaccess rules)
 - [ ] Test contact form
 - [ ] Test feedback buttons
 - [ ] Submit sitemap to Google: https://www.arrivalcards.com/sitemap.xml.php

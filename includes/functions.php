@@ -220,10 +220,15 @@ function generateCSRFToken() {
 }
 
 /**
- * Verify CSRF token
+ * Verify CSRF token (rotates token after successful verification)
  */
 function verifyCSRFToken($token) {
-    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+    $valid = isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+    if ($valid) {
+        // Rotate token after use to prevent replay attacks
+        unset($_SESSION['csrf_token']);
+    }
+    return $valid;
 }
 
 /**
@@ -287,24 +292,22 @@ function requireAdmin() {
 
 /**
  * Get client IP address
+ * Only trusts REMOTE_ADDR to prevent IP spoofing via proxy headers.
+ * If behind a trusted reverse proxy, configure TRUSTED_PROXY_IPS in .env.
  */
 function getClientIP() {
-    $ipaddress = '';
-    if (isset($_SERVER['HTTP_CLIENT_IP']))
-        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    else if(isset($_SERVER['HTTP_X_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-    else if(isset($_SERVER['HTTP_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED'];
-    else if(isset($_SERVER['REMOTE_ADDR']))
-        $ipaddress = $_SERVER['REMOTE_ADDR'];
-    else
-        $ipaddress = 'UNKNOWN';
-    return $ipaddress;
+    // Only trust proxy headers if behind a known reverse proxy
+    $trustedProxies = getenv('TRUSTED_PROXY_IPS') ? explode(',', getenv('TRUSTED_PROXY_IPS')) : [];
+    
+    if (!empty($trustedProxies) && in_array($_SERVER['REMOTE_ADDR'] ?? '', $trustedProxies, true)) {
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            // Take only the first (client) IP from the chain
+            $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            return trim($ips[0]);
+        }
+    }
+    
+    return $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
 }
 
 /**

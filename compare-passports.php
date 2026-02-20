@@ -126,6 +126,41 @@ if ($passport1 && $passport2 && $passport1 !== $passport2) {
     }
 }
 
+// Structured data for compare tool
+$structuredData = [
+    '@context' => 'https://schema.org',
+    '@type' => 'WebApplication',
+    'name' => 'Passport Comparison Tool',
+    'description' => 'Compare passports side by side to see visa-free access, visa requirements, and travel freedom differences between countries.',
+    'url' => APP_URL . '/compare-passports.php',
+    'applicationCategory' => 'TravelApplication',
+    'operatingSystem' => 'Web',
+    'offers' => [
+        '@type' => 'Offer',
+        'price' => '0',
+        'priceCurrency' => 'USD'
+    ]
+];
+
+$breadcrumbSchema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Home',
+            'item' => APP_URL
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => 'Compare Passports',
+            'item' => APP_URL . '/compare-passports.php'
+        ]
+    ]
+];
+
 include __DIR__ . '/includes/header.php'; ?>
 
 <style>

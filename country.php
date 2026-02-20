@@ -881,7 +881,95 @@ include __DIR__ . '/includes/header.php';
             </svg>
         </a>
     </div>
+
+    <!-- User Feedback Widget -->
+    <div id="feedback-widget" style="background: white; border-radius: 12px; padding: 1.5rem 2rem; margin-top: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
+        <p style="margin: 0 0 1rem; font-size: 1.05rem; color: #374151; font-weight: 600;">
+            Was this information helpful?
+        </p>
+        <div id="feedback-buttons" style="display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap;">
+            <button onclick="submitFeedback('helpful')" id="btn-helpful"
+                style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.5rem; border: 2px solid #10b981; background: #ecfdf5; color: #065f46; border-radius: 8px; cursor: pointer; font-size: 0.95rem; font-weight: 600; transition: all 0.2s;">
+                👍 Yes, helpful
+                <?php if (!empty($country['helpful_yes'])): ?>
+                    <span style="background: #d1fae5; padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.8rem;"><?php echo (int)$country['helpful_yes']; ?></span>
+                <?php endif; ?>
+            </button>
+            <button onclick="submitFeedback('not_helpful')" id="btn-not-helpful"
+                style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.5rem; border: 2px solid #ef4444; background: #fef2f2; color: #991b1b; border-radius: 8px; cursor: pointer; font-size: 0.95rem; font-weight: 600; transition: all 0.2s;">
+                👎 Not helpful
+                <?php if (!empty($country['helpful_no'])): ?>
+                    <span style="background: #fee2e2; padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.8rem;"><?php echo (int)$country['helpful_no']; ?></span>
+                <?php endif; ?>
+            </button>
+        </div>
+        <div id="feedback-result" style="display: none; padding: 0.75rem; margin-top: 1rem; border-radius: 8px; font-weight: 600;"></div>
+        <p style="margin: 1rem 0 0; font-size: 0.85rem; color: #9ca3af;">
+            Found incorrect information? 
+            <a href="<?php echo APP_URL; ?>/report-error.php?country=<?php echo urlencode($country['country_name']); ?>" 
+               style="color: #3b82f6; text-decoration: underline;">Report an error</a>
+        </p>
+    </div>
 </div>
+
+<script>
+function submitFeedback(type) {
+    var btns = document.getElementById('feedback-buttons');
+    var result = document.getElementById('feedback-result');
+    var countryId = <?php echo (int)$countryId; ?>;
+    
+    // Disable buttons immediately
+    btns.querySelectorAll('button').forEach(function(b) { b.disabled = true; b.style.opacity = '0.6'; });
+    
+    var formData = new FormData();
+    formData.append('country_id', countryId);
+    formData.append('type', type);
+    
+    fetch('<?php echo APP_URL; ?>/submit_feedback.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+        result.style.display = 'block';
+        if (data.success) {
+            result.style.background = '#ecfdf5';
+            result.style.color = '#065f46';
+            result.textContent = '✅ ' + data.message;
+            // Update counts
+            if (data.helpful_yes !== undefined) {
+                var yesBtn = document.getElementById('btn-helpful');
+                var noBtn = document.getElementById('btn-not-helpful');
+                var yesSpan = yesBtn.querySelector('span');
+                var noSpan = noBtn.querySelector('span');
+                if (yesSpan) yesSpan.textContent = data.helpful_yes;
+                else { var s = document.createElement('span'); s.style.cssText = 'background:#d1fae5;padding:0.15rem 0.5rem;border-radius:999px;font-size:0.8rem;'; s.textContent = data.helpful_yes; yesBtn.appendChild(s); }
+                if (noSpan) noSpan.textContent = data.helpful_no;
+                else if (data.helpful_no > 0) { var s = document.createElement('span'); s.style.cssText = 'background:#fee2e2;padding:0.15rem 0.5rem;border-radius:999px;font-size:0.8rem;'; s.textContent = data.helpful_no; noBtn.appendChild(s); }
+            }
+            // Highlight selected button
+            if (type === 'helpful') {
+                document.getElementById('btn-helpful').style.background = '#10b981';
+                document.getElementById('btn-helpful').style.color = 'white';
+            } else {
+                document.getElementById('btn-not-helpful').style.background = '#ef4444';
+                document.getElementById('btn-not-helpful').style.color = 'white';
+            }
+        } else {
+            result.style.background = '#fef3c7';
+            result.style.color = '#92400e';
+            result.textContent = 'ℹ️ ' + data.message;
+        }
+    })
+    .catch(function() {
+        result.style.display = 'block';
+        result.style.background = '#fef2f2';
+        result.style.color = '#991b1b';
+        result.textContent = '❌ Something went wrong. Please try again.';
+        btns.querySelectorAll('button').forEach(function(b) { b.disabled = false; b.style.opacity = '1'; });
+    });
+}
+</script>
 
 <script>
 // Country Page Personalization

@@ -131,7 +131,7 @@ foreach ($countries as $country) {
             'Capital City', // Default
             'Population data available',
             'Local Currency',
-            'XXX',
+            'N/A',
             '$',
             'Various',
             'Government Leader',
@@ -146,7 +146,7 @@ foreach ($countries as $country) {
         $stmtAirport->execute([
             $country['id'],
             $country['country_name'] . ' International Airport',
-            'XXX',
+            'N/A',
             'Main City',
             1,
             'https://www.example.com'

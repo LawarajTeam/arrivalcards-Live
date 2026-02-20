@@ -94,9 +94,11 @@ $countries = getCountries();
                     <label for="country_name">Country *</label>
                     <select name="country_name" id="country_name" required class="form-control">
                         <option value="">-- Select Country --</option>
-                        <?php foreach ($countries as $country): ?>
+                        <?php 
+                        $preselectedCountry = $_POST['country_name'] ?? $_GET['country'] ?? '';
+                        foreach ($countries as $country): ?>
                             <option value="<?php echo e($country['country_name']); ?>" 
-                                <?php echo (isset($_POST['country_name']) && $_POST['country_name'] === $country['country_name']) ? 'selected' : ''; ?>>
+                                <?php echo ($preselectedCountry === $country['country_name']) ? 'selected' : ''; ?>>
                                 <?php echo e($country['country_name']); ?>
                             </option>
                         <?php endforeach; ?>

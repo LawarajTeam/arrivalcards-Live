@@ -12,6 +12,29 @@ if (!headers_sent()) {
 $pageTitle = $pageTitle ?? t('site_title');
 $languages = getLanguages();
 $currentPage = basename($_SERVER['PHP_SELF']);
+
+// Build proper canonical URL preserving query params (critical for SEO)
+$canonicalUrl = APP_URL . $_SERVER['REQUEST_URI'];
+// Strip trailing slashes and normalize
+$canonicalUrl = strtok($canonicalUrl, '#'); // remove fragments
+
+// Build hreflang base URL: preserve all query params except lang
+$hreflangParams = $_GET;
+unset($hreflangParams['lang']);
+$hreflangBase = APP_URL . $_SERVER['PHP_SELF'];
+$hreflangQueryPrefix = !empty($hreflangParams) ? '?' . http_build_query($hreflangParams) . '&' : '?';
+
+// OG locale mapping (language code => proper Facebook locale)
+$ogLocaleMap = [
+    'en' => 'en_US', 'es' => 'es_ES', 'zh' => 'zh_CN',
+    'fr' => 'fr_FR', 'de' => 'de_DE', 'it' => 'it_IT', 'ar' => 'ar_SA'
+];
+$ogLocale = $ogLocaleMap[CURRENT_LANG] ?? 'en_US';
+
+// Default og:image (pages can override via $ogImage variable)
+if (!isset($ogImage)) {
+    $ogImage = APP_URL . '/assets/images/og-default.png';
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo CURRENT_LANG; ?>">
@@ -23,7 +46,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <meta name="author" content="Arrival Cards">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
-    <link rel="canonical" href="<?php echo APP_URL . $_SERVER['PHP_SELF']; ?>">
+    <link rel="canonical" href="<?php echo e($canonicalUrl); ?>">
     <title><?php echo e(isset($pageTitle) ? $pageTitle : t('site_title')); ?></title>
     
     <!-- Favicon -->
@@ -40,14 +63,18 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <meta property="og:title" content="<?php echo e(isset($pageTitle) ? $pageTitle : t('site_title')); ?>">
     <meta property="og:description" content="<?php echo e(isset($pageDescription) ? $pageDescription : t('site_tagline')); ?>">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="<?php echo APP_URL . $_SERVER['PHP_SELF']; ?>">
+    <meta property="og:url" content="<?php echo e($canonicalUrl); ?>">
     <meta property="og:site_name" content="Arrival Cards">
-    <meta property="og:locale" content="<?php echo CURRENT_LANG; ?>_<?php echo strtoupper(CURRENT_LANG); ?>">
+    <meta property="og:locale" content="<?php echo $ogLocale; ?>">
+    <meta property="og:image" content="<?php echo e($ogImage); ?>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?php echo e(isset($pageTitle) ? $pageTitle : t('site_title')); ?>">
     <meta name="twitter:description" content="<?php echo e(isset($pageDescription) ? $pageDescription : t('site_tagline')); ?>">
+    <meta name="twitter:image" content="<?php echo e($ogImage); ?>">
     
     <?php if (isset($structuredData)): ?>
     <!-- Structured Data -->
@@ -79,12 +106,11 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <!-- Language Alternate Links for SEO -->
     <?php 
     $langCodes = ['en', 'es', 'zh', 'fr', 'de', 'it', 'ar'];
-    $currentUrl = $_SERVER['PHP_SELF'];
     foreach ($langCodes as $langCode): 
     ?>
-    <link rel="alternate" hreflang="<?php echo $langCode; ?>" href="<?php echo APP_URL . $currentUrl . '?lang=' . $langCode; ?>">
+    <link rel="alternate" hreflang="<?php echo $langCode; ?>" href="<?php echo e($hreflangBase . $hreflangQueryPrefix . 'lang=' . $langCode); ?>">
     <?php endforeach; ?>
-    <link rel="alternate" hreflang="x-default" href="<?php echo APP_URL . $currentUrl; ?>">
+    <link rel="alternate" hreflang="x-default" href="<?php echo e($hreflangBase . $hreflangQueryPrefix . 'lang=en'); ?>">
     
     <?php if (isset($additionalCSS)): ?>
         <link rel="stylesheet" href="/assets/css/<?php echo $additionalCSS; ?>">

@@ -18,11 +18,11 @@ RewriteBase /ArrivalCards/
     Deny from all
 </Files>
 
-# Protect database.sql
-<Files database.sql>
+# Block all sensitive file types (SQL dumps, logs, markdown docs)
+<FilesMatch "\.(sql|log|md)$">
     Order allow,deny
     Deny from all
-</Files>
+</FilesMatch>
 
 # Prevent directory browsing
 Options -Indexes
@@ -54,8 +54,11 @@ ErrorDocument 500 /ArrivalCards/error.php
     # Referrer Policy
     Header set Referrer-Policy "strict-origin-when-cross-origin"
     
-    # Content Security Policy (adjust as needed)
-    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self';"
+    # Content Security Policy (includes Google AdSense/Analytics domains)
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com;"
+    
+    # Permissions Policy
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 </IfModule>
 
 # PHP Settings (if allowed)
