@@ -7,9 +7,9 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 
-$pageTitle = 'Compare Passports - Side-by-Side Visa Requirements | Arrival Cards';
-$pageDescription = 'Compare visa requirements between two passports. See which passport offers better travel freedom, visa-free access, and lower costs for your dream destinations.';
-$pageKeywords = 'passport comparison, compare passports, visa requirements comparison, passport power, travel freedom, visa-free countries, passport ranking comparison';
+$pageTitle = t('cp_page_title');
+$pageDescription = t('cp_page_description');
+$pageKeywords = t('cp_page_keywords');
 
 // Get all passports that have data
 $query = "
@@ -20,14 +20,15 @@ $query = "
         c.flag_emoji,
         COUNT(DISTINCT b.to_country_id) as destinations_count
     FROM countries c
-    LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = 'en'
+    LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = ?
     INNER JOIN bilateral_visa_requirements b ON c.id = b.from_country_id
     GROUP BY c.id, c.country_code, ct.country_name, c.flag_emoji
     HAVING destinations_count > 0
     ORDER BY ct.country_name
 ";
 
-$stmt = $pdo->query($query);
+$stmt = $pdo->prepare($query);
+$stmt->execute([CURRENT_LANG]);
 $availablePassports = $stmt->fetchAll();
 
 // Get comparison data if passports are selected
@@ -37,12 +38,13 @@ $comparisonData = null;
 
 if ($passport1 && $passport2 && $passport1 !== $passport2) {
     // Get passport 1 details
-    $stmt = $pdo->prepare("SELECT c.id, c.country_code, ct.country_name, c.flag_emoji FROM countries c LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = 'en' WHERE c.country_code = ?");
-    $stmt->execute([$passport1]);
+    $stmt = $pdo->prepare("SELECT c.id, c.country_code, ct.country_name, c.flag_emoji FROM countries c LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = ? WHERE c.country_code = ?");
+    $stmt->execute([CURRENT_LANG, $passport1]);
     $p1Details = $stmt->fetch();
     
     // Get passport 2 details
-    $stmt->execute([$passport2]);
+    $stmt = $pdo->prepare("SELECT c.id, c.country_code, ct.country_name, c.flag_emoji FROM countries c LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = ? WHERE c.country_code = ?");
+    $stmt->execute([CURRENT_LANG, $passport2]);
     $p2Details = $stmt->fetch();
     
     if ($p1Details && $p2Details) {
@@ -65,7 +67,7 @@ if ($passport1 && $passport2 && $passport1 !== $passport2) {
                 p2.processing_time_days as p2_processing,
                 p2.approval_rate_percent as p2_approval
             FROM countries dest
-            LEFT JOIN country_translations dest_ct ON dest.id = dest_ct.country_id AND dest_ct.lang_code = 'en'
+            LEFT JOIN country_translations dest_ct ON dest.id = dest_ct.country_id AND dest_ct.lang_code = ?
             LEFT JOIN bilateral_visa_requirements p1 ON (dest.id = p1.to_country_id AND p1.from_country_id = ?)
             LEFT JOIN bilateral_visa_requirements p2 ON (dest.id = p2.to_country_id AND p2.from_country_id = ?)
             WHERE (p1.id IS NOT NULL OR p2.id IS NOT NULL)
@@ -74,7 +76,7 @@ if ($passport1 && $passport2 && $passport1 !== $passport2) {
         ";
         
         $stmt = $pdo->prepare($query);
-        $stmt->execute([$p1Details['id'], $p2Details['id'], $p1Details['id'], $p2Details['id']]);
+        $stmt->execute([CURRENT_LANG, $p1Details['id'], $p2Details['id'], $p1Details['id'], $p2Details['id']]);
         $destinations = $stmt->fetchAll();
         
         // Calculate statistics
@@ -445,9 +447,9 @@ include __DIR__ . '/includes/header.php'; ?>
 <section class="compare-hero">
     <div class="container">
         <div class="compare-hero-content">
-            <h1>⚖️ Compare Passports</h1>
+            <h1>⚖️ <?php echo e(t('cp_hero_title')); ?></h1>
             <p class="compare-hero-subtitle">
-                See side-by-side visa requirements and travel freedom differences
+                <?php echo e(t('cp_hero_subtitle')); ?>
             </p>
         </div>
     </div>
@@ -459,14 +461,14 @@ include __DIR__ . '/includes/header.php'; ?>
         <form method="GET" action="">
             <div class="selector-grid">
                 <div class="passport-selector">
-                    <h3>First Passport</h3>
+                    <h3><?php echo e(t('cp_first_passport')); ?></h3>
                     <select name="passport1" id="passport1" required>
-                        <option value="">Select a passport...</option>
+                        <option value=""><?php echo e(t('cp_select_passport')); ?></option>
                         <?php foreach ($availablePassports as $passport): ?>
                             <option value="<?php echo e($passport['country_code']); ?>" 
                                     <?php echo ($passport1 == $passport['country_code']) ? 'selected' : ''; ?>>
                                 <?php echo e($passport['flag_emoji']); ?> <?php echo e($passport['country_name']); ?> 
-                                (<?php echo $passport['destinations_count']; ?> destinations)
+                                (<?php echo $passport['destinations_count']; ?> <?php echo e(t('cp_destinations')); ?>)
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -475,14 +477,14 @@ include __DIR__ . '/includes/header.php'; ?>
                 <div class="vs-divider">VS</div>
                 
                 <div class="passport-selector">
-                    <h3>Second Passport</h3>
+                    <h3><?php echo e(t('cp_second_passport')); ?></h3>
                     <select name="passport2" id="passport2" required>
-                        <option value="">Select a passport...</option>
+                        <option value=""><?php echo e(t('cp_select_passport')); ?></option>
                         <?php foreach ($availablePassports as $passport): ?>
                             <option value="<?php echo e($passport['country_code']); ?>" 
                                     <?php echo ($passport2 == $passport['country_code']) ? 'selected' : ''; ?>>
                                 <?php echo e($passport['flag_emoji']); ?> <?php echo e($passport['country_name']); ?> 
-                                (<?php echo $passport['destinations_count']; ?> destinations)
+                                (<?php echo $passport['destinations_count']; ?> <?php echo e(t('cp_destinations')); ?>)
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -490,7 +492,7 @@ include __DIR__ . '/includes/header.php'; ?>
             </div>
             
             <button type="submit" class="compare-btn">
-                🔍 Compare Passports
+                🔍 <?php echo e(t('cp_compare_btn')); ?>
             </button>
         </form>
     </div>
@@ -511,32 +513,32 @@ include __DIR__ . '/includes/header.php'; ?>
                 </div>
                 
                 <div class="stat-row">
-                    <span class="stat-label">🟢 Visa-Free</span>
+                    <span class="stat-label">🟢 <?php echo e(t('cp_visa_free')); ?></span>
                     <span class="stat-value"><?php echo $comparisonData['p1_stats']['visa_free']; ?></span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">🔵 Visa on Arrival</span>
+                    <span class="stat-label">🔵 <?php echo e(t('cp_visa_on_arrival')); ?></span>
                     <span class="stat-value"><?php echo $comparisonData['p1_stats']['visa_on_arrival']; ?></span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">✨ Easy Access Total</span>
+                    <span class="stat-label">✨ <?php echo e(t('cp_easy_access')); ?></span>
                     <span class="stat-value"><?php echo $comparisonData['p1_stats']['easy_access']; ?></span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">🟡 eVisa Required</span>
+                    <span class="stat-label">🟡 <?php echo e(t('cp_evisa_required')); ?></span>
                     <span class="stat-value"><?php echo $comparisonData['p1_stats']['evisa']; ?></span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">🔴 Visa Required</span>
+                    <span class="stat-label">🔴 <?php echo e(t('cp_visa_required')); ?></span>
                     <span class="stat-value"><?php echo $comparisonData['p1_stats']['visa_required']; ?></span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">💰 Avg Cost</span>
+                    <span class="stat-label">💰 <?php echo e(t('cp_avg_cost')); ?></span>
                     <span class="stat-value">$<?php echo $comparisonData['p1_stats']['avg_cost']; ?></span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">⏱️ Avg Processing</span>
-                    <span class="stat-value"><?php echo $comparisonData['p1_stats']['avg_processing']; ?> days</span>
+                    <span class="stat-label">⏱️ <?php echo e(t('cp_avg_processing')); ?></span>
+                    <span class="stat-value"><?php echo $comparisonData['p1_stats']['avg_processing']; ?> <?php echo e(t('cp_days')); ?></span>
                 </div>
             </div>
             
@@ -547,13 +549,13 @@ include __DIR__ . '/includes/header.php'; ?>
                 $p2Better = $comparisonData['p2_stats']['easy_access'];
                 if ($p1Better > $p2Better): ?>
                     <div class="winner-badge">←</div>
-                    <div class="winner-text">Better Access</div>
+                    <div class="winner-text"><?php echo e(t('cp_better_access')); ?></div>
                 <?php elseif ($p2Better > $p1Better): ?>
                     <div class="winner-badge">→</div>
-                    <div class="winner-text">Better Access</div>
+                    <div class="winner-text"><?php echo e(t('cp_better_access')); ?></div>
                 <?php else: ?>
                     <div class="winner-badge">🤝</div>
-                    <div class="winner-text">Equal Access</div>
+                    <div class="winner-text"><?php echo e(t('cp_equal_access')); ?></div>
                 <?php endif; ?>
             </div>
             
@@ -565,46 +567,46 @@ include __DIR__ . '/includes/header.php'; ?>
                 </div>
                 
                 <div class="stat-row">
-                    <span class="stat-label">🟢 Visa-Free</span>
+                    <span class="stat-label">🟢 <?php echo e(t('cp_visa_free')); ?></span>
                     <span class="stat-value"><?php echo $comparisonData['p2_stats']['visa_free']; ?></span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">🔵 Visa on Arrival</span>
+                    <span class="stat-label">🔵 <?php echo e(t('cp_visa_on_arrival')); ?></span>
                     <span class="stat-value"><?php echo $comparisonData['p2_stats']['visa_on_arrival']; ?></span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">✨ Easy Access Total</span>
+                    <span class="stat-label">✨ <?php echo e(t('cp_easy_access')); ?></span>
                     <span class="stat-value"><?php echo $comparisonData['p2_stats']['easy_access']; ?></span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">🟡 eVisa Required</span>
+                    <span class="stat-label">🟡 <?php echo e(t('cp_evisa_required')); ?></span>
                     <span class="stat-value"><?php echo $comparisonData['p2_stats']['evisa']; ?></span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">🔴 Visa Required</span>
+                    <span class="stat-label">🔴 <?php echo e(t('cp_visa_required')); ?></span>
                     <span class="stat-value"><?php echo $comparisonData['p2_stats']['visa_required']; ?></span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">💰 Avg Cost</span>
+                    <span class="stat-label">💰 <?php echo e(t('cp_avg_cost')); ?></span>
                     <span class="stat-value">$<?php echo $comparisonData['p2_stats']['avg_cost']; ?></span>
                 </div>
                 <div class="stat-row">
-                    <span class="stat-label">⏱️ Avg Processing</span>
-                    <span class="stat-value"><?php echo $comparisonData['p2_stats']['avg_processing']; ?> days</span>
+                    <span class="stat-label">⏱️ <?php echo e(t('cp_avg_processing')); ?></span>
+                    <span class="stat-value"><?php echo $comparisonData['p2_stats']['avg_processing']; ?> <?php echo e(t('cp_days')); ?></span>
                 </div>
             </div>
         </div>
         
         <!-- Destinations Table -->
-        <h2 style="text-align: center; margin-bottom: 2rem; color: #2c3e50;">Destination-by-Destination Comparison</h2>
+        <h2 style="text-align: center; margin-bottom: 2rem; color: #2c3e50;"><?php echo e(t('cp_dest_comparison')); ?></h2>
         <div class="destinations-table">
             <table>
                 <thead>
                     <tr>
-                        <th>Destination</th>
+                        <th><?php echo e(t('cp_th_destination')); ?></th>
                         <th><?php echo e($comparisonData['passport1']['flag_emoji']); ?> <?php echo e($comparisonData['passport1']['country_name']); ?></th>
                         <th><?php echo e($comparisonData['passport2']['flag_emoji']); ?> <?php echo e($comparisonData['passport2']['country_name']); ?></th>
-                        <th>Advantage</th>
+                        <th><?php echo e(t('cp_th_advantage')); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -619,10 +621,10 @@ include __DIR__ . '/includes/header.php'; ?>
                         $p2Rank = $visaRank[$p2Type] ?? 0;
                         
                         if ($p1Rank > $p2Rank) {
-                            $advantage = $comparisonData['passport1']['flag_emoji'] . ' Better';
+                            $advantage = $comparisonData['passport1']['flag_emoji'] . ' ' . t('cp_better');
                             $advantageClass = 'advantage';
                         } elseif ($p2Rank > $p1Rank) {
-                            $advantage = $comparisonData['passport2']['flag_emoji'] . ' Better';
+                            $advantage = $comparisonData['passport2']['flag_emoji'] . ' ' . t('cp_better');
                             $advantageClass = 'advantage';
                         } else {
                             $advantageClass = '';
@@ -638,7 +640,7 @@ include __DIR__ . '/includes/header.php'; ?>
                                 <?php echo ucwords(str_replace('_', ' ', $p1Type)); ?>
                             </span>
                             <?php if ($dest['p1_cost'] > 0): ?>
-                                <br><small>$<?php echo $dest['p1_cost']; ?> • <?php echo $dest['p1_duration']; ?> days</small>
+                                <br><small>$<?php echo $dest['p1_cost']; ?> • <?php echo $dest['p1_duration']; ?> <?php echo e(t('cp_days')); ?></small>
                             <?php endif; ?>
                         </td>
                         <td>
@@ -646,7 +648,7 @@ include __DIR__ . '/includes/header.php'; ?>
                                 <?php echo ucwords(str_replace('_', ' ', $p2Type)); ?>
                             </span>
                             <?php if ($dest['p2_cost'] > 0): ?>
-                                <br><small>$<?php echo $dest['p2_cost']; ?> • <?php echo $dest['p2_duration']; ?> days</small>
+                                <br><small>$<?php echo $dest['p2_cost']; ?> • <?php echo $dest['p2_duration']; ?> <?php echo e(t('cp_days')); ?></small>
                             <?php endif; ?>
                         </td>
                         <td class="<?php echo $advantageClass; ?>">
