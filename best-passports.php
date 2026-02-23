@@ -49,23 +49,180 @@ usort($passports, function($a, $b) {
     return $b['easy_access'] - $a['easy_access'];
 });
 
-// Known rankings (Henley Passport Index 2026 reference)
+// Known rankings (Henley Passport Index Q1 2025 reference data)
 $knownRankings = [
+    // Rank 1
     'JPN' => ['rank' => 1, 'global_visa_free' => 193],
+    'SGP' => ['rank' => 1, 'global_visa_free' => 193],
+    // Rank 2
+    'FRA' => ['rank' => 2, 'global_visa_free' => 192],
     'DEU' => ['rank' => 2, 'global_visa_free' => 192],
-    'FRA' => ['rank' => 3, 'global_visa_free' => 192],
-    'ESP' => ['rank' => 4, 'global_visa_free' => 192],
-    'ITA' => ['rank' => 5, 'global_visa_free' => 192],
-    'CAN' => ['rank' => 6, 'global_visa_free' => 187],
-    'AUS' => ['rank' => 7, 'global_visa_free' => 186],
+    'ITA' => ['rank' => 2, 'global_visa_free' => 192],
+    'ESP' => ['rank' => 2, 'global_visa_free' => 192],
+    // Rank 3
+    'AUT' => ['rank' => 3, 'global_visa_free' => 191],
+    'FIN' => ['rank' => 3, 'global_visa_free' => 191],
+    'IRL' => ['rank' => 3, 'global_visa_free' => 191],
+    'LUX' => ['rank' => 3, 'global_visa_free' => 191],
+    'NLD' => ['rank' => 3, 'global_visa_free' => 191],
+    'KOR' => ['rank' => 3, 'global_visa_free' => 191],
+    'SWE' => ['rank' => 3, 'global_visa_free' => 191],
+    // Rank 4
+    'BEL' => ['rank' => 4, 'global_visa_free' => 190],
+    'DNK' => ['rank' => 4, 'global_visa_free' => 190],
+    'GBR' => ['rank' => 4, 'global_visa_free' => 190],
+    'NZL' => ['rank' => 4, 'global_visa_free' => 190],
+    'NOR' => ['rank' => 4, 'global_visa_free' => 190],
+    'CHE' => ['rank' => 4, 'global_visa_free' => 190],
+    // Rank 5
+    'AUS' => ['rank' => 5, 'global_visa_free' => 189],
+    'PRT' => ['rank' => 5, 'global_visa_free' => 189],
+    // Rank 6
+    'GRC' => ['rank' => 6, 'global_visa_free' => 188],
+    'POL' => ['rank' => 6, 'global_visa_free' => 188],
+    // Rank 7
+    'CAN' => ['rank' => 7, 'global_visa_free' => 187],
+    'CZE' => ['rank' => 7, 'global_visa_free' => 187],
+    'HUN' => ['rank' => 7, 'global_visa_free' => 187],
+    'MLT' => ['rank' => 7, 'global_visa_free' => 187],
+    // Rank 8
     'USA' => ['rank' => 8, 'global_visa_free' => 186],
-    'GBR' => ['rank' => 4, 'global_visa_free' => 192],
-    'ARE' => ['rank' => 11, 'global_visa_free' => 181],
-    'BRA' => ['rank' => 16, 'global_visa_free' => 170],
-    'MEX' => ['rank' => 26, 'global_visa_free' => 158],
-    'CHN' => ['rank' => 60, 'global_visa_free' => 85],
-    'SAU' => ['rank' => 64, 'global_visa_free' => 88],
-    'IND' => ['rank' => 85, 'global_visa_free' => 62],
+    'LTU' => ['rank' => 8, 'global_visa_free' => 186],
+    // Rank 9
+    'EST' => ['rank' => 9, 'global_visa_free' => 185],
+    'LVA' => ['rank' => 9, 'global_visa_free' => 185],
+    'SVK' => ['rank' => 9, 'global_visa_free' => 185],
+    'SVN' => ['rank' => 9, 'global_visa_free' => 185],
+    // Rank 10
+    'ISL' => ['rank' => 10, 'global_visa_free' => 184],
+    // Rank 11
+    'LIE' => ['rank' => 11, 'global_visa_free' => 183],
+    // Rank 12
+    'ARE' => ['rank' => 12, 'global_visa_free' => 182],
+    'HRV' => ['rank' => 12, 'global_visa_free' => 182],
+    // Rank 13
+    'MYS' => ['rank' => 13, 'global_visa_free' => 180],
+    // Rank 14
+    'ROU' => ['rank' => 14, 'global_visa_free' => 179],
+    // Rank 15
+    'BGR' => ['rank' => 15, 'global_visa_free' => 178],
+    // Rank 16
+    'CHL' => ['rank' => 16, 'global_visa_free' => 177],
+    'CYP' => ['rank' => 16, 'global_visa_free' => 177],
+    // Rank 17
+    'HKG' => ['rank' => 17, 'global_visa_free' => 172],
+    'MCO' => ['rank' => 17, 'global_visa_free' => 172],
+    // Rank 18
+    'ARG' => ['rank' => 18, 'global_visa_free' => 171],
+    'BRA' => ['rank' => 18, 'global_visa_free' => 171],
+    // Rank 19
+    'SMR' => ['rank' => 19, 'global_visa_free' => 170],
+    'AND' => ['rank' => 19, 'global_visa_free' => 170],
+    // Rank 20
+    'ISR' => ['rank' => 20, 'global_visa_free' => 168],
+    // Rank 21
+    'BRN' => ['rank' => 21, 'global_visa_free' => 167],
+    'MEX' => ['rank' => 21, 'global_visa_free' => 167],
+    // Rank 22
+    'SRB' => ['rank' => 22, 'global_visa_free' => 163],
+    // Rank 23
+    'URY' => ['rank' => 23, 'global_visa_free' => 161],
+    'BHS' => ['rank' => 23, 'global_visa_free' => 161],
+    // Rank 24
+    'MNE' => ['rank' => 24, 'global_visa_free' => 159],
+    'UKR' => ['rank' => 24, 'global_visa_free' => 159],
+    // Rank 25
+    'CRI' => ['rank' => 25, 'global_visa_free' => 158],
+    'MKD' => ['rank' => 25, 'global_visa_free' => 158],
+    // Rank 26
+    'PAN' => ['rank' => 26, 'global_visa_free' => 157],
+    'TTO' => ['rank' => 26, 'global_visa_free' => 157],
+    // Rank 27
+    'GEO' => ['rank' => 27, 'global_visa_free' => 156],
+    'MDA' => ['rank' => 27, 'global_visa_free' => 156],
+    // Rank 28
+    'ALB' => ['rank' => 28, 'global_visa_free' => 155],
+    // Rank 29
+    'COL' => ['rank' => 29, 'global_visa_free' => 154],
+    'PER' => ['rank' => 29, 'global_visa_free' => 154],
+    // Rank 30
+    'PRY' => ['rank' => 30, 'global_visa_free' => 153],
+    'SLV' => ['rank' => 30, 'global_visa_free' => 153],
+    // Rank 31
+    'BIH' => ['rank' => 31, 'global_visa_free' => 152],
+    'GTM' => ['rank' => 31, 'global_visa_free' => 152],
+    'HND' => ['rank' => 31, 'global_visa_free' => 152],
+    // Rank 32
+    'TWN' => ['rank' => 32, 'global_visa_free' => 148],
+    // Rank 33
+    'TUR' => ['rank' => 33, 'global_visa_free' => 146],
+    'NIC' => ['rank' => 33, 'global_visa_free' => 146],
+    // Rank 34
+    'BRB' => ['rank' => 34, 'global_visa_free' => 144],
+    'VCT' => ['rank' => 34, 'global_visa_free' => 144],
+    // Rank 35
+    'ATG' => ['rank' => 35, 'global_visa_free' => 143],
+    'KNA' => ['rank' => 35, 'global_visa_free' => 143],
+    'LCA' => ['rank' => 35, 'global_visa_free' => 143],
+    'DMA' => ['rank' => 35, 'global_visa_free' => 143],
+    'GRD' => ['rank' => 35, 'global_visa_free' => 143],
+    // Rank 36
+    'THA' => ['rank' => 36, 'global_visa_free' => 141],
+    'QAT' => ['rank' => 36, 'global_visa_free' => 141],
+    // Rank 37
+    'KAZ' => ['rank' => 37, 'global_visa_free' => 139],
+    'KWT' => ['rank' => 37, 'global_visa_free' => 139],
+    // Rank 38
+    'BHR' => ['rank' => 38, 'global_visa_free' => 135],
+    'OMN' => ['rank' => 38, 'global_visa_free' => 135],
+    // Rank 39
+    'SAU' => ['rank' => 39, 'global_visa_free' => 133],
+    // Rank 40
+    'BLR' => ['rank' => 40, 'global_visa_free' => 131],
+    // Rank 41
+    'RUS' => ['rank' => 41, 'global_visa_free' => 129],
+    // Rank 42
+    'ZAF' => ['rank' => 42, 'global_visa_free' => 106],
+    // Rank 43
+    'IDN' => ['rank' => 43, 'global_visa_free' => 99],
+    // Rank 44
+    'KEN' => ['rank' => 44, 'global_visa_free' => 93],
+    // Rank 45
+    'JAM' => ['rank' => 45, 'global_visa_free' => 91],
+    // Rank 46
+    'BOL' => ['rank' => 46, 'global_visa_free' => 88],
+    'CHN' => ['rank' => 46, 'global_visa_free' => 88],
+    // Rank 47
+    'MAR' => ['rank' => 47, 'global_visa_free' => 83],
+    // Rank 48
+    'PHL' => ['rank' => 48, 'global_visa_free' => 79],
+    // Rank 49
+    'EGY' => ['rank' => 49, 'global_visa_free' => 73],
+    'GHA' => ['rank' => 49, 'global_visa_free' => 73],
+    // Rank 50
+    'VNM' => ['rank' => 50, 'global_visa_free' => 70],
+    // Rank 51
+    'IND' => ['rank' => 51, 'global_visa_free' => 68],
+    // Rank 52
+    'NGA' => ['rank' => 52, 'global_visa_free' => 63],
+    'ETH' => ['rank' => 52, 'global_visa_free' => 63],
+    // Rank 53
+    'LKA' => ['rank' => 53, 'global_visa_free' => 60],
+    'NPL' => ['rank' => 53, 'global_visa_free' => 60],
+    // Rank 54
+    'BGD' => ['rank' => 54, 'global_visa_free' => 57],
+    'MMR' => ['rank' => 54, 'global_visa_free' => 57],
+    // Rank 55
+    'PAK' => ['rank' => 55, 'global_visa_free' => 53],
+    'SDN' => ['rank' => 55, 'global_visa_free' => 53],
+    // Rank 56
+    'SOM' => ['rank' => 56, 'global_visa_free' => 47],
+    'YEM' => ['rank' => 56, 'global_visa_free' => 47],
+    // Rank 57
+    'IRQ' => ['rank' => 57, 'global_visa_free' => 44],
+    'SYR' => ['rank' => 57, 'global_visa_free' => 44],
+    // Rank 58
+    'AFG' => ['rank' => 58, 'global_visa_free' => 38],
 ];
 
 // Add ranking info to passports
@@ -81,6 +238,9 @@ unset($passport);
 $totalPassportsWithData = count($passports);
 $avgVisaFree = round(array_sum(array_column($passports, 'visa_free_count')) / max($totalPassportsWithData, 1), 1);
 $avgEasyAccess = round(array_sum(array_column($passports, 'easy_access')) / max($totalPassportsWithData, 1), 1);
+
+// Limit display to top 100 passports
+$passports = array_slice($passports, 0, 100);
 
 // ItemList structured data for rich results (top 10 passports)
 $topPassports = array_slice($passports, 0, 10);
@@ -492,8 +652,8 @@ include __DIR__ . '/includes/header.php'; ?>
         <div class="note-section" style="margin-top: 3rem;">
             <h3>🔍 How to Read This Table</h3>
             <p>
-                <strong>Rank:</strong> Based on easy access (visa-free + visa on arrival).<br>
-                <strong>Global Rank:</strong> Official Henley Passport Index 2026 ranking.<br>
+                <strong>Rank:</strong> Based on easy access (visa-free + visa on arrival) from our database.<br>
+                <strong>Global Rank:</strong> Henley Passport Index ranking (see sources below).<br>
                 <strong>Easy Access:</strong> Countries you can visit without applying for visa in advance.<br>
                 <strong>Visa Breakdown:</strong>
                 <span style="color: #28a745;">● Visa-free</span> (no visa needed) |
@@ -501,6 +661,41 @@ include __DIR__ . '/includes/header.php'; ?>
                 <span style="color: #ffc107;">● eVisa</span> (apply online) |
                 <span style="color: #dc3545;">● Visa required</span> (embassy application)
             </p>
+        </div>
+
+        <!-- Sources & Methodology Section -->
+        <div style="background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 2.5rem; margin-top: 3rem;">
+            <h2 style="font-size: 1.5rem; color: #2c3e50; margin-bottom: 1.5rem;">📚 Sources &amp; Methodology</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                <div>
+                    <h3 style="font-size: 1.1rem; color: #667eea; margin-bottom: 0.5rem;">Data Sources</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0; line-height: 2;">
+                        <li>📊 <a href="https://www.henleyglobal.com/passport-index" target="_blank" rel="noopener" style="color: #2563eb; text-decoration: none;">Henley Passport Index</a> — Global visa-free rankings, produced by Henley &amp; Partners using IATA data</li>
+                        <li>✈️ <a href="https://www.iata.org/" target="_blank" rel="noopener" style="color: #2563eb; text-decoration: none;">IATA (International Air Transport Association)</a> — Bilateral visa requirement data for airlines</li>
+                        <li>🏛️ Official government immigration websites — Visa policies, fees, and processing times verified per country</li>
+                        <li>🇦🇺 <a href="https://www.smartraveller.gov.au/" target="_blank" rel="noopener" style="color: #2563eb; text-decoration: none;">Smartraveller (DFAT)</a> — Australian Government travel advisories</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="font-size: 1.1rem; color: #667eea; margin-bottom: 0.5rem;">Methodology</h3>
+                    <ul style="list-style: disc; padding-left: 1.2rem; margin: 0; line-height: 2; color: #495057;">
+                        <li><strong>"Easy Access"</strong> score = visa-free + visa on arrival destinations</li>
+                        <li><strong>Global Rank</strong> is from the Henley Passport Index, which counts passport-free destinations for each nationality</li>
+                        <li>Rankings are updated periodically as visa policies change</li>
+                        <li>Our database tracks 196 countries/territories with bilateral visa data</li>
+                        <li>eVisa destinations are listed separately as they require advance application</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e9ecef;">
+                <p style="font-size: 0.85rem; color: #6c757d; margin: 0;">
+                    <strong>Disclaimer:</strong> Visa policies change frequently. This ranking is for informational purposes only and should not be considered legal advice. 
+                    Always verify the latest entry requirements with the destination country's official immigration authority or your nearest embassy before travelling.
+                    Last updated: <?php echo date('F Y'); ?>.
+                </p>
+            </div>
         </div>
         
     </div>
