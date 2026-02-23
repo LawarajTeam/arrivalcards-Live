@@ -16,7 +16,7 @@ $query = "
     SELECT 
         c.id,
         c.country_code,
-        c.country_name,
+        ct.country_name,
         c.flag_emoji,
         c.region,
         COUNT(DISTINCT b.to_country_id) as destinations_with_data,
@@ -25,8 +25,9 @@ $query = "
         SUM(CASE WHEN b.visa_type = 'evisa' THEN 1 ELSE 0 END) as evisa_count,
         SUM(CASE WHEN b.visa_type = 'visa_required' THEN 1 ELSE 0 END) as visa_required_count
     FROM countries c
+    LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = 'en'
     LEFT JOIN bilateral_visa_requirements b ON c.id = b.from_country_id
-    GROUP BY c.id, c.country_code, c.country_name, c.flag_emoji, c.region
+    GROUP BY c.id, c.country_code, ct.country_name, c.flag_emoji, c.region
     HAVING destinations_with_data > 0
     ORDER BY visa_free_count DESC, voa_count DESC
 ";

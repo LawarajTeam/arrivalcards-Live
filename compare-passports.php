@@ -16,14 +16,15 @@ $query = "
     SELECT DISTINCT
         c.id,
         c.country_code,
-        c.country_name,
+        ct.country_name,
         c.flag_emoji,
         COUNT(DISTINCT b.to_country_id) as destinations_count
     FROM countries c
+    LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = 'en'
     INNER JOIN bilateral_visa_requirements b ON c.id = b.from_country_id
-    GROUP BY c.id, c.country_code, c.country_name, c.flag_emoji
+    GROUP BY c.id, c.country_code, ct.country_name, c.flag_emoji
     HAVING destinations_count > 0
-    ORDER BY c.country_name
+    ORDER BY ct.country_name
 ";
 
 $stmt = $pdo->query($query);
