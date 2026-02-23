@@ -1,5 +1,0 @@
-open 101.0.92.142
-user arrivalcards Ijmb)%v]If
-cd public_html/admin
-put admin/analytics.php
-bye
