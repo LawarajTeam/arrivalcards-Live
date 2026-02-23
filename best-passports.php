@@ -7,9 +7,9 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 
-$pageTitle = 'Best Passports in the World 2026 - Global Ranking | Arrival Cards';
-$pageDescription = 'Comprehensive ranking of the world\'s most powerful passports by visa-free access. Compare passport strength, find which countries offer the best travel freedom, and see detailed visa statistics for 196 passports.';
-$pageKeywords = 'best passports, passport ranking, strongest passport, most powerful passport, visa free countries, passport index, global mobility, travel freedom, passport power, citizenship by investment';
+$pageTitle = t('bp_page_title');
+$pageDescription = t('bp_page_description');
+$pageKeywords = t('bp_page_keywords');
 
 // Get all country info from DB (for flag, name, region)
 $countryQuery = "
@@ -20,10 +20,11 @@ $countryQuery = "
         c.flag_emoji,
         c.region
     FROM countries c
-    LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = 'en'
+    LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = ?
     WHERE c.is_active = 1
 ";
-$stmt = $pdo->query($countryQuery);
+$stmt = $pdo->prepare($countryQuery);
+$stmt->execute([CURRENT_LANG]);
 $countryLookup = [];
 foreach ($stmt->fetchAll() as $row) {
     $countryLookup[$row['country_code']] = $row;
@@ -541,23 +542,23 @@ include __DIR__ . '/includes/header.php'; ?>
 <section class="ranking-hero">
     <div class="container">
         <div class="ranking-hero-content">
-            <h1>🏆 Best Passports in the World 2026</h1>
+            <h1>🏆 <?php echo e(t('bp_hero_title')); ?></h1>
             <p class="ranking-hero-subtitle">
-                Discover which passports offer the greatest travel freedom
+                <?php echo e(t('bp_hero_subtitle')); ?>
             </p>
             
             <div class="ranking-stats-grid">
                 <div class="ranking-stat-card">
                     <div class="ranking-stat-value"><?php echo $totalPassportsWithData; ?></div>
-                    <div class="ranking-stat-label">Passports Ranked</div>
+                    <div class="ranking-stat-label"><?php echo e(t('bp_passports_ranked')); ?></div>
                 </div>
                 <div class="ranking-stat-card">
                     <div class="ranking-stat-value"><?php echo $passports[0]['global_visa_free'] ?? '—'; ?></div>
-                    <div class="ranking-stat-label">#1 Passport (Visa-Free)</div>
+                    <div class="ranking-stat-label"><?php echo e(t('bp_number_one_passport')); ?></div>
                 </div>
                 <div class="ranking-stat-card">
                     <div class="ranking-stat-value"><?php echo $avgVisaFree; ?></div>
-                    <div class="ranking-stat-label">Avg Visa-Free Access</div>
+                    <div class="ranking-stat-label"><?php echo e(t('bp_avg_visa_free')); ?></div>
                 </div>
             </div>
         </div>
@@ -569,11 +570,9 @@ include __DIR__ . '/includes/header.php'; ?>
     <div class="container">
         
         <div class="note-section">
-            <h3>📊 About This Ranking</h3>
+            <h3>📊 <?php echo e(t('bp_about_title')); ?></h3>
             <p>
-                Passport rankings based on the <strong>Henley Passport Index</strong>, which measures the number of destinations 
-                each passport can access visa-free or with visa on arrival. Data sourced from IATA and verified against official 
-                government immigration websites. The higher the visa-free score, the more powerful the passport.
+                <?php echo t('bp_about_text'); ?>
             </p>
         </div>
         
@@ -581,11 +580,11 @@ include __DIR__ . '/includes/header.php'; ?>
             <table class="ranking-table">
                 <thead>
                     <tr>
-                        <th style="width: 60px; text-align: center;">Rank</th>
-                        <th>Country</th>
-                        <th style="text-align: center;">Visa-Free Score</th>
-                        <th style="text-align: center;">Visa-Free Destinations</th>
-                        <th>Details</th>
+                        <th style="width: 60px; text-align: center;"><?php echo e(t('bp_th_rank')); ?></th>
+                        <th><?php echo e(t('bp_th_country')); ?></th>
+                        <th style="text-align: center;"><?php echo e(t('bp_th_visa_free_score')); ?></th>
+                        <th style="text-align: center;"><?php echo e(t('bp_th_visa_free_dest')); ?></th>
+                        <th><?php echo e(t('bp_th_details')); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -636,12 +635,12 @@ include __DIR__ . '/includes/header.php'; ?>
                         </td>
                         <td style="text-align: center;">
                             <span class="access-badge <?php echo $accessClass; ?>">
-                                <?php echo $passport['global_visa_free']; ?> destinations
+                                <?php echo $passport['global_visa_free']; ?> <?php echo e(t('bp_destinations')); ?>
                             </span>
                         </td>
                         <td style="text-align: center;">
                             <span class="global-rank-badge">
-                                <?php echo $passport['global_visa_free']; ?> visa-free
+                                <?php echo $passport['global_visa_free']; ?> <?php echo e(t('bp_visa_free')); ?>
                             </span>
                         </td>
                         <td>
@@ -649,24 +648,24 @@ include __DIR__ . '/includes/header.php'; ?>
                             <div class="visa-breakdown">
                                 <div class="visa-type-count">
                                     <span class="visa-icon visa-icon-free"></span>
-                                    <span><?php echo $passport['visa_free_count']; ?> free</span>
+                                    <span><?php echo $passport['visa_free_count']; ?> <?php echo e(t('bp_free')); ?></span>
                                 </div>
                                 <div class="visa-type-count">
                                     <span class="visa-icon visa-icon-voa"></span>
-                                    <span><?php echo $passport['voa_count']; ?> VoA</span>
+                                    <span><?php echo $passport['voa_count']; ?> <?php echo e(t('bp_voa')); ?></span>
                                 </div>
                                 <div class="visa-type-count">
                                     <span class="visa-icon visa-icon-evisa"></span>
-                                    <span><?php echo $passport['evisa_count']; ?> eVisa</span>
+                                    <span><?php echo $passport['evisa_count']; ?> <?php echo e(t('bp_evisa')); ?></span>
                                 </div>
                                 <div class="visa-type-count">
                                     <span class="visa-icon visa-icon-required"></span>
-                                    <span><?php echo $passport['visa_required_count']; ?> req.</span>
+                                    <span><?php echo $passport['visa_required_count']; ?> <?php echo e(t('bp_req')); ?></span>
                                 </div>
                             </div>
                             <?php else: ?>
                                 <?php if ($countryLink): ?>
-                                    <a href="<?php echo $countryLink; ?>" style="color: #667eea; text-decoration: none; font-size: 0.85rem;">View details →</a>
+                                    <a href="<?php echo $countryLink; ?>" style="color: #667eea; text-decoration: none; font-size: 0.85rem;"><?php echo e(t('bp_view_details')); ?> →</a>
                                 <?php else: ?>
                                     <span style="color: #6c757d; font-size: 0.85rem;">—</span>
                                 <?php endif; ?>
@@ -679,50 +678,42 @@ include __DIR__ . '/includes/header.php'; ?>
         </div>
         
         <div class="note-section" style="margin-top: 3rem;">
-            <h3>🔍 How to Read This Table</h3>
+            <h3>🔍 <?php echo e(t('bp_howto_title')); ?></h3>
             <p>
-                <strong>Rank:</strong> Henley Passport Index position (shared ranks indicate equal visa-free access).<br>
-                <strong>Visa-Free Score:</strong> Total destinations accessible without an advance visa (visa-free + visa on arrival).<br>
-                <strong>Details:</strong> Where available, shows our detailed breakdown —
-                <span style="color: #28a745;">● Visa-free</span> |
-                <span style="color: #17a2b8;">● VoA</span> (visa at airport) |
-                <span style="color: #ffc107;">● eVisa</span> (apply online) |
-                <span style="color: #dc3545;">● Visa required</span> (embassy application).<br>
-                Click a country name to view its full visa requirements for Australian passport holders.
+                <?php echo t('bp_howto_text'); ?>
             </p>
         </div>
 
         <!-- Sources & Methodology Section -->
         <div style="background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 2.5rem; margin-top: 3rem;">
-            <h2 style="font-size: 1.5rem; color: #2c3e50; margin-bottom: 1.5rem;">📚 Sources &amp; Methodology</h2>
+            <h2 style="font-size: 1.5rem; color: #2c3e50; margin-bottom: 1.5rem;">📚 <?php echo e(t('bp_sources_title')); ?></h2>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
                 <div>
-                    <h3 style="font-size: 1.1rem; color: #667eea; margin-bottom: 0.5rem;">Data Sources</h3>
+                    <h3 style="font-size: 1.1rem; color: #667eea; margin-bottom: 0.5rem;"><?php echo e(t('bp_data_sources')); ?></h3>
                     <ul style="list-style: none; padding: 0; margin: 0; line-height: 2;">
-                        <li>📊 <a href="https://www.henleyglobal.com/passport-index" target="_blank" rel="noopener" style="color: #2563eb; text-decoration: none;">Henley Passport Index</a> — Global visa-free rankings, produced by Henley &amp; Partners using IATA data</li>
-                        <li>✈️ <a href="https://www.iata.org/" target="_blank" rel="noopener" style="color: #2563eb; text-decoration: none;">IATA (International Air Transport Association)</a> — Bilateral visa requirement data for airlines</li>
-                        <li>🏛️ Official government immigration websites — Visa policies, fees, and processing times verified per country</li>
-                        <li>🇦🇺 <a href="https://www.smartraveller.gov.au/" target="_blank" rel="noopener" style="color: #2563eb; text-decoration: none;">Smartraveller (DFAT)</a> — Australian Government travel advisories</li>
+                        <li>📊 <a href="https://www.henleyglobal.com/passport-index" target="_blank" rel="noopener" style="color: #2563eb; text-decoration: none;">Henley Passport Index</a> — <?php echo e(t('bp_source_henley')); ?></li>
+                        <li>✈️ <a href="https://www.iata.org/" target="_blank" rel="noopener" style="color: #2563eb; text-decoration: none;">IATA</a> — <?php echo e(t('bp_source_iata')); ?></li>
+                        <li>🏛️ <?php echo e(t('bp_source_govt')); ?></li>
+                        <li>🇦🇺 <a href="https://www.smartraveller.gov.au/" target="_blank" rel="noopener" style="color: #2563eb; text-decoration: none;">Smartraveller (DFAT)</a> — <?php echo e(t('bp_source_smartraveller')); ?></li>
                     </ul>
                 </div>
                 <div>
-                    <h3 style="font-size: 1.1rem; color: #667eea; margin-bottom: 0.5rem;">Methodology</h3>
+                    <h3 style="font-size: 1.1rem; color: #667eea; margin-bottom: 0.5rem;"><?php echo e(t('bp_methodology')); ?></h3>
                     <ul style="list-style: disc; padding-left: 1.2rem; margin: 0; line-height: 2; color: #495057;">
-                        <li><strong>"Easy Access"</strong> score = visa-free + visa on arrival destinations</li>
-                        <li><strong>Global Rank</strong> is from the Henley Passport Index, which counts passport-free destinations for each nationality</li>
-                        <li>Rankings are updated periodically as visa policies change</li>
-                        <li>Our database tracks 196 countries/territories with bilateral visa data</li>
-                        <li>eVisa destinations are listed separately as they require advance application</li>
+                        <li><?php echo t('bp_method_1'); ?></li>
+                        <li><?php echo t('bp_method_2'); ?></li>
+                        <li><?php echo e(t('bp_method_3')); ?></li>
+                        <li><?php echo e(t('bp_method_4')); ?></li>
+                        <li><?php echo e(t('bp_method_5')); ?></li>
                     </ul>
                 </div>
             </div>
 
             <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e9ecef;">
                 <p style="font-size: 0.85rem; color: #6c757d; margin: 0;">
-                    <strong>Disclaimer:</strong> Visa policies change frequently. This ranking is for informational purposes only and should not be considered legal advice. 
-                    Always verify the latest entry requirements with the destination country's official immigration authority or your nearest embassy before travelling.
-                    Last updated: <?php echo date('F Y'); ?>.
+                    <?php echo t('bp_disclaimer'); ?>
+                    <?php echo e(t('bp_last_updated')); ?>: <?php echo date('F Y'); ?>.
                 </p>
             </div>
         </div>
