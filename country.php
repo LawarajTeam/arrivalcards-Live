@@ -466,6 +466,96 @@ include __DIR__ . '/includes/header.php';
     font-weight: 600;
     margin-bottom: 1rem;
 }
+
+@media (max-width: 768px) {
+    .country-hero-image {
+        height: 280px;
+    }
+
+    .country-flag-large {
+        font-size: 50px;
+    }
+
+    .country-title-section h1 {
+        font-size: 1.75rem;
+    }
+
+    .country-subtitle {
+        font-size: 0.95rem;
+    }
+
+    .country-hero-content {
+        gap: 1.25rem;
+    }
+
+    .country-main {
+        padding: 1.25rem;
+    }
+
+    .info-card {
+        padding: 1.25rem;
+    }
+
+    .visa-cta {
+        padding: 1.5rem;
+    }
+
+    .visa-cta h2 {
+        font-size: 1.4rem;
+    }
+
+    .highlight-box {
+        padding: 1.25rem;
+    }
+
+    .info-row {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .info-value {
+        text-align: left;
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .country-hero-image {
+        height: 220px;
+    }
+
+    .country-flag-large {
+        font-size: 40px;
+    }
+
+    .country-title-section h1 {
+        font-size: 1.5rem;
+    }
+
+    .country-main {
+        padding: 1rem;
+    }
+
+    .info-card {
+        padding: 1rem;
+    }
+
+    .visa-cta {
+        padding: 1.25rem;
+    }
+
+    .visa-cta h2 {
+        font-size: 1.2rem;
+    }
+
+    .visa-cta-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}
 </style>
 
 <!-- Breadcrumb -->

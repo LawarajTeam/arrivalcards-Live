@@ -18,6 +18,25 @@ trackPageView(null, 'About Us');
 include __DIR__ . '/includes/header.php'; 
 ?>
 
+<style>
+@media (max-width: 768px) {
+    .about-mission { padding: 1.5rem !important; }
+    .about-offer-grid { grid-template-columns: 1fr !important; }
+    .about-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .about-stat-value { font-size: 1.8rem !important; }
+    .about-section-spacing { margin-bottom: 2rem !important; margin-top: 2rem !important; }
+    .about-padded { padding: 1.5rem !important; }
+    .about-cta { padding: 1.5rem !important; }
+}
+@media (max-width: 480px) {
+    .about-stats-grid { grid-template-columns: 1fr !important; }
+    .about-stat-value { font-size: 1.5rem !important; }
+    .about-mission { padding: 1.25rem !important; }
+    .about-padded { padding: 1.25rem !important; }
+    .about-cta { padding: 1.25rem !important; }
+}
+</style>
+
 <section class="countries-section">
     <div class="container">
         <div style="max-width: 900px; margin: 0 auto;">
@@ -27,7 +46,7 @@ include __DIR__ . '/includes/header.php';
             </p>
             
             <!-- Mission Section -->
-            <div style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 2.5rem; border-radius: 12px; margin-bottom: 3rem; box-shadow: 0 4px 16px rgba(30, 58, 138, 0.2);">
+            <div class="about-mission" style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 2.5rem; border-radius: 12px; margin-bottom: 3rem; box-shadow: 0 4px 16px rgba(30, 58, 138, 0.2);">
                 <h2 style="color: white; margin-bottom: 1rem; font-size: 1.8rem;">Our Mission</h2>
                 <p style="font-size: 1.1rem; line-height: 1.8; margin: 0;">
                     At Arrival Cards, we believe that international travel should be accessible and stress-free for everyone. Our mission is to provide clear, accurate, and up-to-date visa and entry requirement information for all 196 countries worldwide, helping millions of travelers prepare confidently for their journeys.
@@ -36,7 +55,7 @@ include __DIR__ . '/includes/header.php';
             
             <!-- What We Offer -->
             <h2 style="margin-top: 3rem;">What We Offer</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0 3rem;">
+            <div class="about-offer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0 3rem;">
                 <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #3b82f6;">
                     <h3 style="color: #1e3a8a; margin-bottom: 0.75rem;">🌍 196 Countries</h3>
                     <p style="color: var(--text-secondary); margin: 0; line-height: 1.7;">
@@ -82,7 +101,7 @@ include __DIR__ . '/includes/header.php';
             
             <!-- Why Choose Us -->
             <h2 style="margin-top: 3rem;">Why Choose Arrival Cards?</h2>
-            <div style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 2rem; border-radius: 8px; margin: 2rem 0;">
+            <div class="about-padded" style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 2rem; border-radius: 8px; margin: 2rem 0;">
                 <p style="line-height: 1.8; margin-bottom: 1rem;">
                     <strong>Comprehensive Coverage:</strong> Unlike scattered resources across the internet, we provide a centralized hub for visa information covering all 196 countries. No more jumping between multiple websites or government portals.
                 </p>
@@ -138,7 +157,7 @@ include __DIR__ . '/includes/header.php';
             </div>
             
             <!-- Contact CTA -->
-            <div style="text-align: center; margin: 3rem 0 2rem; padding: 2.5rem; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 12px;">
+            <div class="about-cta" style="text-align: center; margin: 3rem 0 2rem; padding: 2.5rem; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 12px;">
                 <h2 style="color: #1e3a8a; margin-bottom: 1rem;">Questions or Feedback?</h2>
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.05rem;">
                     We'd love to hear from you! Contact us with questions, corrections, or suggestions.
@@ -152,17 +171,17 @@ include __DIR__ . '/includes/header.php';
             </div>
             
             <!-- Stats -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 3rem 0;">
+            <div class="about-stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 3rem 0;">
                 <div style="text-align: center; padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                    <div style="font-size: 2.5rem; font-weight: bold; color: #3b82f6; margin-bottom: 0.5rem;">196</div>
+                    <div class="about-stat-value" style="font-size: 2.5rem; font-weight: bold; color: #3b82f6; margin-bottom: 0.5rem;">196</div>
                     <div style="color: var(--text-secondary);">Countries Covered</div>
                 </div>
                 <div style="text-align: center; padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                    <div style="font-size: 2.5rem; font-weight: bold; color: #10b981; margin-bottom: 0.5rem;">7</div>
+                    <div class="about-stat-value" style="font-size: 2.5rem; font-weight: bold; color: #10b981; margin-bottom: 0.5rem;">7</div>
                     <div style="color: var(--text-secondary);">Languages Supported</div>
                 </div>
                 <div style="text-align: center; padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                    <div style="font-size: 2.5rem; font-weight: bold; color: #f59e0b; margin-bottom: 0.5rem;">100%</div>
+                    <div class="about-stat-value" style="font-size: 2.5rem; font-weight: bold; color: #f59e0b; margin-bottom: 0.5rem;">100%</div>
                     <div style="color: var(--text-secondary);">Free Service</div>
                 </div>
             </div>

@@ -15,11 +15,23 @@ http_response_code(404);
 
 <?php include __DIR__ . '/includes/header.php'; ?>
 
+<style>
+@media (max-width: 768px) {
+    .error-emoji { font-size: 80px !important; }
+    .error-title { font-size: 2.25rem !important; }
+    .error-links-box { padding: 1.25rem !important; margin-top: 2rem !important; }
+}
+@media (max-width: 480px) {
+    .error-emoji { font-size: 64px !important; }
+    .error-title { font-size: 2rem !important; }
+}
+</style>
+
 <section class="countries-section">
     <div class="container">
         <div style="max-width: 600px; margin: 0 auto; text-align: center;">
-            <div style="font-size: 120px; margin-bottom: 1rem;">🧭</div>
-            <h1 style="font-size: 3rem; margin-bottom: 1rem;">404</h1>
+            <div class="error-emoji" style="font-size: 120px; margin-bottom: 1rem;">🧭</div>
+            <h1 class="error-title" style="font-size: 3rem; margin-bottom: 1rem;">404</h1>
             <h2 style="color: var(--text-secondary); margin-bottom: 2rem;">Page Not Found</h2>
             <p style="font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 2rem;">
                 Sorry, the page you're looking for doesn't exist or has been moved.
@@ -37,7 +49,7 @@ http_response_code(404);
                 </a>
             </div>
             
-            <div style="margin-top: 3rem; padding: 2rem; background-color: var(--bg-secondary); border-radius: var(--radius-lg);">
+            <div class="error-links-box" style="margin-top: 3rem; padding: 2rem; background-color: var(--bg-secondary); border-radius: var(--radius-lg);">
                 <h3 style="margin-bottom: 1rem;">Quick Links</h3>
                 <ul style="list-style: none; padding: 0;">
                     <li style="margin-bottom: 0.5rem;">

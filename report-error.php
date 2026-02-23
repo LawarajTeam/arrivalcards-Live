@@ -290,6 +290,36 @@ textarea.form-control {
 .info-box p:last-child {
     margin-bottom: 0;
 }
+
+@media (max-width: 768px) {
+    .page-header {
+        padding: var(--spacing-lg) 0;
+    }
+
+    .report-form {
+        padding: var(--spacing-md);
+    }
+
+    .btn-lg {
+        width: 100%;
+        text-align: center;
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+
+    .info-box {
+        padding: var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .report-form {
+        padding: var(--spacing-sm);
+    }
+
+    .btn-lg {
+        font-size: var(--font-size-base);
+    }
+}
 </style>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>

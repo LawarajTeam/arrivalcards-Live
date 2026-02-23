@@ -523,17 +523,88 @@ include __DIR__ . '/includes/header.php'; ?>
 }
 
 @media (max-width: 768px) {
+    .ranking-hero {
+        padding: 40px 0 50px;
+    }
+
     .ranking-hero h1 {
         font-size: 2rem;
     }
-    
+
+    .ranking-hero-subtitle {
+        font-size: 1.05rem;
+    }
+
+    .ranking-stat-value {
+        font-size: 1.8rem;
+    }
+
+    .ranking-stats-grid {
+        gap: 1rem;
+    }
+
+    .ranking-table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
     .ranking-table {
         font-size: 0.85rem;
+        min-width: 600px;
     }
     
     .visa-breakdown {
         flex-direction: column;
         gap: 0.3rem;
+    }
+
+    .ranking-table-section {
+        padding: 40px 0;
+    }
+
+    .country-flag {
+        font-size: 1.5rem;
+    }
+
+    .rank-badge {
+        width: 34px;
+        height: 34px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ranking-hero {
+        padding: 30px 0 40px;
+    }
+
+    .ranking-hero h1 {
+        font-size: 1.6rem;
+    }
+
+    .ranking-hero-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .ranking-stat-value {
+        font-size: 1.5rem;
+    }
+
+    .ranking-stat-card {
+        padding: 1rem;
+    }
+
+    .ranking-stat-label {
+        font-size: 0.85rem;
+    }
+
+    .ranking-stats-grid {
+        margin-top: 2rem;
+    }
+
+    .note-section {
+        padding: 1rem;
     }
 }
 </style>

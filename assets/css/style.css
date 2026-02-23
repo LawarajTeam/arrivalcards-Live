@@ -230,6 +230,38 @@ a:hover {
 @media (max-width: 768px) {
     .main-nav {
         display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bg-primary);
+        border-top: 1px solid var(--border-color);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        padding: var(--spacing-sm) 0;
+        z-index: 999;
+    }
+
+    .main-nav.mobile-open {
+        display: flex;
+    }
+
+    .main-nav .nav-link {
+        padding: var(--spacing-md) var(--spacing-lg);
+        border-radius: 0;
+        font-size: var(--font-size-base);
+    }
+
+    .main-nav .nav-link:hover {
+        background-color: var(--bg-secondary);
+    }
+
+    .lang-label {
+        display: none;
+    }
+
+    .lang-dropdown-btn {
+        padding: var(--spacing-xs) var(--spacing-sm);
     }
 }
 

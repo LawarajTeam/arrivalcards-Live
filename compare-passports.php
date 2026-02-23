@@ -525,12 +525,117 @@ include __DIR__ . '/includes/header.php'; ?>
         grid-template-columns: 1fr;
     }
     
+    .compare-hero {
+        padding: 40px 0;
+    }
+
     .compare-hero h1 {
         font-size: 2rem;
     }
 
+    .compare-hero-subtitle {
+        font-size: 1.05rem;
+    }
+
+    .passport-flag-large {
+        font-size: 3rem;
+    }
+
+    .passport-name {
+        font-size: 1.2rem;
+    }
+
+    .winner-badge {
+        font-size: 2rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .destinations-table {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .destinations-table table {
+        min-width: 600px;
+    }
+
+    .destinations-table th,
+    .destinations-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
     .howto-steps {
         grid-template-columns: 1fr;
+    }
+
+    .howto-section {
+        padding: 35px 0 20px;
+    }
+
+    .howto-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .howto-intro {
+        font-size: 1rem;
+    }
+
+    .results-section {
+        padding: 40px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .compare-hero h1 {
+        font-size: 1.6rem;
+    }
+
+    .compare-hero-subtitle {
+        font-size: 0.95rem;
+    }
+
+    .passport-selector {
+        padding: 1.25rem;
+    }
+
+    .passport-stats-card {
+        padding: 1.25rem;
+    }
+
+    .passport-flag-large {
+        font-size: 2.5rem;
+    }
+
+    .passport-name {
+        font-size: 1.1rem;
+    }
+
+    .stat-label {
+        font-size: 0.85rem;
+    }
+
+    .stat-value {
+        font-size: 0.95rem;
+    }
+
+    .winner-badge {
+        font-size: 1.5rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .compare-btn {
+        font-size: 1rem;
+        padding: 0.875rem 1.5rem;
+    }
+
+    .howto-step {
+        padding: 1.25rem;
+    }
+
+    .howto-tip {
+        font-size: 0.875rem;
+        padding: 0.875rem 1rem;
     }
 }
 </style>

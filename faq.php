@@ -195,6 +195,48 @@ include __DIR__ . '/includes/header.php';
 .faq-toc a:hover {
     text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+    .faq-toc {
+        padding: 1.25rem;
+        margin-bottom: 2rem;
+    }
+
+    .faq-category {
+        padding: 1.25rem;
+    }
+
+    .faq-answer {
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    .faq-question {
+        font-size: 1rem;
+    }
+
+    .faq-highlight {
+        padding: 0.875rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .faq-toc {
+        padding: 1rem;
+    }
+
+    .faq-category {
+        padding: 1rem;
+    }
+
+    .faq-question {
+        font-size: 0.95rem;
+    }
+
+    .faq-answer ul, .faq-answer ol {
+        padding-left: 1rem;
+    }
+}
 </style>
 
 <section class="countries-section">
