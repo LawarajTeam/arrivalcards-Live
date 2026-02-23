@@ -11,43 +11,42 @@ $pageTitle = 'Best Passports in the World 2026 - Global Ranking | Arrival Cards'
 $pageDescription = 'Comprehensive ranking of the world\'s most powerful passports by visa-free access. Compare passport strength, find which countries offer the best travel freedom, and see detailed visa statistics for 196 passports.';
 $pageKeywords = 'best passports, passport ranking, strongest passport, most powerful passport, visa free countries, passport index, global mobility, travel freedom, passport power, citizenship by investment';
 
-// Get passports with their personalized data counts
-$query = "
+// Get all country info from DB (for flag, name, region)
+$countryQuery = "
     SELECT 
         c.id,
         c.country_code,
         ct.country_name,
         c.flag_emoji,
-        c.region,
+        c.region
+    FROM countries c
+    LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = 'en'
+    WHERE c.is_active = 1
+";
+$stmt = $pdo->query($countryQuery);
+$countryLookup = [];
+foreach ($stmt->fetchAll() as $row) {
+    $countryLookup[$row['country_code']] = $row;
+}
+
+// Get bilateral data where available (for detailed breakdown)
+$bilateralQuery = "
+    SELECT 
+        c.country_code,
         COUNT(DISTINCT b.to_country_id) as destinations_with_data,
         SUM(CASE WHEN b.visa_type = 'visa_free' THEN 1 ELSE 0 END) as visa_free_count,
         SUM(CASE WHEN b.visa_type = 'visa_on_arrival' THEN 1 ELSE 0 END) as voa_count,
         SUM(CASE WHEN b.visa_type = 'evisa' THEN 1 ELSE 0 END) as evisa_count,
         SUM(CASE WHEN b.visa_type = 'visa_required' THEN 1 ELSE 0 END) as visa_required_count
     FROM countries c
-    LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = 'en'
-    LEFT JOIN bilateral_visa_requirements b ON c.id = b.from_country_id
-    GROUP BY c.id, c.country_code, ct.country_name, c.flag_emoji, c.region
-    HAVING destinations_with_data > 0
-    ORDER BY visa_free_count DESC, voa_count DESC
+    INNER JOIN bilateral_visa_requirements b ON c.id = b.from_country_id
+    GROUP BY c.country_code
 ";
-
-$stmt = $pdo->query($query);
-$passports = $stmt->fetchAll();
-
-// Calculate easy access (visa-free + VoA)
-foreach ($passports as &$passport) {
-    $passport['easy_access'] = $passport['visa_free_count'] + $passport['voa_count'];
+$stmt = $pdo->query($bilateralQuery);
+$bilateralLookup = [];
+foreach ($stmt->fetchAll() as $row) {
+    $bilateralLookup[$row['country_code']] = $row;
 }
-unset($passport);
-
-// Sort by easy access
-usort($passports, function($a, $b) {
-    if ($a['easy_access'] == $b['easy_access']) {
-        return $b['visa_free_count'] - $a['visa_free_count'];
-    }
-    return $b['easy_access'] - $a['easy_access'];
-});
 
 // Known rankings (Henley Passport Index Q1 2025 reference data)
 $knownRankings = [
@@ -225,22 +224,41 @@ $knownRankings = [
     'AFG' => ['rank' => 58, 'global_visa_free' => 38],
 ];
 
-// Add ranking info to passports
-foreach ($passports as &$passport) {
-    if (isset($knownRankings[$passport['country_code']])) {
-        $passport['global_rank'] = $knownRankings[$passport['country_code']]['rank'];
-        $passport['global_visa_free'] = $knownRankings[$passport['country_code']]['global_visa_free'];
-    }
+// Build the passports array from knownRankings (sorted by rank, then visa_free)
+$passports = [];
+foreach ($knownRankings as $code => $ranking) {
+    $country = $countryLookup[$code] ?? null;
+    $bilateral = $bilateralLookup[$code] ?? null;
+    
+    $passports[] = [
+        'id' => $country['id'] ?? null,
+        'country_code' => $code,
+        'country_name' => $country['country_name'] ?? $code,
+        'flag_emoji' => $country['flag_emoji'] ?? '',
+        'region' => $country['region'] ?? '',
+        'global_rank' => $ranking['rank'],
+        'global_visa_free' => $ranking['global_visa_free'],
+        'easy_access' => $ranking['global_visa_free'], // Use Henley data as the primary metric
+        // Use bilateral data if available, otherwise estimate from global_visa_free
+        'visa_free_count' => $bilateral['visa_free_count'] ?? null,
+        'voa_count' => $bilateral['voa_count'] ?? null,
+        'evisa_count' => $bilateral['evisa_count'] ?? null,
+        'visa_required_count' => $bilateral['visa_required_count'] ?? null,
+        'has_bilateral_data' => ($bilateral !== null),
+    ];
 }
-unset($passport);
+
+// Sort by global rank (ascending), then by global_visa_free (descending) for ties
+usort($passports, function($a, $b) {
+    if ($a['global_rank'] == $b['global_rank']) {
+        return $b['global_visa_free'] - $a['global_visa_free'];
+    }
+    return $a['global_rank'] - $b['global_rank'];
+});
 
 // Get statistics
 $totalPassportsWithData = count($passports);
-$avgVisaFree = round(array_sum(array_column($passports, 'visa_free_count')) / max($totalPassportsWithData, 1), 1);
-$avgEasyAccess = round(array_sum(array_column($passports, 'easy_access')) / max($totalPassportsWithData, 1), 1);
-
-// Limit display to top 100 passports
-$passports = array_slice($passports, 0, 100);
+$avgVisaFree = round(array_sum(array_column($passports, 'global_visa_free')) / max($totalPassportsWithData, 1), 0);
 
 // ItemList structured data for rich results (top 10 passports)
 $topPassports = array_slice($passports, 0, 10);
@@ -534,12 +552,12 @@ include __DIR__ . '/includes/header.php'; ?>
                     <div class="ranking-stat-label">Passports Ranked</div>
                 </div>
                 <div class="ranking-stat-card">
-                    <div class="ranking-stat-value"><?php echo $avgVisaFree; ?></div>
-                    <div class="ranking-stat-label">Avg Visa-Free Access</div>
+                    <div class="ranking-stat-value"><?php echo $passports[0]['global_visa_free'] ?? '—'; ?></div>
+                    <div class="ranking-stat-label">#1 Passport (Visa-Free)</div>
                 </div>
                 <div class="ranking-stat-card">
-                    <div class="ranking-stat-value"><?php echo $avgEasyAccess; ?></div>
-                    <div class="ranking-stat-label">Avg Easy Access</div>
+                    <div class="ranking-stat-value"><?php echo $avgVisaFree; ?></div>
+                    <div class="ranking-stat-label">Avg Visa-Free Access</div>
                 </div>
             </div>
         </div>
@@ -553,9 +571,9 @@ include __DIR__ . '/includes/header.php'; ?>
         <div class="note-section">
             <h3>📊 About This Ranking</h3>
             <p>
-                This ranking shows passports based on <strong>visa-free access + visa on arrival</strong> destinations, 
-                using data available on Arrival Cards. Global rankings are from the Henley Passport Index 2026. 
-                The more destinations you can visit without advance visa application, the more powerful your passport.
+                Passport rankings based on the <strong>Henley Passport Index</strong>, which measures the number of destinations 
+                each passport can access visa-free or with visa on arrival. Data sourced from IATA and verified against official 
+                government immigration websites. The higher the visa-free score, the more powerful the passport.
             </p>
         </div>
         
@@ -565,22 +583,19 @@ include __DIR__ . '/includes/header.php'; ?>
                     <tr>
                         <th style="width: 60px; text-align: center;">Rank</th>
                         <th>Country</th>
-                        <th style="text-align: center;">Global Rank</th>
-                        <th style="text-align: center;">Easy Access</th>
-                        <th>Visa Breakdown</th>
+                        <th style="text-align: center;">Visa-Free Score</th>
+                        <th style="text-align: center;">Visa-Free Destinations</th>
+                        <th>Details</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php 
-                    $currentRank = 0;
-                    $lastEasyAccess = -1;
+                    $lastRank = -1;
+                    $displayRank = 0;
                     
                     foreach ($passports as $index => $passport): 
-                        // Assign rank (handle ties)
-                        if ($passport['easy_access'] != $lastEasyAccess) {
-                            $currentRank = $index + 1;
-                            $lastEasyAccess = $passport['easy_access'];
-                        }
+                        // Use the Henley rank directly
+                        $currentRank = $passport['global_rank'];
                         
                         // Determine rank badge class
                         $rankClass = 'rank-other';
@@ -588,11 +603,15 @@ include __DIR__ . '/includes/header.php'; ?>
                         elseif ($currentRank == 2) $rankClass = 'rank-2';
                         elseif ($currentRank == 3) $rankClass = 'rank-3';
                         
-                        // Determine access badge
+                        // Determine access badge based on visa-free score
+                        $vf = $passport['global_visa_free'];
                         $accessClass = 'access-limited';
-                        if ($passport['easy_access'] >= 15) $accessClass = 'access-excellent';
-                        elseif ($passport['easy_access'] >= 10) $accessClass = 'access-good';
-                        elseif ($passport['easy_access'] >= 5) $accessClass = 'access-moderate';
+                        if ($vf >= 170) $accessClass = 'access-excellent';
+                        elseif ($vf >= 140) $accessClass = 'access-good';
+                        elseif ($vf >= 100) $accessClass = 'access-moderate';
+                        
+                        // Link to country page if we have it
+                        $countryLink = $passport['id'] ? 'country.php?id=' . $passport['id'] : null;
                     ?>
                     <tr>
                         <td style="text-align: center;">
@@ -604,30 +623,33 @@ include __DIR__ . '/includes/header.php'; ?>
                             <div class="country-info">
                                 <span class="country-flag"><?php echo e($passport['flag_emoji']); ?></span>
                                 <div class="country-name-col">
-                                    <span class="country-name-main"><?php echo e($passport['country_name']); ?></span>
-                                    <span class="country-code"><?php echo e($passport['country_code']); ?> • <?php echo e($passport['region']); ?></span>
+                                    <?php if ($countryLink): ?>
+                                        <a href="<?php echo $countryLink; ?>" style="text-decoration: none;">
+                                            <span class="country-name-main"><?php echo e($passport['country_name']); ?></span>
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="country-name-main"><?php echo e($passport['country_name']); ?></span>
+                                    <?php endif; ?>
+                                    <span class="country-code"><?php echo e($passport['country_code']); ?><?php if ($passport['region']): ?> • <?php echo e($passport['region']); ?><?php endif; ?></span>
                                 </div>
                             </div>
                         </td>
                         <td style="text-align: center;">
-                            <?php if (isset($passport['global_rank'])): ?>
-                                <span class="global-rank-badge">
-                                    #<?php echo $passport['global_rank']; ?> (<?php echo $passport['global_visa_free']; ?> visa-free)
-                                </span>
-                            <?php else: ?>
-                                <span style="color: #6c757d;">—</span>
-                            <?php endif; ?>
+                            <span class="access-badge <?php echo $accessClass; ?>">
+                                <?php echo $passport['global_visa_free']; ?> destinations
+                            </span>
                         </td>
                         <td style="text-align: center;">
-                            <span class="access-badge <?php echo $accessClass; ?>">
-                                <?php echo $passport['easy_access']; ?> countries
+                            <span class="global-rank-badge">
+                                <?php echo $passport['global_visa_free']; ?> visa-free
                             </span>
                         </td>
                         <td>
+                            <?php if ($passport['has_bilateral_data']): ?>
                             <div class="visa-breakdown">
                                 <div class="visa-type-count">
                                     <span class="visa-icon visa-icon-free"></span>
-                                    <span><?php echo $passport['visa_free_count']; ?> visa-free</span>
+                                    <span><?php echo $passport['visa_free_count']; ?> free</span>
                                 </div>
                                 <div class="visa-type-count">
                                     <span class="visa-icon visa-icon-voa"></span>
@@ -639,9 +661,16 @@ include __DIR__ . '/includes/header.php'; ?>
                                 </div>
                                 <div class="visa-type-count">
                                     <span class="visa-icon visa-icon-required"></span>
-                                    <span><?php echo $passport['visa_required_count']; ?> visa req.</span>
+                                    <span><?php echo $passport['visa_required_count']; ?> req.</span>
                                 </div>
                             </div>
+                            <?php else: ?>
+                                <?php if ($countryLink): ?>
+                                    <a href="<?php echo $countryLink; ?>" style="color: #667eea; text-decoration: none; font-size: 0.85rem;">View details →</a>
+                                <?php else: ?>
+                                    <span style="color: #6c757d; font-size: 0.85rem;">—</span>
+                                <?php endif; ?>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -652,14 +681,14 @@ include __DIR__ . '/includes/header.php'; ?>
         <div class="note-section" style="margin-top: 3rem;">
             <h3>🔍 How to Read This Table</h3>
             <p>
-                <strong>Rank:</strong> Based on easy access (visa-free + visa on arrival) from our database.<br>
-                <strong>Global Rank:</strong> Henley Passport Index ranking (see sources below).<br>
-                <strong>Easy Access:</strong> Countries you can visit without applying for visa in advance.<br>
-                <strong>Visa Breakdown:</strong>
-                <span style="color: #28a745;">● Visa-free</span> (no visa needed) |
+                <strong>Rank:</strong> Henley Passport Index position (shared ranks indicate equal visa-free access).<br>
+                <strong>Visa-Free Score:</strong> Total destinations accessible without an advance visa (visa-free + visa on arrival).<br>
+                <strong>Details:</strong> Where available, shows our detailed breakdown —
+                <span style="color: #28a745;">● Visa-free</span> |
                 <span style="color: #17a2b8;">● VoA</span> (visa at airport) |
                 <span style="color: #ffc107;">● eVisa</span> (apply online) |
-                <span style="color: #dc3545;">● Visa required</span> (embassy application)
+                <span style="color: #dc3545;">● Visa required</span> (embassy application).<br>
+                Click a country name to view its full visa requirements for Australian passport holders.
             </p>
         </div>
 
