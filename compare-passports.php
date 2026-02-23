@@ -37,7 +37,7 @@ $comparisonData = null;
 
 if ($passport1 && $passport2 && $passport1 !== $passport2) {
     // Get passport 1 details
-    $stmt = $pdo->prepare("SELECT id, country_code, country_name, flag_emoji FROM countries WHERE country_code = ?");
+    $stmt = $pdo->prepare("SELECT c.id, c.country_code, ct.country_name, c.flag_emoji FROM countries c LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = 'en' WHERE c.country_code = ?");
     $stmt->execute([$passport1]);
     $p1Details = $stmt->fetch();
     
@@ -51,7 +51,7 @@ if ($passport1 && $passport2 && $passport1 !== $passport2) {
             SELECT 
                 dest.id as dest_id,
                 dest.country_code as dest_code,
-                dest.country_name as dest_name,
+                dest_ct.country_name as dest_name,
                 dest.flag_emoji as dest_flag,
                 dest.region as dest_region,
                 p1.visa_type as p1_visa_type,
@@ -65,11 +65,12 @@ if ($passport1 && $passport2 && $passport1 !== $passport2) {
                 p2.processing_time_days as p2_processing,
                 p2.approval_rate_percent as p2_approval
             FROM countries dest
+            LEFT JOIN country_translations dest_ct ON dest.id = dest_ct.country_id AND dest_ct.lang_code = 'en'
             LEFT JOIN bilateral_visa_requirements p1 ON (dest.id = p1.to_country_id AND p1.from_country_id = ?)
             LEFT JOIN bilateral_visa_requirements p2 ON (dest.id = p2.to_country_id AND p2.from_country_id = ?)
             WHERE (p1.id IS NOT NULL OR p2.id IS NOT NULL)
                 AND dest.id != ? AND dest.id != ?
-            ORDER BY dest.country_name
+            ORDER BY dest_ct.country_name
         ";
         
         $stmt = $pdo->prepare($query);
