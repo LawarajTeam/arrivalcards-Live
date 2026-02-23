@@ -17,7 +17,7 @@ header('Cache-Control: max-age=3600, public');
 
 // Get all active countries from database
 try {
-    $stmt = $pdo->prepare("SELECT id, code, updated_at FROM countries WHERE is_active = 1 ORDER BY code ASC");
+    $stmt = $pdo->prepare("SELECT id, country_code, updated_at FROM countries WHERE is_active = 1 ORDER BY country_code ASC");
     $stmt->execute();
     $countries = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -43,8 +43,9 @@ $baseUrl = rtrim(APP_URL, '/');
 // Current date for lastmod
 $today = date('Y-m-d');
 
-// Calculate total URLs
-$totalUrls = count($languages) + (count($countries) * count($languages)) + (7 * count($languages));
+// Calculate total URLs (homepage + countries + static pages, each × languages)
+$staticPageCount = 8; // best-passports, compare-passports, faq, about, contact, privacy, report-error, terms
+$totalUrls = count($languages) + (count($countries) * count($languages)) + ($staticPageCount * count($languages));
 
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
@@ -93,7 +94,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
     
     foreach ($countries as $country): 
         $countryId = $country['id'];
-        $countryCode = $country['code'];
+        $countryCode = $country['country_code'];
         $isPopular = in_array($countryCode, $popularCountries);
         $priority = $isPopular ? '0.9' : '0.8';
         $lastMod = isset($country['updated_at']) && $country['updated_at'] 
@@ -164,6 +165,12 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
             'priority' => '0.6', 
             'changefreq' => 'monthly',
             'description' => 'Report incorrect visa information'
+        ],
+        [
+            'file' => 'terms.php', 
+            'priority' => '0.5', 
+            'changefreq' => 'yearly',
+            'description' => 'Terms of service'
         ]
     ];
     
