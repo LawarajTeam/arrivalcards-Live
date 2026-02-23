@@ -249,3 +249,63 @@ CREATE TABLE `visa_research_progress` (
   UNIQUE KEY `country_code` (`country_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=196 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- ------------------------------------------------------------------
+-- Table: bilateral_visa_requirements (passport personalization)
+-- ------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bilateral_visa_requirements` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `from_country_id` INT UNSIGNED NOT NULL COMMENT 'Passport holder country',
+  `to_country_id` INT UNSIGNED NOT NULL COMMENT 'Destination country',
+  `visa_type` ENUM('visa_free', 'visa_on_arrival', 'evisa', 'visa_required', 'no_entry') NOT NULL DEFAULT 'visa_required',
+  `duration_days` INT NULL,
+  `cost_usd` DECIMAL(10,2) NULL,
+  `cost_local_currency` VARCHAR(20) NULL,
+  `processing_time_days` INT NULL,
+  `requirements_summary` TEXT NULL,
+  `application_process` TEXT NULL,
+  `special_notes` TEXT NULL,
+  `approval_rate_percent` TINYINT UNSIGNED NULL,
+  `is_verified` BOOLEAN DEFAULT FALSE,
+  `data_source` VARCHAR(255) NULL,
+  `last_updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX `idx_from_country` (`from_country_id`),
+  INDEX `idx_to_country` (`to_country_id`),
+  INDEX `idx_visa_type` (`visa_type`),
+  INDEX `idx_from_to` (`from_country_id`, `to_country_id`),
+  UNIQUE KEY `unique_bilateral` (`from_country_id`, `to_country_id`),
+  CONSTRAINT `fk_from_country` FOREIGN KEY (`from_country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_to_country` FOREIGN KEY (`to_country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `chk_different_countries` CHECK (`from_country_id` != `to_country_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------------
+-- Table: user_preferences (passport selections)
+-- ------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `user_preferences` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `session_id` VARCHAR(255) NOT NULL,
+  `selected_passport_country_id` INT UNSIGNED NULL,
+  `last_accessed` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX `idx_session` (`session_id`),
+  INDEX `idx_passport` (`selected_passport_country_id`),
+  CONSTRAINT `fk_passport_country` FOREIGN KEY (`selected_passport_country_id`) REFERENCES `countries` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------------
+-- Table: personalization_stats
+-- ------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `personalization_stats` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `passport_country_id` INT UNSIGNED NOT NULL,
+  `destination_country_id` INT UNSIGNED NULL,
+  `action_type` ENUM('passport_selected', 'country_viewed', 'filter_used') NOT NULL,
+  `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX `idx_passport_stats` (`passport_country_id`),
+  INDEX `idx_destination_stats` (`destination_country_id`),
+  INDEX `idx_timestamp` (`timestamp`),
+  CONSTRAINT `fk_passport_stats` FOREIGN KEY (`passport_country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_destination_stats` FOREIGN KEY (`destination_country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
