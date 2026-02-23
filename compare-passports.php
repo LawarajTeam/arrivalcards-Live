@@ -424,6 +424,94 @@ include __DIR__ . '/includes/header.php'; ?>
     font-weight: 600;
 }
 
+/* How to Use Section */
+.howto-section {
+    padding: 50px 0 30px;
+    background: #fff;
+}
+
+.howto-section h2 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.75rem;
+}
+
+.howto-intro {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 750px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.6;
+}
+
+.howto-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 960px;
+    margin: 0 auto 2rem;
+}
+
+.howto-step {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 15px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.howto-step:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.howto-step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 700;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.howto-step h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.howto-step p {
+    font-size: 0.95rem;
+    color: #6c757d;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.howto-tip {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #667eea;
+    background: #f0f2ff;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.howto-tip strong {
+    color: #5a67d8;
+}
+
 @media (max-width: 768px) {
     .selector-grid {
         grid-template-columns: 1fr;
@@ -440,6 +528,10 @@ include __DIR__ . '/includes/header.php'; ?>
     .compare-hero h1 {
         font-size: 2rem;
     }
+
+    .howto-steps {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 
@@ -451,6 +543,34 @@ include __DIR__ . '/includes/header.php'; ?>
             <p class="compare-hero-subtitle">
                 <?php echo e(t('cp_hero_subtitle')); ?>
             </p>
+        </div>
+    </div>
+</section>
+
+<!-- How to Use Section -->
+<section class="howto-section">
+    <div class="container">
+        <h2><?php echo e(t('cp_howto_title')); ?></h2>
+        <p class="howto-intro"><?php echo e(t('cp_howto_intro')); ?></p>
+        <div class="howto-steps">
+            <div class="howto-step">
+                <div class="howto-step-number">1</div>
+                <h3><?php echo e(t('cp_howto_step1_title')); ?></h3>
+                <p><?php echo e(t('cp_howto_step1_text')); ?></p>
+            </div>
+            <div class="howto-step">
+                <div class="howto-step-number">2</div>
+                <h3><?php echo e(t('cp_howto_step2_title')); ?></h3>
+                <p><?php echo e(t('cp_howto_step2_text')); ?></p>
+            </div>
+            <div class="howto-step">
+                <div class="howto-step-number">3</div>
+                <h3><?php echo e(t('cp_howto_step3_title')); ?></h3>
+                <p><?php echo e(t('cp_howto_step3_text')); ?></p>
+            </div>
+        </div>
+        <div class="howto-tip">
+            <strong>💡 <?php echo e(t('cp_howto_tip_label')); ?></strong> <?php echo e(t('cp_howto_tip_text')); ?>
         </div>
     </div>
 </section>
