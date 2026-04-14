@@ -3,8 +3,8 @@
 # Enable Rewrite Engine
 RewriteEngine On
 
-# Set base directory
-RewriteBase /ArrivalCards/
+# Set base directory (use / for production root domain, /ArrivalCards/ for local dev)
+RewriteBase /
 
 # Security: Block access to sensitive files
 <FilesMatch "^\.(?!well-known)">
@@ -28,8 +28,8 @@ RewriteBase /ArrivalCards/
 Options -Indexes
 
 # Custom Error Pages
-ErrorDocument 404 /ArrivalCards/404.php
-ErrorDocument 500 /ArrivalCards/error.php
+ErrorDocument 404 /404.php
+ErrorDocument 500 /error.php
 
 # Force HTTPS in production (uncomment when live)
 # RewriteCond %{HTTPS} off

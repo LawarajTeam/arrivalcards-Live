@@ -587,6 +587,7 @@ include __DIR__ . '/includes/header.php';
 <!-- Main Content -->
 <div class="container">
     <!-- Top Visa CTA -->
+    <?php if (!empty($country['official_url'])): ?>
     <div class="visa-cta-top">
         <div>
             <h3>🎫 <?php echo t('ready_to_apply'); ?></h3>
@@ -600,6 +601,7 @@ include __DIR__ . '/includes/header.php';
             </svg>
         </a>
     </div>
+    <?php endif; ?>
 
     <div class="country-content">
         <!-- Main Column -->
@@ -958,6 +960,7 @@ include __DIR__ . '/includes/header.php';
     </div>
 
     <!-- Bottom Visa CTA -->
+    <?php if (!empty($country['official_url'])): ?>
     <div class="visa-cta">
         <h2>🎫 <?php echo t('ready_to_apply'); ?></h2>
         <p style="margin-bottom: 1.5rem; font-size: 1.1rem; opacity: 0.95;">
@@ -971,6 +974,7 @@ include __DIR__ . '/includes/header.php';
             </svg>
         </a>
     </div>
+    <?php endif; ?>
 
     <!-- User Feedback Widget -->
     <div id="feedback-widget" style="background: white; border-radius: 12px; padding: 1.5rem 2rem; margin-top: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
