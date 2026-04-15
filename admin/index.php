@@ -97,6 +97,43 @@ $recentContacts = $stmt->fetchAll();
             </div>
         </div>
         
+        <!-- Sitemap Management -->
+        <div class="admin-section">
+            <div class="section-header">
+                <h2>Sitemap</h2>
+                <?php
+                $sitemapFile = __DIR__ . '/../sitemap.xml';
+                $sitemapExists = file_exists($sitemapFile);
+                $sitemapSize = $sitemapExists ? round(filesize($sitemapFile) / 1024, 1) : 0;
+                $sitemapDate = $sitemapExists ? date('M d, Y g:i A', filemtime($sitemapFile)) : 'Never';
+                // Count <url> tags as a proxy for URL count
+                $urlCount = 0;
+                if ($sitemapExists) {
+                    $urlCount = substr_count(file_get_contents($sitemapFile), '<url>');
+                }
+                ?>
+                <a href="<?php echo APP_URL; ?>/sitemap.xml" target="_blank" class="btn btn-secondary">View sitemap.xml</a>
+            </div>
+            <div style="display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; margin-bottom:1rem;">
+                <div>
+                    <span style="color:var(--text-secondary);">Last generated:</span>
+                    <strong><?php echo $sitemapDate; ?></strong>
+                </div>
+                <div>
+                    <span style="color:var(--text-secondary);">URLs:</span>
+                    <strong><?php echo $urlCount > 0 ? number_format($urlCount) : '—'; ?></strong>
+                </div>
+                <div>
+                    <span style="color:var(--text-secondary);">File size:</span>
+                    <strong><?php echo $sitemapSize > 0 ? $sitemapSize . ' KB' : '—'; ?></strong>
+                </div>
+            </div>
+            <button id="generate-sitemap-btn" class="btn btn-primary" style="min-width:180px;">
+                Generate Sitemap Now
+            </button>
+            <span id="sitemap-status" style="margin-left:1rem; font-weight:500;"></span>
+        </div>
+        
         <!-- Recent Contact Submissions -->
         <div class="admin-section">
             <div class="section-header">
@@ -192,5 +229,33 @@ $recentContacts = $stmt->fetchAll();
     
     <script src="<?php echo APP_URL; ?>/assets/js/admin.js"></script>
     <script src="<?php echo APP_URL; ?>/assets/js/main.js"></script>
-</body>
-</html>
+    <script>
+    document.getElementById('generate-sitemap-btn').addEventListener('click', function() {
+        const btn = this;
+        const status = document.getElementById('sitemap-status');
+        btn.disabled = true;
+        btn.textContent = 'Generating…';
+        status.textContent = '';
+        status.style.color = '';
+
+        fetch('<?php echo APP_URL; ?>/admin/generate_sitemap_cron.php', { method: 'GET', credentials: 'same-origin' })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    status.textContent = '✓ Done! ' + data.countries + ' countries, ' + data.total_urls + ' URLs, ' + Math.round(data.file_size / 1024) + ' KB';
+                    status.style.color = '#10b981';
+                } else {
+                    status.textContent = '✗ Error: ' + (data.error || 'Unknown error');
+                    status.style.color = '#ef4444';
+                }
+            })
+            .catch(() => {
+                status.textContent = '✗ Request failed. Check server logs.';
+                status.style.color = '#ef4444';
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.textContent = 'Generate Sitemap Now';
+            });
+    });
+    </script>

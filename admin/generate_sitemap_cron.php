@@ -80,14 +80,14 @@ try {
     <!-- HOMEPAGE -->
     <?php foreach ($languages as $lang): ?>
     <url>
-        <loc><?php echo $baseUrl; ?>/?lang=<?php echo $lang; ?></loc>
+        <loc><?php echo $baseUrl; ?>/<?php echo $lang; ?>/</loc>
         <lastmod><?php echo $today; ?></lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
         <?php foreach ($languages as $altLang): ?>
-        <xhtml:link rel="alternate" hreflang="<?php echo $altLang; ?>" href="<?php echo $baseUrl; ?>/?lang=<?php echo $altLang; ?>"/>
+        <xhtml:link rel="alternate" hreflang="<?php echo $altLang; ?>" href="<?php echo $baseUrl; ?>/<?php echo $altLang; ?>/"/>
         <?php endforeach; ?>
-        <xhtml:link rel="alternate" hreflang="x-default" href="<?php echo $baseUrl; ?>/?lang=en"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="<?php echo $baseUrl; ?>/en/"/>
     </url>
     <?php endforeach; ?>
     
