@@ -232,26 +232,32 @@ $recentContacts = $stmt->fetchAll();
     <script>
     document.getElementById('generate-sitemap-btn').addEventListener('click', function() {
         const btn = this;
-        const status = document.getElementById('sitemap-status');
+        const status_el = document.getElementById('sitemap-status');
         btn.disabled = true;
         btn.textContent = 'Generating…';
-        status.textContent = '';
-        status.style.color = '';
+        status_el.textContent = '';
+        status_el.style.color = '';
 
         fetch('<?php echo APP_URL; ?>/admin/generate_sitemap_cron.php', { method: 'GET', credentials: 'same-origin' })
-            .then(r => r.json())
-            .then(data => {
-                if (data.success) {
-                    status.textContent = '✓ Done! ' + data.countries + ' countries, ' + data.total_urls + ' URLs, ' + Math.round(data.file_size / 1024) + ' KB';
-                    status.style.color = '#10b981';
-                } else {
-                    status.textContent = '✗ Error: ' + (data.error || 'Unknown error');
-                    status.style.color = '#ef4444';
+            .then(r => r.text().then(text => ({ ok: r.ok, status: r.status, text })))
+            .then(({ ok, status, text }) => {
+                try {
+                    const data = JSON.parse(text);
+                    if (data.success) {
+                        status_el.textContent = '✓ Done! ' + data.countries + ' countries, ' + data.total_urls + ' URLs, ' + Math.round(data.file_size / 1024) + ' KB';
+                        status_el.style.color = '#10b981';
+                    } else {
+                        status_el.textContent = '✗ Error: ' + (data.error || 'Unknown error');
+                        status_el.style.color = '#ef4444';
+                    }
+                } catch (e) {
+                    status_el.textContent = '✗ HTTP ' + status + ': ' + text.substring(0, 200);
+                    status_el.style.color = '#ef4444';
                 }
             })
-            .catch(() => {
-                status.textContent = '✗ Request failed. Check server logs.';
-                status.style.color = '#ef4444';
+            .catch(err => {
+                status_el.textContent = '✗ Network error: ' + err.message;
+                status_el.style.color = '#ef4444';
             })
             .finally(() => {
                 btn.disabled = false;

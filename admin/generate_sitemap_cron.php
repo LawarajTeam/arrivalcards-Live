@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Sitemap Generator Cron Script
  * 0 2 * * * curl -s https://arrivalcards.com/admin/generate_sitemap_cron.php
