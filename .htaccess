@@ -35,6 +35,23 @@ ErrorDocument 500 /error.php
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# === Language-prefix URL routing (/en/country/us, /es/about, etc.) ===
+
+# /en/country/us -> country.php?lang=en&code=us
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(en|es|zh|fr|de|it|ar)/country/([a-zA-Z]{2,3})/?$ country.php?lang=$1&code=$2 [L]
+
+# /en/about, /en/faq, etc. -> about.php?lang=en
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(en|es|zh|fr|de|it|ar)/([a-z][a-z0-9-]*)/?$ $2.php?lang=$1 [QSA,L]
+
+# /en or /en/ -> index.php?lang=en
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(en|es|zh|fr|de|it|ar)/?$ index.php?lang=$1 [QSA,L]
+
 # Remove .php extension (clean URLs)
 # Don't rewrite if it's a real directory
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -45,8 +62,7 @@ RewriteCond %{REQUEST_FILENAME}.php -f
 # Rewrite the URL to add .php extension
 RewriteRule ^([^\.]+)$ $1.php [L]
 
-# Country pages - support both /country/CODE and /country?code=CODE
-# /country/US becomes /country.php?code=US
+# Legacy: /country/us -> country.php?code=us (redirected to canonical in country.php)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^country/([a-z]{2,3})/?$ country.php?code=$1 [QSA,L]

@@ -76,9 +76,17 @@ if (!$countryId) {
     $countryId = $country['id'];
 }
 
-// Redirect old ID-based URLs to new code-based URLs for SEO
+// Redirect old ID-based URLs and enforce canonical /LANG/country/code format
 if (!empty($_GET['id']) && $countryCode === null) {
-    header('Location: /country?code=' . strtoupper($country['country_code']) . '&lang=' . CURRENT_LANG, true, 301);
+    header('Location: /' . CURRENT_LANG . '/country/' . strtolower($country['country_code']), true, 301);
+    exit;
+}
+
+// Redirect any non-canonical URL (e.g. /country?code=US) to the language-prefix format
+$_currentPath = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$_canonicalPath = '/' . CURRENT_LANG . '/country/' . strtolower($country['country_code']);
+if ($_currentPath !== $_canonicalPath) {
+    header('Location: ' . $_canonicalPath, true, 301);
     exit;
 }
 

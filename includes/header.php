@@ -106,11 +106,21 @@ if (!isset($ogImage)) {
     <!-- Language Alternate Links for SEO -->
     <?php 
     $langCodes = ['en', 'es', 'zh', 'fr', 'de', 'it', 'ar'];
-    foreach ($langCodes as $langCode): 
-    ?>
+    $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $langCodesPattern = implode('|', $langCodes);
+    if (preg_match('#^/(' . $langCodesPattern . ')/(.+)$#', $currentPath, $_pathMatches)) {
+        // Language-prefix URL (e.g. /en/country/us) - generate /LANG/same-path variants
+        $_pathWithoutLang = $_pathMatches[2];
+        foreach ($langCodes as $langCode): ?>
+    <link rel="alternate" hreflang="<?php echo $langCode; ?>" href="<?php echo e(APP_URL . '/' . $langCode . '/' . $_pathWithoutLang); ?>">
+    <?php endforeach; ?>
+    <link rel="alternate" hreflang="x-default" href="<?php echo e(APP_URL . '/en/' . $_pathWithoutLang); ?>">
+    <?php } else {
+        foreach ($langCodes as $langCode): ?>
     <link rel="alternate" hreflang="<?php echo $langCode; ?>" href="<?php echo e($hreflangBase . $hreflangQueryPrefix . 'lang=' . $langCode); ?>">
     <?php endforeach; ?>
     <link rel="alternate" hreflang="x-default" href="<?php echo e($hreflangBase . $hreflangQueryPrefix . 'lang=en'); ?>">
+    <?php } ?>
     
     <?php if (isset($additionalCSS)): ?>
         <link rel="stylesheet" href="/assets/css/<?php echo $additionalCSS; ?>">

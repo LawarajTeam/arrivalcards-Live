@@ -107,14 +107,14 @@ try {
     ?>
         <?php foreach ($languages as $lang): ?>
     <url>
-        <loc><?php echo $baseUrl; ?>/country?code=<?php echo strtoupper($countryCode); ?>&amp;lang=<?php echo $lang; ?></loc>
+        <loc><?php echo $baseUrl; ?>/<?php echo $lang; ?>/country/<?php echo strtolower($countryCode); ?></loc>
         <lastmod><?php echo $lastMod; ?></lastmod>
         <changefreq>weekly</changefreq>
         <priority><?php echo $priority; ?></priority>
         <?php foreach ($languages as $altLang): ?>
-        <xhtml:link rel="alternate" hreflang="<?php echo $altLang; ?>" href="<?php echo $baseUrl; ?>/country?code=<?php echo strtoupper($countryCode); ?>&amp;lang=<?php echo $altLang; ?>"/>
+        <xhtml:link rel="alternate" hreflang="<?php echo $altLang; ?>" href="<?php echo $baseUrl; ?>/<?php echo $altLang; ?>/country/<?php echo strtolower($countryCode); ?>"/>
         <?php endforeach; ?>
-        <xhtml:link rel="alternate" hreflang="x-default" href="<?php echo $baseUrl; ?>/country?code=<?php echo strtoupper($countryCode); ?>&amp;lang=en"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="<?php echo $baseUrl; ?>/en/country/<?php echo strtolower($countryCode); ?>"/>
         <image:image>
             <image:loc><?php echo $baseUrl; ?>/assets/images/flags/<?php echo strtolower($countryCode); ?>.svg</image:loc>
             <image:title><?php echo htmlspecialchars($countryCode, ENT_XML1, 'UTF-8'); ?> Flag</image:title>

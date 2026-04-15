@@ -39,16 +39,16 @@ if (empty($path) || strpos($path, 'http') === 0 || strpos($path, '//') === 0) {
     $path = '';
 }
 
-// Get existing query parameters
-$queryString = $parsedUrl['query'] ?? '';
-parse_str($queryString, $queryParams);
-
-// Update the lang parameter
-$queryParams['lang'] = $requestedLang;
-
-// Rebuild the URL
-$newQueryString = http_build_query($queryParams);
-$finalRedirect = $path . ($newQueryString ? '?' . $newQueryString : '');
+// Redirect to the language-prefixed version of the current page
+$langPattern = '(' . implode('|', $validLangs) . ')';
+if (preg_match('#^' . $langPattern . '(/.*)?$#', $path, $matches)) {
+    // Replace existing language prefix
+    $restOfPath = $matches[2] ?? '';
+    $finalRedirect = '/' . $requestedLang . $restOfPath;
+} else {
+    // No language prefix found - go to homepage with new language
+    $finalRedirect = '/' . $requestedLang;
+}
 
 header('Location: ' . $finalRedirect);
 exit;
