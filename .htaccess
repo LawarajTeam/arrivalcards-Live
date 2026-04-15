@@ -31,14 +31,19 @@ Options -Indexes
 ErrorDocument 404 /404.php
 ErrorDocument 500 /error.php
 
-# Force HTTPS in production (uncomment when live)
-# RewriteCond %{HTTPS} off
-# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Force HTTPS in production
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Remove .php extension (optional clean URLs)
-# RewriteCond %{REQUEST_FILENAME} !-d
-# RewriteCond %{REQUEST_FILENAME}.php -f
-# RewriteRule ^(.*)$ $1.php [L]
+# Remove .php extension (clean URLs)
+# Don't rewrite if it's a real directory
+RewriteCond %{REQUEST_FILENAME} !-d
+# Don't rewrite if the file exists as-is (with .php)
+RewriteCond %{REQUEST_FILENAME} !-f
+# If the requested file with .php extension exists, rewrite to it
+RewriteCond %{REQUEST_FILENAME}.php -f
+# Rewrite the URL to add .php extension
+RewriteRule ^([^\.]+)$ $1.php [L]
 
 # Security Headers
 <IfModule mod_headers.c>
