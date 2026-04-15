@@ -68,7 +68,7 @@ requireAdmin();
         
         <div class="admin-user-menu">
             <span class="admin-username"><?php echo e($_SESSION['admin_username']); ?></span>
-            <a href="<?php echo APP_URL; ?>/" class="btn btn-secondary btn-sm" target="_blank">View Site</a>
+            <a href="<?php echo APP_URL; ?>/" class="btn btn-secondary btn-sm">View Site</a>
             <a href="<?php echo APP_URL; ?>/admin/logout" class="btn btn-secondary btn-sm">Logout</a>
         </div>
     </div>
