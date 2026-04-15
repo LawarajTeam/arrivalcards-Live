@@ -208,18 +208,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // EXTERNAL LINKS (open in new tab)
     // ============================================
     document.querySelectorAll('a[href^="http"]').forEach(link => {
-        // Skip language switcher links, admin navigation, logo links, and internal links
-        if (!link.getAttribute('target') && 
-            !link.closest('.language-switcher') &&
-            !link.closest('.logo') &&
-            !link.closest('.admin-logo') &&
-            !link.closest('.admin-header') &&
-            !link.classList.contains('admin-nav-link') &&
-            !link.href.includes('set_language.php') &&
-            !link.href.includes('/admin/')) {
-            link.setAttribute('target', '_blank');
-            link.setAttribute('rel', 'noopener noreferrer');
+        // Only open external links in new tab (exclude same-domain links)
+        const currentDomain = window.location.origin;
+        const linkDomain = new URL(link.href).origin;
+        
+        // Skip if it's an internal link (same domain)
+        if (linkDomain === currentDomain) {
+            return;
         }
+        
+        // Skip if target is already set
+        if (link.getAttribute('target')) {
+            return;
+        }
+        
+        // Skip language switcher, logo, and admin links
+        if (link.closest('.language-switcher') ||
+            link.closest('.logo') ||
+            link.closest('.admin-logo') ||
+            link.closest('.admin-header')) {
+            return;
+        }
+        
+        // Add target="_blank" only to truly external links
+        link.setAttribute('target', '_blank');
+        link.setAttribute('rel', 'noopener noreferrer');
     });
     
     // ============================================
