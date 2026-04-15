@@ -45,6 +45,12 @@ RewriteCond %{REQUEST_FILENAME}.php -f
 # Rewrite the URL to add .php extension
 RewriteRule ^([^\.]+)$ $1.php [L]
 
+# Country pages - support both /country/CODE and /country?code=CODE
+# /country/US becomes /country.php?code=US
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^country/([a-z]{2,3})/?$ country.php?code=$1 [QSA,L]
+
 # Security Headers
 <IfModule mod_headers.c>
     # Prevent clickjacking

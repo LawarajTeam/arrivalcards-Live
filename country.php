@@ -3,37 +3,82 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/analytics_functions.php';
 
-// Get country ID from URL
-$countryId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+// Get country code from URL parameter or query string (backwards compatibility)
+$countryCode = null;
+$countryId = null;
 
-if ($countryId <= 0) {
+// Try to get country code from URL path first (e.g., /country/us)
+if (!empty($_GET['code'])) {
+    $countryCode = strtoupper(trim($_GET['code']));
+} elseif (!empty($_GET['id']) && is_numeric($_GET['id'])) {
+    // Fallback to ID for backwards compatibility
+    $countryId = (int)$_GET['id'];
+}
+
+// If no code or ID provided, redirect to homepage
+if (!$countryCode && !$countryId) {
     header('Location: /');
     exit;
 }
 
 // Get country data with translations
-$stmt = $pdo->prepare("
-    SELECT c.*, 
-           ct.country_name, 
-           ct.entry_summary, 
-           ct.visa_requirements,
-           ct.visa_duration,
-           ct.passport_validity,
-           ct.visa_fee,
-           ct.processing_time,
-           ct.official_visa_url,
-           ct.arrival_card_required,
-           ct.additional_docs,
-           ct.last_verified
-    FROM countries c
-    LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = ?
-    WHERE c.id = ? AND c.is_active = 1
-");
-$stmt->execute([CURRENT_LANG, $countryId]);
+if ($countryCode) {
+    // Query by country code (preferred method)
+    $stmt = $pdo->prepare("
+        SELECT c.*, 
+               ct.country_name, 
+               ct.entry_summary, 
+               ct.visa_requirements,
+               ct.visa_duration,
+               ct.passport_validity,
+               ct.visa_fee,
+               ct.processing_time,
+               ct.official_visa_url,
+               ct.arrival_card_required,
+               ct.additional_docs,
+               ct.last_verified
+        FROM countries c
+        LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = ?
+        WHERE c.country_code = ? AND c.is_active = 1
+    ");
+    $stmt->execute([CURRENT_LANG, $countryCode]);
+} else {
+    // Query by ID (backwards compatibility)
+    $stmt = $pdo->prepare("
+        SELECT c.*, 
+               ct.country_name, 
+               ct.entry_summary, 
+               ct.visa_requirements,
+               ct.visa_duration,
+               ct.passport_validity,
+               ct.visa_fee,
+               ct.processing_time,
+               ct.official_visa_url,
+               ct.arrival_card_required,
+               ct.additional_docs,
+               ct.last_verified
+        FROM countries c
+        LEFT JOIN country_translations ct ON c.id = ct.country_id AND ct.lang_code = ?
+        WHERE c.id = ? AND c.is_active = 1
+    ");
+    $stmt->execute([CURRENT_LANG, $countryId]);
+}
+
 $country = $stmt->fetch();
 
 if (!$country) {
     header('Location: /');
+    exit;
+}
+
+// Get the country ID for tracking (if we queried by code)
+if (!$countryId) {
+    $countryId = $country['id'];
+}
+
+// Redirect old ID-based URLs to new code-based URLs for SEO
+if (!empty($_GET['id']) && $countryCode === null) {
+    header('Location: /country?code=' . strtoupper($country['country_code']) . '&lang=' . CURRENT_LANG, true, 301);
     exit;
 }
 
