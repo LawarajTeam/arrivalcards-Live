@@ -652,34 +652,6 @@ include __DIR__ . '/includes/header.php'; ?>
     </div>
 </section>
 
-<!-- How to Use Section -->
-<section class="howto-section">
-    <div class="container">
-        <h2><?php echo e(t('cp_howto_title')); ?></h2>
-        <p class="howto-intro"><?php echo e(t('cp_howto_intro')); ?></p>
-        <div class="howto-steps">
-            <div class="howto-step">
-                <div class="howto-step-number">1</div>
-                <h3><?php echo e(t('cp_howto_step1_title')); ?></h3>
-                <p><?php echo e(t('cp_howto_step1_text')); ?></p>
-            </div>
-            <div class="howto-step">
-                <div class="howto-step-number">2</div>
-                <h3><?php echo e(t('cp_howto_step2_title')); ?></h3>
-                <p><?php echo e(t('cp_howto_step2_text')); ?></p>
-            </div>
-            <div class="howto-step">
-                <div class="howto-step-number">3</div>
-                <h3><?php echo e(t('cp_howto_step3_title')); ?></h3>
-                <p><?php echo e(t('cp_howto_step3_text')); ?></p>
-            </div>
-        </div>
-        <div class="howto-tip">
-            <strong>💡 <?php echo e(t('cp_howto_tip_label')); ?></strong> <?php echo e(t('cp_howto_tip_text')); ?>
-        </div>
-    </div>
-</section>
-
 <!-- Passport Selector -->
 <section class="selector-section">
     <div class="container">
@@ -885,6 +857,36 @@ include __DIR__ . '/includes/header.php'; ?>
             </table>
         </div>
         
+    </div>
+</section>
+<?php endif; ?>
+
+<!-- How to Use Section (shown when no comparison is active) -->
+<?php if (!$comparisonData): ?>
+<section class="howto-section">
+    <div class="container">
+        <h2><?php echo e(t('cp_howto_title')); ?></h2>
+        <p class="howto-intro"><?php echo e(t('cp_howto_intro')); ?></p>
+        <div class="howto-steps">
+            <div class="howto-step">
+                <div class="howto-step-number">1</div>
+                <h3><?php echo e(t('cp_howto_step1_title')); ?></h3>
+                <p><?php echo e(t('cp_howto_step1_text')); ?></p>
+            </div>
+            <div class="howto-step">
+                <div class="howto-step-number">2</div>
+                <h3><?php echo e(t('cp_howto_step2_title')); ?></h3>
+                <p><?php echo e(t('cp_howto_step2_text')); ?></p>
+            </div>
+            <div class="howto-step">
+                <div class="howto-step-number">3</div>
+                <h3><?php echo e(t('cp_howto_step3_title')); ?></h3>
+                <p><?php echo e(t('cp_howto_step3_text')); ?></p>
+            </div>
+        </div>
+        <div class="howto-tip">
+            <strong>💡 <?php echo e(t('cp_howto_tip_label')); ?></strong> <?php echo e(t('cp_howto_tip_text')); ?>
+        </div>
     </div>
 </section>
 <?php endif; ?>
