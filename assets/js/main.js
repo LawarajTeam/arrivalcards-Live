@@ -89,12 +89,32 @@ document.addEventListener('DOMContentLoaded', function() {
         searchInput.addEventListener('input', filterCountries);
     }
     
+    // Update browser URL when region filter changes
+    function updateRegionUrl() {
+        const selectedRegion = regionFilter ? regionFilter.value : '';
+        const lang = document.documentElement.lang || 'en';
+        if (selectedRegion) {
+            const slug = selectedRegion.toLowerCase().replace(/\s+/g, '-');
+            history.replaceState(null, '', '/' + lang + '/region/' + slug);
+        } else {
+            history.replaceState(null, '', '/' + lang + '/');
+        }
+    }
+
     if (regionFilter) {
-        regionFilter.addEventListener('change', filterCountries);
+        regionFilter.addEventListener('change', function() {
+            filterCountries();
+            updateRegionUrl();
+        });
     }
     
     if (visaFilter) {
         visaFilter.addEventListener('change', filterCountries);
+    }
+
+    // Apply filter on page load if region was pre-selected via URL
+    if (regionFilter && regionFilter.value) {
+        filterCountries();
     }
     
     // ============================================

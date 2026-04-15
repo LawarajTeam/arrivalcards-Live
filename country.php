@@ -148,7 +148,7 @@ $breadcrumbSchema = [
             '@type' => 'ListItem',
             'position' => 2,
             'name' => $country['region'],
-            'item' => APP_URL . '/?region=' . urlencode($country['region'])
+            'item' => APP_URL . '/' . CURRENT_LANG . '/region/' . strtolower(str_replace(' ', '-', $country['region']))
         ],
         [
             '@type' => 'ListItem',
@@ -217,7 +217,7 @@ $faqSchema = [
 // Setup visual breadcrumbs for user navigation
 $breadcrumbs = [
     ['name' => t('home'), 'url' => APP_URL . '/'],
-    ['name' => $country['region'], 'url' => APP_URL . '/?region=' . urlencode($country['region'])],
+    ['name' => $country['region'], 'url' => APP_URL . '/' . CURRENT_LANG . '/region/' . strtolower(str_replace(' ', '-', $country['region']))],
     ['name' => $country['country_name'], 'url' => null]
 ];
 

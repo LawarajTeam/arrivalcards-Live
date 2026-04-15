@@ -42,6 +42,11 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(en|es|zh|fr|de|it|ar)/country/([a-zA-Z]{2,3})/?$ country.php?lang=$1&code=$2 [L]
 
+# /en/region/asia -> index.php?lang=en&region=asia
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(en|es|zh|fr|de|it|ar)/region/([a-z0-9-]+)/?$ index.php?lang=$1&region=$2 [L]
+
 # /en/about, /en/faq, etc. -> about.php?lang=en
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

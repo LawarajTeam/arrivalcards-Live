@@ -22,6 +22,18 @@ $regions = getRegions();
 $visaTypes = getVisaTypes();
 $totalCountries = getCountryCount();
 
+// Pre-select region from URL slug (e.g. /en/region/north-america -> "North America")
+$preSelectedRegion = '';
+if (!empty($_GET['region'])) {
+    $regionSlug = strtolower($_GET['region']);
+    foreach ($regions as $r) {
+        if (strtolower(str_replace(' ', '-', $r)) === $regionSlug) {
+            $preSelectedRegion = $r;
+            break;
+        }
+    }
+}
+
 // Generate JSON-LD structured data for SEO
 $structuredData = [
     '@context' => 'https://schema.org',
@@ -97,7 +109,7 @@ include __DIR__ . '/includes/header.php'; ?>
                 <select class="filter-select" id="region-filter" aria-label="<?php echo e(t('filter_by_region')); ?>">
                     <option value=""><?php echo e(t('all_regions')); ?></option>
                     <?php foreach ($regions as $region): ?>
-                        <option value="<?php echo e($region); ?>"><?php echo e($region); ?></option>
+                        <option value="<?php echo e($region); ?>"<?php if ($region === $preSelectedRegion) echo ' selected'; ?>><?php echo e($region); ?></option>
                     <?php endforeach; ?>
                 </select>
                 
