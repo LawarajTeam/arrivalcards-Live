@@ -100,36 +100,35 @@ $recentContacts = $stmt->fetchAll();
         <!-- Sitemap Management -->
         <div class="admin-section">
             <div class="section-header">
-                <h2>Sitemap</h2>
+                <h2>Sitemap Index</h2>
                 <?php
-                $sitemapFile = __DIR__ . '/../sitemap.xml';
-                $sitemapExists = file_exists($sitemapFile);
-                $sitemapSize = $sitemapExists ? round(filesize($sitemapFile) / 1024, 1) : 0;
-                $sitemapDate = $sitemapExists ? date('M d, Y g:i A', filemtime($sitemapFile)) : 'Never';
-                // Count <url> tags as a proxy for URL count
-                $urlCount = 0;
-                if ($sitemapExists) {
-                    $urlCount = substr_count(file_get_contents($sitemapFile), '<url>');
+                $sitemapIndex   = __DIR__ . '/../sitemap.xml';
+                $indexExists    = file_exists($sitemapIndex);
+                $sitemapDate    = $indexExists ? date('M d, Y g:i A', filemtime($sitemapIndex)) : 'Never';
+                $langFiles      = ['en','es','zh','fr','de','it','ar'];
+                $totalUrlCount  = 0;
+                foreach ($langFiles as $_l) {
+                    $f = __DIR__ . '/../sitemap-' . $_l . '.xml';
+                    if (file_exists($f)) $totalUrlCount += substr_count(file_get_contents($f), '<url>');
                 }
                 ?>
-                <a href="<?php echo APP_URL; ?>/sitemap.xml" target="_blank" class="btn btn-secondary">View sitemap.xml</a>
+                <a href="<?php echo APP_URL; ?>/sitemap.xml" target="_blank" class="btn btn-secondary">View Index</a>
             </div>
             <div style="display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; margin-bottom:1rem;">
-                <div>
-                    <span style="color:var(--text-secondary);">Last generated:</span>
-                    <strong><?php echo $sitemapDate; ?></strong>
-                </div>
-                <div>
-                    <span style="color:var(--text-secondary);">URLs:</span>
-                    <strong><?php echo $urlCount > 0 ? number_format($urlCount) : '—'; ?></strong>
-                </div>
-                <div>
-                    <span style="color:var(--text-secondary);">File size:</span>
-                    <strong><?php echo $sitemapSize > 0 ? $sitemapSize . ' KB' : '—'; ?></strong>
-                </div>
+                <div><span style="color:var(--text-secondary);">Last generated:</span> <strong><?php echo $sitemapDate; ?></strong></div>
+                <div><span style="color:var(--text-secondary);">Total URLs:</span> <strong><?php echo $totalUrlCount > 0 ? number_format($totalUrlCount) : '—'; ?></strong></div>
+            </div>
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1rem;">
+                <?php foreach ($langFiles as $_l): ?>
+                <a href="<?php echo APP_URL; ?>/sitemap-<?php echo $_l; ?>.xml" target="_blank"
+                   style="font-size:0.8rem; padding:0.2rem 0.6rem; background:var(--bg-secondary,#f3f4f6); border-radius:4px; text-decoration:none; color:var(--text-primary);">
+                    sitemap-<?php echo $_l; ?>.xml
+                    <?php $f = __DIR__ . '/../sitemap-' . $_l . '.xml'; echo file_exists($f) ? ' ✓' : ' —'; ?>
+                </a>
+                <?php endforeach; ?>
             </div>
             <button id="generate-sitemap-btn" class="btn btn-primary" style="min-width:180px;">
-                Generate Sitemap Now
+                Generate Sitemaps Now
             </button>
             <span id="sitemap-status" style="margin-left:1rem; font-weight:500;"></span>
         </div>
@@ -244,8 +243,10 @@ $recentContacts = $stmt->fetchAll();
                 try {
                     const data = JSON.parse(text);
                     if (data.success) {
-                        status_el.textContent = '✓ Done! ' + data.countries + ' countries, ' + data.total_urls + ' URLs, ' + Math.round(data.file_size / 1024) + ' KB';
+                        status_el.textContent = '✓ Done! ' + data.countries + ' countries · ' + data.total_urls + ' total URLs across ' + data.languages + ' language sitemaps';
                         status_el.style.color = '#10b981';
+                        // Reload page to refresh file status badges
+                        setTimeout(() => location.reload(), 1500);
                     } else {
                         status_el.textContent = '✗ Error: ' + (data.error || 'Unknown error');
                         status_el.style.color = '#ef4444';

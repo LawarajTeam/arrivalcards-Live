@@ -1,8 +1,15 @@
 # ArrivalCards.com - Robots.txt
 # Optimized for SEO and search engine crawling
 
-# Sitemap reference (generated daily via cron)
+# Sitemap index (generated daily via cron)
 Sitemap: https://arrivalcards.com/sitemap.xml
+Sitemap: https://arrivalcards.com/sitemap-en.xml
+Sitemap: https://arrivalcards.com/sitemap-es.xml
+Sitemap: https://arrivalcards.com/sitemap-zh.xml
+Sitemap: https://arrivalcards.com/sitemap-fr.xml
+Sitemap: https://arrivalcards.com/sitemap-de.xml
+Sitemap: https://arrivalcards.com/sitemap-it.xml
+Sitemap: https://arrivalcards.com/sitemap-ar.xml
 
 # Allow all search engines
 User-agent: *
