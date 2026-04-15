@@ -50,11 +50,11 @@ try {
     $totalUrlCount = 0;
 
     // --- Generate one sitemap per language ---
+    // hreflang alternates are omitted here — they are already declared in each
+    // page's <head> HTML, so the sitemap only needs the canonical URL list.
     foreach ($languages as $lang) {
         $xml  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        $xml .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"\n";
-        $xml .= "        xmlns:xhtml=\"http://www.w3.org/1999/xhtml\"\n";
-        $xml .= "        xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\">\n";
+        $xml .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
         // Homepage for this language
         $xml .= "  <url>\n";
@@ -62,10 +62,6 @@ try {
         $xml .= "    <lastmod>{$today}</lastmod>\n";
         $xml .= "    <changefreq>daily</changefreq>\n";
         $xml .= "    <priority>1.0</priority>\n";
-        foreach ($languages as $alt) {
-            $xml .= "    <xhtml:link rel=\"alternate\" hreflang=\"{$alt}\" href=\"{$baseUrl}/{$alt}/\"/>\n";
-        }
-        $xml .= "    <xhtml:link rel=\"alternate\" hreflang=\"x-default\" href=\"{$baseUrl}/en/\"/>\n";
         $xml .= "  </url>\n";
 
         // Country pages
@@ -79,18 +75,10 @@ try {
             $xml .= "    <lastmod>{$lastMod}</lastmod>\n";
             $xml .= "    <changefreq>weekly</changefreq>\n";
             $xml .= "    <priority>{$priority}</priority>\n";
-            foreach ($languages as $alt) {
-                $xml .= "    <xhtml:link rel=\"alternate\" hreflang=\"{$alt}\" href=\"{$baseUrl}/{$alt}/country/{$code}\"/>\n";
-            }
-            $xml .= "    <xhtml:link rel=\"alternate\" hreflang=\"x-default\" href=\"{$baseUrl}/en/country/{$code}\"/>\n";
-            $xml .= "    <image:image>\n";
-            $xml .= "      <image:loc>{$baseUrl}/assets/images/flags/{$code}.svg</image:loc>\n";
-            $xml .= "      <image:title>" . htmlspecialchars(strtoupper($code), ENT_XML1, 'UTF-8') . " Flag</image:title>\n";
-            $xml .= "    </image:image>\n";
             $xml .= "  </url>\n";
         }
 
-        // Static pages (only add to English to avoid duplicate indexing of non-localised pages)
+        // Static pages (English only — these pages are not localised)
         if ($lang === 'en') {
             foreach ($staticPages as $page => $meta) {
                 $xml .= "  <url>\n";
