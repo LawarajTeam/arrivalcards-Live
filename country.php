@@ -561,7 +561,7 @@ include __DIR__ . '/includes/header.php';
 <!-- Breadcrumb -->
 <div class="container">
     <div class="breadcrumb">
-        <a href="index.php">🏠 <?php echo t('home'); ?></a>
+        <a href="/">🏠 <?php echo t('home'); ?></a>
         <span> / </span>
         <span><?php echo e($country['country_name']); ?></span>
     </div>
@@ -1000,7 +1000,7 @@ include __DIR__ . '/includes/header.php';
         <div id="feedback-result" style="display: none; padding: 0.75rem; margin-top: 1rem; border-radius: 8px; font-weight: 600;"></div>
         <p style="margin: 1rem 0 0; font-size: 0.85rem; color: #9ca3af;">
             Found incorrect information? 
-            <a href="<?php echo APP_URL; ?>/report-error.php?country=<?php echo urlencode($country['country_name']); ?>" 
+            <a href="<?php echo APP_URL; ?>/report-error?country=<?php echo urlencode($country['country_name']); ?>" 
                style="color: #3b82f6; text-decoration: underline;">Report an error</a>
         </p>
     </div>

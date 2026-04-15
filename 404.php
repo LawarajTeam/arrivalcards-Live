@@ -38,13 +38,13 @@ http_response_code(404);
             </p>
             
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a href="<?php echo APP_URL; ?>/index.php" class="btn btn-primary">
+                <a href="<?php echo APP_URL; ?>/" class="btn btn-primary">
                     <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                     </svg>
                     Go to Homepage
                 </a>
-                <a href="<?php echo APP_URL; ?>/contact.php" class="btn btn-secondary">
+                <a href="<?php echo APP_URL; ?>/contact" class="btn btn-secondary">
                     Contact Us
                 </a>
             </div>
@@ -53,13 +53,13 @@ http_response_code(404);
                 <h3 style="margin-bottom: 1rem;">Quick Links</h3>
                 <ul style="list-style: none; padding: 0;">
                     <li style="margin-bottom: 0.5rem;">
-                        <a href="<?php echo APP_URL; ?>/index.php" style="color: var(--primary-color);">Browse Countries</a>
+                        <a href="<?php echo APP_URL; ?>/" style="color: var(--primary-color);">Browse Countries</a>
                     </li>
                     <li style="margin-bottom: 0.5rem;">
-                        <a href="<?php echo APP_URL; ?>/contact.php" style="color: var(--primary-color);">Contact Us</a>
+                        <a href="<?php echo APP_URL; ?>/contact" style="color: var(--primary-color);">Contact Us</a>
                     </li>
                     <li style="margin-bottom: 0.5rem;">
-                        <a href="<?php echo APP_URL; ?>/privacy.php" style="color: var(--primary-color);">Privacy Policy</a>
+                        <a href="<?php echo APP_URL; ?>/privacy" style="color: var(--primary-color);">Privacy Policy</a>
                     </li>
                 </ul>
             </div>

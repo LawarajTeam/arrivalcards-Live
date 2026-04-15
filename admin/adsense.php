@@ -211,7 +211,7 @@ while ($row = $stmt->fetch()) {
 
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">💾 Save AdSense Settings</button>
-                <a href="index.php" class="btn btn-secondary">Cancel</a>
+                <a href="index" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>

@@ -647,9 +647,9 @@ $totalTranslations = count(getTranslations());
                 <p><strong><?php echo $installed; ?></strong> new translations inserted</p>
                 <p><strong><?php echo $updated; ?></strong> existing translations updated</p>
                 <p style="margin-top: 1rem;">
-                    <a href="<?php echo APP_URL; ?>/compare-passports.php" target="_blank" style="color: #065f46; font-weight: 600;">→ Check Compare Passports page</a>
+                    <a href="<?php echo APP_URL; ?>/compare-passports" target="_blank" style="color: #065f46; font-weight: 600;">→ Check Compare Passports page</a>
                     &nbsp;&nbsp;|&nbsp;&nbsp;
-                    <a href="<?php echo APP_URL; ?>/best-passports.php" target="_blank" style="color: #065f46; font-weight: 600;">→ Check Best Passports page</a>
+                    <a href="<?php echo APP_URL; ?>/best-passports" target="_blank" style="color: #065f46; font-weight: 600;">→ Check Best Passports page</a>
                 </p>
             </div>
             <?php if (!empty($errors)): ?>

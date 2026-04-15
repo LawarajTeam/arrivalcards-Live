@@ -320,7 +320,7 @@ $completionRate = ($completeTranslations / $totalTranslations) * 100;
             </div>
             <div style="display: flex; gap: 0.5rem;">
                 <?php if ($incompleteTranslations > 0 || $missingCount > 0): ?>
-                    <a href="<?php echo APP_URL; ?>/admin/fix-translations.php" class="btn btn-success">
+                    <a href="<?php echo APP_URL; ?>/admin/fix-translations" class="btn btn-success">
                         <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" style="margin-right: 6px;">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                         </svg>
@@ -435,7 +435,7 @@ $completionRate = ($completeTranslations / $totalTranslations) * 100;
                                 </div>
                             <?php endif; ?>
                         </div>
-                        <a href="<?php echo APP_URL; ?>/admin/edit_country.php?id=<?php echo $country['id']; ?>&lang=<?php echo $language['code']; ?>" 
+                        <a href="<?php echo APP_URL; ?>/admin/edit_country?id=<?php echo $country['id']; ?>&lang=<?php echo $language['code']; ?>" 
                            class="btn btn-sm btn-primary">
                             <?php echo $status['status'] === 'complete' ? 'View' : 'Fix'; ?>
                         </a>

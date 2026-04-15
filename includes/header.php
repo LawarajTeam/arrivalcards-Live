@@ -141,20 +141,20 @@ if (!isset($ogImage)) {
             <div class="header-content">
                 <!-- Logo -->
                 <div class="logo">
-                    <a href="<?php echo APP_URL; ?>/index.php" aria-label="Home">
+                    <a href="<?php echo APP_URL; ?>/" aria-label="Home">
                         <img src="/assets/images/logo.svg" alt="<?php echo e(t('site_title')); ?>" class="logo-image">
                     </a>
                 </div>
                 
                 <!-- Navigation Menu -->
                 <nav class="main-nav">
-                    <a href="<?php echo APP_URL; ?>/index.php" class="nav-link <?php echo $currentPage == 'index.php' ? 'active' : ''; ?>">
+                    <a href="<?php echo APP_URL; ?>/" class="nav-link <?php echo $currentPage == 'index.php' || $currentPage == 'index' ? 'active' : ''; ?>">
                         🌍 Countries
                     </a>
-                    <a href="<?php echo APP_URL; ?>/best-passports.php" class="nav-link <?php echo $currentPage == 'best-passports.php' ? 'active' : ''; ?>">
+                    <a href="<?php echo APP_URL; ?>/best-passports" class="nav-link <?php echo $currentPage == 'best-passports.php' || $currentPage == 'best-passports' ? 'active' : ''; ?>">
                         🏆 Best Passports
                     </a>
-                    <a href="<?php echo APP_URL; ?>/compare-passports.php" class="nav-link <?php echo $currentPage == 'compare-passports.php' ? 'active' : ''; ?>">
+                    <a href="<?php echo APP_URL; ?>/compare-passports" class="nav-link <?php echo $currentPage == 'compare-passports.php' || $currentPage == 'compare-passports' ? 'active' : ''; ?>">
                         ⚖️ Compare
                     </a>
                 </nav>
@@ -178,7 +178,7 @@ if (!isset($ogImage)) {
                     <ul class="lang-dropdown-menu" role="menu">
                         <?php foreach ($languages as $lang): ?>
                             <li role="none">
-                                <a href="<?php echo APP_URL; ?>/set_language.php?lang=<?php echo $lang['code']; ?>&redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>" 
+                                <a href="<?php echo APP_URL; ?>/set_language?lang=<?php echo $lang['code']; ?>&redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>" 
                                    role="menuitem"
                                    class="<?php echo $lang['code'] === CURRENT_LANG ? 'active' : ''; ?>">
                                     <span class="lang-flag"><?php echo $lang['flag_emoji']; ?></span>

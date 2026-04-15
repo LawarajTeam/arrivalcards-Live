@@ -196,7 +196,7 @@ include __DIR__ . '/includes/header.php'; ?>
                             </span>
                         </div>
                         <a 
-                            href="country.php?id=<?php echo $country['id']; ?>&lang=<?php echo CURRENT_LANG; ?>" 
+                            href="country?id=<?php echo $country['id']; ?>&lang=<?php echo CURRENT_LANG; ?>" 
                             class="btn-view-details btn-view-details-top"
                             aria-label="<?php echo e(t('view_details')); ?> - <?php echo e($country['country_name']); ?>"
                         >
@@ -293,7 +293,7 @@ include __DIR__ . '/includes/header.php'; ?>
                             </span>
                         </div>
                         <a 
-                            href="country.php?id=<?php echo $country['id']; ?>&lang=<?php echo CURRENT_LANG; ?>" 
+                            href="country?id=<?php echo $country['id']; ?>&lang=<?php echo CURRENT_LANG; ?>" 
                             class="btn-view-details btn-view-details-bottom"
                             aria-label="<?php echo e(t('view_details')); ?> - <?php echo e($country['country_name']); ?>"
                         >

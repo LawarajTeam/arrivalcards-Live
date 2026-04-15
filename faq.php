@@ -656,7 +656,7 @@ include __DIR__ . '/includes/header.php';
                     <div class="faq-answer">
                         Absolutely! We appreciate user feedback. If you notice outdated information or errors:
                         <ul>
-                            <li>Use our <a href="<?php echo APP_URL; ?>/contact.php" style="color: #3b82f6;">contact form</a></li>
+                            <li>Use our <a href="<?php echo APP_URL; ?>/contact" style="color: #3b82f6;">contact form</a></li>
                             <li>Provide specific details (country, incorrect information, source)</li>
                             <li>Include links to official sources if possible</li>
                         </ul>
@@ -684,7 +684,7 @@ include __DIR__ . '/includes/header.php';
                 <p style="margin-bottom: 1.5rem; font-size: 1.05rem; opacity: 0.95;">
                     Didn't find the answer you're looking for? We're here to help!
                 </p>
-                <a href="<?php echo APP_URL; ?>/contact.php" class="btn" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; background: white; color: #1e3a8a; padding: 1rem 2rem; border-radius: 8px; font-weight: 600;">
+                <a href="<?php echo APP_URL; ?>/contact" class="btn" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; background: white; color: #1e3a8a; padding: 1rem 2rem; border-radius: 8px; font-weight: 600;">
                     Contact Us
                     <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>

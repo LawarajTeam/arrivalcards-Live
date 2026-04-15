@@ -301,7 +301,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
         
         <div class="back-link">
-            <a href="<?php echo APP_URL; ?>/index.php" style="color: var(--primary-color);">
+            <a href="<?php echo APP_URL; ?>/" style="color: var(--primary-color);">
                 ← Back to Website
             </a>
         </div>

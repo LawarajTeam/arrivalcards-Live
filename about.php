@@ -162,7 +162,7 @@ include __DIR__ . '/includes/header.php';
                 <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.05rem;">
                     We'd love to hear from you! Contact us with questions, corrections, or suggestions.
                 </p>
-                <a href="<?php echo APP_URL; ?>/contact.php" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                <a href="<?php echo APP_URL; ?>/contact" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
                     Contact Us
                     <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>

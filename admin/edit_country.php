@@ -271,7 +271,7 @@ function dval($langCode, $field, $details) {
                     Edit: <?php echo e($translations['en']['country_name'] ?? $country['country_code']); ?>
                 </span>
             </h1>
-            <a href="<?php echo APP_URL; ?>/admin/countries.php" class="btn btn-secondary">← Back to Countries</a>
+            <a href="<?php echo APP_URL; ?>/admin/countries" class="btn btn-secondary">← Back to Countries</a>
         </div>
         
         <?php if (!empty($errors)): ?>
@@ -520,7 +520,7 @@ function dval($langCode, $field, $details) {
                     <?php endif; ?>
                 </div>
                 <div style="display: flex; gap: 1rem;">
-                    <a href="<?php echo APP_URL; ?>/admin/countries.php" class="btn btn-secondary">Cancel</a>
+                    <a href="<?php echo APP_URL; ?>/admin/countries" class="btn btn-secondary">Cancel</a>
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
             </div>

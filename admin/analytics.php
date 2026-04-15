@@ -43,7 +43,7 @@ if (!$tablesExist) {
                     The analytics database tables haven't been created yet. 
                     Click the button below to run the one-time setup.
                 </p>
-                <a href="setup_analytics.php" class="btn btn-primary" style="margin-top: 1rem;">
+                <a href="setup_analytics" class="btn btn-primary" style="margin-top: 1rem;">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" style="margin-right: 0.5rem;">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/>
                     </svg>

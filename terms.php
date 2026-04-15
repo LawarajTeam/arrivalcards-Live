@@ -170,7 +170,7 @@ include __DIR__ . '/includes/header.php';
             
             <h2>8. Privacy and Data Protection</h2>
             <p>
-                Your use of the Service is also governed by our Privacy Policy, which is incorporated into these Terms by reference. Please review our <a href="<?php echo APP_URL; ?>/privacy.php" style="color: #3b82f6;">Privacy Policy</a> to understand our data practices.
+                Your use of the Service is also governed by our Privacy Policy, which is incorporated into these Terms by reference. Please review our <a href="<?php echo APP_URL; ?>/privacy" style="color: #3b82f6;">Privacy Policy</a> to understand our data practices.
             </p>
             
             <h2>9. Service Modifications and Availability</h2>
@@ -214,7 +214,7 @@ include __DIR__ . '/includes/header.php';
             
             <h2>12. Dispute Resolution</h2>
             <p>
-                If you have a dispute with us, please contact us first through our <a href="<?php echo APP_URL; ?>/contact.php" style="color: #3b82f6;">contact form</a>. We will attempt to resolve disputes amicably through good faith negotiations.
+                If you have a dispute with us, please contact us first through our <a href="<?php echo APP_URL; ?>/contact" style="color: #3b82f6;">contact form</a>. We will attempt to resolve disputes amicably through good faith negotiations.
             </p>
             
             <h2>13. Severability</h2>
@@ -237,7 +237,7 @@ include __DIR__ . '/includes/header.php';
                 If you have questions about these Terms of Service, please contact us:
             </p>
             <div style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
-                <p style="margin: 0 0 0.5rem;"><strong>Email:</strong> Via our <a href="<?php echo APP_URL; ?>/contact.php" style="color: #3b82f6;">contact form</a></p>
+                <p style="margin: 0 0 0.5rem;"><strong>Email:</strong> Via our <a href="<?php echo APP_URL; ?>/contact" style="color: #3b82f6;">contact form</a></p>
                 <p style="margin: 0;"><strong>Website:</strong> <?php echo APP_URL; ?></p>
             </div>
             

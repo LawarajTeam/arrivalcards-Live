@@ -241,7 +241,7 @@ function generateExtendedSummary($country, $langCode, $existingSummary) {
             <?php endif; ?>
 
             <div style="display: flex; gap: 1rem;">
-                <a href="<?php echo APP_URL; ?>/admin/language-check.php" class="btn btn-primary">
+                <a href="<?php echo APP_URL; ?>/admin/language-check" class="btn btn-primary">
                     View Language Check
                 </a>
                 <button onclick="location.reload()" class="btn btn-secondary">
@@ -302,7 +302,7 @@ function generateExtendedSummary($country, $langCode, $existingSummary) {
                 <button type="submit" class="btn btn-primary" style="font-size: 1.125rem; padding: 1rem 2rem;">
                     🚀 Fix All Translations Now
                 </button>
-                <a href="<?php echo APP_URL; ?>/admin/language-check.php" class="btn btn-secondary" style="font-size: 1.125rem; padding: 1rem 2rem;">
+                <a href="<?php echo APP_URL; ?>/admin/language-check" class="btn btn-secondary" style="font-size: 1.125rem; padding: 1rem 2rem;">
                     Cancel
                 </a>
             </form>

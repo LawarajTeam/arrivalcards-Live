@@ -228,7 +228,7 @@ $pageTitle = 'User Feedback - Admin';
                 </select>
                 <button type="submit" class="btn btn-primary btn-sm">Apply</button>
                 <?php if ($filterType || $filterCountry): ?>
-                    <a href="feedback.php" class="btn btn-secondary btn-sm">Clear</a>
+                    <a href="feedback" class="btn btn-secondary btn-sm">Clear</a>
                 <?php endif; ?>
                 <span style="margin-left: auto; color: #9ca3af; font-size: 0.85rem;">
                     Showing <?php echo number_format($totalItems); ?> entries

@@ -181,7 +181,7 @@ $csrfToken = generateCSRFToken();
     <div class="admin-container">
         <div class="section-header">
             <h1><?php echo e($pageTitle); ?></h1>
-            <a href="<?php echo APP_URL; ?>/admin/countries.php" class="btn btn-secondary">← Back to Countries</a>
+            <a href="<?php echo APP_URL; ?>/admin/countries" class="btn btn-secondary">← Back to Countries</a>
         </div>
         
         <?php if (!empty($errors)): ?>
@@ -408,7 +408,7 @@ $csrfToken = generateCSRFToken();
             </div>
             
             <div class="form-actions" style="padding: 1.5rem 0; display: flex; gap: 1rem; justify-content: flex-end;">
-                <a href="<?php echo APP_URL; ?>/admin/countries.php" class="btn btn-secondary">Cancel</a>
+                <a href="<?php echo APP_URL; ?>/admin/countries" class="btn btn-secondary">Cancel</a>
                 <button type="submit" class="btn btn-primary">Create Country</button>
             </div>
         </form>

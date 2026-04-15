@@ -101,7 +101,7 @@ $recentContacts = $stmt->fetchAll();
         <div class="admin-section">
             <div class="section-header">
                 <h2>Recent Contact Submissions</h2>
-                <a href="<?php echo APP_URL; ?>/admin/contacts.php" class="btn btn-secondary">View All</a>
+                <a href="<?php echo APP_URL; ?>/admin/contacts" class="btn btn-secondary">View All</a>
             </div>
             
             <?php if (empty($recentContacts)): ?>
@@ -146,7 +146,7 @@ $recentContacts = $stmt->fetchAll();
         <div class="admin-section">
             <h2>Quick Actions</h2>
             <div class="action-grid">
-                <a href="<?php echo APP_URL; ?>/admin/analytics.php" class="action-card">
+                <a href="<?php echo APP_URL; ?>/admin/analytics" class="action-card">
                     <svg width="32" height="32" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
                     </svg>
@@ -154,7 +154,7 @@ $recentContacts = $stmt->fetchAll();
                     <p>View detailed traffic reports and visitor insights</p>
                 </a>
                 
-                <a href="<?php echo APP_URL; ?>/admin/countries.php" class="action-card">
+                <a href="<?php echo APP_URL; ?>/admin/countries" class="action-card">
                     <svg width="32" height="32" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l2.293 2.293A1 1 0 0018 16V6a1 1 0 00-.293-.707z" clip-rule="evenodd"/>
                     </svg>
@@ -162,7 +162,7 @@ $recentContacts = $stmt->fetchAll();
                     <p>Add, edit, or remove country information</p>
                 </a>
                 
-                <a href="<?php echo APP_URL; ?>/admin/contacts.php" class="action-card">
+                <a href="<?php echo APP_URL; ?>/admin/contacts" class="action-card">
                     <svg width="32" height="32" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
                         <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
@@ -171,7 +171,7 @@ $recentContacts = $stmt->fetchAll();
                     <p>View and manage contact submissions</p>
                 </a>
                 
-                <a href="<?php echo APP_URL; ?>/index.php" class="action-card" target="_blank">
+                <a href="<?php echo APP_URL; ?>/" class="action-card" target="_blank">
                     <svg width="32" height="32" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                     </svg>
@@ -179,7 +179,7 @@ $recentContacts = $stmt->fetchAll();
                     <p>Preview the public-facing site</p>
                 </a>
                 
-                <a href="<?php echo APP_URL; ?>/test.php" class="action-card" target="_blank">
+                <a href="<?php echo APP_URL; ?>/test" class="action-card" target="_blank">
                     <svg width="32" height="32" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                     </svg>

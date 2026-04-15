@@ -34,7 +34,7 @@ $countries = $stmt->fetchAll();
     <div class="admin-container">
         <div class="section-header">
             <h1>Manage Countries</h1>
-            <a href="<?php echo APP_URL; ?>/admin/add_country.php" class="btn btn-primary">
+            <a href="<?php echo APP_URL; ?>/admin/add_country" class="btn btn-primary">
                 <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
                 </svg>
@@ -51,7 +51,7 @@ $countries = $stmt->fetchAll();
         <div class="admin-section">
             <?php if (empty($countries)): ?>
                 <p style="text-align: center; color: var(--text-secondary); padding: 2rem;">
-                    No countries found. <a href="<?php echo APP_URL; ?>/admin/add_country.php">Add your first country</a>
+                    No countries found. <a href="<?php echo APP_URL; ?>/admin/add_country">Add your first country</a>
                 </p>
             <?php else: ?>
                 <div class="table-responsive">
@@ -87,7 +87,7 @@ $countries = $stmt->fetchAll();
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <a href="<?php echo APP_URL; ?>/admin/edit_country.php?id=<?php echo $country['id']; ?>" class="btn btn-secondary btn-sm">Edit</a>
+                                        <a href="<?php echo APP_URL; ?>/admin/edit_country?id=<?php echo $country['id']; ?>" class="btn btn-secondary btn-sm">Edit</a>
                                         <form method="POST" action="<?php echo APP_URL; ?>/admin/delete_country.php" style="display:inline;" 
                                               onsubmit="return confirm('Are you sure you want to delete this country? This cannot be undone.');">
                                             <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
