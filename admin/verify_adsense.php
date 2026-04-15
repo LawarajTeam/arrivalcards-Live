@@ -162,7 +162,7 @@ try {
     
     // Check 6: Test Homepage for AdSense Code
     if (!empty($clientId) && $enabled === '1') {
-        $homeUrl = APP_URL . '/index.php';
+        $homeUrl = APP_URL . '/';
         
         // Use cURL with proper options
         $ch = curl_init();

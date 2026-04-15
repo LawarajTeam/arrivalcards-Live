@@ -8,7 +8,7 @@ require_once __DIR__ . '/../includes/functions.php';
 
 // Redirect if already logged in
 if (isAdminLoggedIn()) {
-    redirect(APP_URL . '/admin/index.php');
+    redirect(APP_URL . '/admin/');
 }
 
 $error = '';
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Log the login
                 logAdminAction('Admin Login');
                 
-                redirect(APP_URL . '/admin/index.php');
+                redirect(APP_URL . '/admin/');
             } else {
                 // Increment failed attempt counter
                 $_SESSION[$lockoutKey]['count']++;

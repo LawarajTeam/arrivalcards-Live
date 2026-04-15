@@ -24,11 +24,11 @@ if (in_array($requestedLang, $validLangs)) {
 }
 
 // Redirect back to previous page or home
-$redirect = $_GET['redirect'] ?? '/ArrivalCards/index.php';
+$redirect = $_GET['redirect'] ?? '/';
 
 // Parse the redirect URL to get just the path
 $parsedUrl = parse_url($redirect);
-$path = $parsedUrl['path'] ?? '/ArrivalCards/index.php';
+$path = $parsedUrl['path'] ?? '/';
 
 // Remove the base path (/ArrivalCards/) if it exists to avoid duplication
 $path = preg_replace('#^/ArrivalCards/#', '', $path);
@@ -36,7 +36,7 @@ $path = ltrim($path, '/');
 
 // Ensure redirect is safe (no external URLs)
 if (empty($path) || strpos($path, 'http') === 0 || strpos($path, '//') === 0) {
-    $path = 'index.php';
+    $path = '';
 }
 
 // Get existing query parameters

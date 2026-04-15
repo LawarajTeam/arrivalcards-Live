@@ -7,7 +7,7 @@ require_once __DIR__ . '/includes/analytics_functions.php';
 $countryId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($countryId <= 0) {
-    header('Location: index.php');
+    header('Location: /');
     exit;
 }
 
@@ -33,7 +33,7 @@ $stmt->execute([CURRENT_LANG, $countryId]);
 $country = $stmt->fetch();
 
 if (!$country) {
-    header('Location: index.php');
+    header('Location: /');
     exit;
 }
 
@@ -163,8 +163,8 @@ $faqSchema = [
 
 // Setup visual breadcrumbs for user navigation
 $breadcrumbs = [
-    ['name' => t('home'), 'url' => APP_URL . '/index.php'],
-    ['name' => $country['region'], 'url' => APP_URL . '/index.php?region=' . urlencode($country['region'])],
+    ['name' => t('home'), 'url' => APP_URL . '/'],
+    ['name' => $country['region'], 'url' => APP_URL . '/?region=' . urlencode($country['region'])],
     ['name' => $country['country_name'], 'url' => null]
 ];
 

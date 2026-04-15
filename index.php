@@ -31,7 +31,7 @@ $structuredData = [
     'description' => $pageDescription,
     'potentialAction' => [
         '@type' => 'SearchAction',
-        'target' => APP_URL . '/index.php?search={search_term_string}',
+        'target' => APP_URL . '/?search={search_term_string}',
         'query-input' => 'required name=search_term_string'
     ]
 ];

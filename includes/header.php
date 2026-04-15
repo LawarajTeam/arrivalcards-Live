@@ -148,7 +148,7 @@ if (!isset($ogImage)) {
                 
                 <!-- Navigation Menu -->
                 <nav class="main-nav">
-                    <a href="<?php echo APP_URL; ?>/" class="nav-link <?php echo $currentPage == 'index.php' || $currentPage == 'index' ? 'active' : ''; ?>">
+                    <a href="<?php echo APP_URL; ?>/" class="nav-link <?php echo $currentPage == 'index' ? 'active' : ''; ?>">
                         🌍 Countries
                     </a>
                     <a href="<?php echo APP_URL; ?>/best-passports" class="nav-link <?php echo $currentPage == 'best-passports.php' || $currentPage == 'best-passports' ? 'active' : ''; ?>">

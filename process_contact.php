@@ -153,4 +153,4 @@ if (!$emailSent) {
 
 // Success!
 setFlashMessage(t('contact_success'), 'success');
-redirect(APP_URL . '/index.php');
+redirect(APP_URL . '/');
