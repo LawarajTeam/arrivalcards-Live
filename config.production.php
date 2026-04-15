@@ -82,6 +82,11 @@ define('MAX_FILE_SIZE', 5242880); // 5MB in bytes
 define('ALLOWED_EXTENSIONS', ['jpg', 'jpeg', 'png', 'pdf']);
 
 // ============================================
+// ANALYTICS & TRACKING
+// ============================================
+putenv('GA_TRACKING_ID=G-WPLFXEFN85');
+
+// ============================================
 // MAINTENANCE MODE
 // ============================================
 define('MAINTENANCE_MODE', false); // Set to true to enable maintenance mode
