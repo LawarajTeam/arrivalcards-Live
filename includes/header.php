@@ -138,10 +138,11 @@ if (!isset($ogImage)) {
     <?php endif; ?>
     
     <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3368423914848945"
+         crossorigin="anonymous"></script>
     <?php 
     if (file_exists(__DIR__ . '/adsense_functions.php')) {
         require_once __DIR__ . '/adsense_functions.php';
-        echo getAdSenseScript();
     }
     ?>
 </head>
