@@ -9,7 +9,7 @@ require_once __DIR__ . '/includes/functions.php';
 
 $pageTitle = 'Talk to a Visa Agent – Get Expert Help | Arrival Cards';
 $pageDescription = 'Request a free callback from one of our visa experts. Tell us about your trip and we\'ll guide you through the visa process step by step.';
-$pageKeywords = 'visa agent, visa help, visa consultation, talk to visa expert, visa callback, visa advice';
+$pageKeywords = 'visa agent callback, talk to visa expert, free visa consultation, visa help, visa specialist, visa advice, visa application help';
 
 // Pre-fill destination from card link (sanitised)
 $prefillDestination = '';

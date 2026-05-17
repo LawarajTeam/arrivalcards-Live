@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
-    
-    <!-- Homepage (all languages) -->
+
+    <!-- Homepage -->
     <url>
         <loc>https://arrivalcards.com/</loc>
-        <lastmod>2026-04-15</lastmod>
+        <lastmod>2026-05-17</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
         <xhtml:link rel="alternate" hreflang="en" href="https://arrivalcards.com/?lang=en" />
@@ -18,159 +18,525 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="https://arrivalcards.com/" />
     </url>
 
-    <!-- Premium Passport Comparison Page -->
+    <!-- Best Passports Ranking -->
     <url>
         <loc>https://arrivalcards.com/best-passports</loc>
-        <lastmod>2026-04-15</lastmod>
+        <lastmod>2026-05-17</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
 
-    <!-- Compare Passports Page -->
+    <!-- Compare Passports Tool -->
     <url>
         <loc>https://arrivalcards.com/compare-passports</loc>
-        <lastmod>2026-04-15</lastmod>
+        <lastmod>2026-05-17</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
 
-    <!-- FAQ Page -->
+    <!-- Talk to a Visa Agent -->
     <url>
-        <loc>https://arrivalcards.com/faq</loc>
-        <lastmod>2026-04-15</lastmod>
+        <loc>https://arrivalcards.com/request-callback</loc>
+        <lastmod>2026-05-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
-    <!-- About Page -->
+    <!-- FAQ -->
     <url>
-        <loc>https://arrivalcards.com/about</loc>
-        <lastmod>2026-04-15</lastmod>
+        <loc>https://arrivalcards.com/faq</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Contact -->
+    <url>
+        <loc>https://arrivalcards.com/contact</loc>
+        <lastmod>2026-05-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
-    <!-- Contact Page -->
+    <!-- About -->
     <url>
-        <loc>https://arrivalcards.com/contact</loc>
-        <lastmod>2026-04-15</lastmod>
+        <loc>https://arrivalcards.com/about</loc>
+        <lastmod>2026-05-17</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <priority>0.7</priority>
     </url>
 
-    <!-- Privacy Policy Page -->
-    <url>
-        <loc>https://arrivalcards.com/privacy</loc>
-        <lastmod>2026-04-15</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
-    </url>
-
-    <!-- Terms of Service Page -->
-    <url>
-        <loc>https://arrivalcards.com/terms</loc>
-        <lastmod>2026-04-15</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
-    </url>
-
-    <!-- Report Error Page -->
+    <!-- Report Error -->
     <url>
         <loc>https://arrivalcards.com/report-error</loc>
-        <lastmod>2026-04-15</lastmod>
+        <lastmod>2026-05-17</lastmod>
         <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Privacy Policy -->
+    <url>
+        <loc>https://arrivalcards.com/privacy</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+
+    <!-- Terms of Service -->
+    <url>
+        <loc>https://arrivalcards.com/terms</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.4</priority>
+    </url>
+
+    <!-- ==================== Country Pages ==================== -->
+    <!-- Americas -->
+    <url>
+        <loc>https://arrivalcards.com/en/country/us</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/ca</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/mx</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/br</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/ar</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/co</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/pe</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/cl</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/cu</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/cr</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Europe -->
+    <url>
+        <loc>https://arrivalcards.com/en/country/gb</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/de</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/fr</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/it</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/es</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/nl</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/ch</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/at</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/se</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/no</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/dk</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/fi</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/be</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/pt</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/ie</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/gr</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/pl</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/cz</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/hu</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/ro</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/hr</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/ru</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/tr</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/ua</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Asia-Pacific -->
+    <url>
+        <loc>https://arrivalcards.com/en/country/au</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/nz</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/jp</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/cn</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/kr</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/sg</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/th</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/id</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/my</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/ph</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/vn</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/in</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/pk</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/bd</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/lk</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/np</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/mv</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/hk</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/tw</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/kh</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/mm</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Middle East -->
+    <url>
+        <loc>https://arrivalcards.com/en/country/ae</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/sa</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/qa</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/om</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/kw</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/bh</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/jo</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/il</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Africa -->
+    <url>
+        <loc>https://arrivalcards.com/en/country/za</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/eg</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/ma</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/tn</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/ke</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/ng</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/gh</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/tz</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://arrivalcards.com/en/country/ug</loc>
+        <lastmod>2026-05-17</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
-
-    <!-- Dynamic Sitemap Index (includes all country pages) -->
-    <!-- For dynamic country pages, use: https://arrivalcards.com/country?country={country_code}
-         OR with clean URLs: https://arrivalcards.com/country/{country_code}
-         
-         This static sitemap covers main pages. Generated sitemaps for countries can be accessed via:
-         https://arrivalcards.com/sitemap.xml.php (dynamic generation)
-         
-         Common country page examples (195+ countries covered):
-    -->
-
-    <!-- Sample Country Pages (most popular destinations) -->
     <url>
-        <loc>https://arrivalcards.com/country/US</loc>
-        <lastmod>2026-04-15</lastmod>
+        <loc>https://arrivalcards.com/en/country/et</loc>
+        <lastmod>2026-05-17</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
+        <priority>0.6</priority>
     </url>
-
-    <url>
-        <loc>https://arrivalcards.com/country/GB</loc>
-        <lastmod>2026-04-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://arrivalcards.com/country/CA</loc>
-        <lastmod>2026-04-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://arrivalcards.com/country/AU</loc>
-        <lastmod>2026-04-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://arrivalcards.com/country/SG</loc>
-        <lastmod>2026-04-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://arrivalcards.com/country/DE</loc>
-        <lastmod>2026-04-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://arrivalcards.com/country/FR</loc>
-        <lastmod>2026-04-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://arrivalcards.com/country/JP</loc>
-        <lastmod>2026-04-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://arrivalcards.com/country/NZ</loc>
-        <lastmod>2026-04-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://arrivalcards.com/country/CH</loc>
-        <lastmod>2026-04-15</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <!-- Note: This is a primary sitemap covering key pages.
-         For a complete sitemap index with ALL 195+ countries, consider:
-         1. Using the dynamic sitemap.xml.php endpoint
-         2. Creating a sitemap index that references multiple country-specific sitemaps
-         3. Regenerating this sitemap periodically with all countries from the database
-         
-         Update last <lastmod> date whenever content changes.
-         Recommended update frequency: Weekly for country pages, Monthly for static pages.
-    -->
 
 </urlset>

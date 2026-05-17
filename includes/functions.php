@@ -148,7 +148,7 @@ function getCountries($region = null, $visaType = null, $search = null) {
         $params[] = "%$search%";
     }
     
-    $sql .= " ORDER BY c.display_order, ct.country_name";
+    $sql .= " ORDER BY c.view_count DESC, ct.country_name";
     
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
