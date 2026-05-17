@@ -38,7 +38,7 @@ include __DIR__ . '/includes/header.php';
             
             <h2>2. Description of Service</h2>
             <p>
-                Arrival Cards provides informational resources regarding visa requirements, entry documentation, and arrival cards for international travel to 196 countries worldwide. Our services include:
+                Arrival Cards provides informational resources regarding visa requirements, entry documentation, and arrival cards for international travel to 179 countries worldwide. Our services include:
             </p>
             <ul>
                 <li>Visa requirement information and guidelines</li>

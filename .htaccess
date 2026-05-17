@@ -87,7 +87,7 @@ RewriteRule ^country/([a-z]{2,3})/?$ country.php?code=$1 [QSA,L]
     Header set Referrer-Policy "strict-origin-when-cross-origin"
     
     # Content Security Policy (includes Google AdSense/Analytics domains)
-    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://www.google-analytics.com; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com;"
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://www.google.com https://analytics.google.com https://stats.g.doubleclick.net https://ep1.adtrafficquality.google; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.googletagmanager.com;"
     
     # Permissions Policy
     Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"

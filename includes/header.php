@@ -116,10 +116,14 @@ if (!isset($ogImage)) {
     <?php endforeach; ?>
     <link rel="alternate" hreflang="x-default" href="<?php echo e(APP_URL . '/en/' . $_pathWithoutLang); ?>">
     <?php } else {
+        // Generate clean /{lang}/pagename URLs for non-language-prefix pages
+        $phpSelf = $_SERVER['PHP_SELF'] ?? '/index.php';
+        $pageName = basename($phpSelf, '.php');
+        $cleanPath = ($pageName === 'index') ? '' : $pageName;
         foreach ($langCodes as $langCode): ?>
-    <link rel="alternate" hreflang="<?php echo $langCode; ?>" href="<?php echo e($hreflangBase . $hreflangQueryPrefix . 'lang=' . $langCode); ?>">
+    <link rel="alternate" hreflang="<?php echo $langCode; ?>" href="<?php echo e(APP_URL . '/' . $langCode . '/' . $cleanPath); ?>">
     <?php endforeach; ?>
-    <link rel="alternate" hreflang="x-default" href="<?php echo e($hreflangBase . $hreflangQueryPrefix . 'lang=en'); ?>">
+    <link rel="alternate" hreflang="x-default" href="<?php echo e(APP_URL . '/en/' . $cleanPath); ?>">
     <?php } ?>
     
     <?php if (isset($additionalCSS)): ?>

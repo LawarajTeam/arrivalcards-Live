@@ -9,7 +9,7 @@ require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/analytics_functions.php';
 
 $pageTitle = 'About Us - Your Trusted Travel Documentation Resource | Arrival Cards';
-$pageDescription = 'Learn about Arrival Cards - your comprehensive guide to visa requirements, entry documentation, and arrival cards for 196 countries. Trusted by travelers worldwide since 2026.';
+$pageDescription = 'Learn about Arrival Cards - your comprehensive guide to visa requirements, entry documentation, and arrival cards for 179 countries. Trusted by travelers worldwide since 2026.';
 $pageKeywords = 'about arrival cards, visa information service, travel documentation guide, trusted visa resource, international travel help';
 
 // Track page view
@@ -49,7 +49,7 @@ include __DIR__ . '/includes/header.php';
             <div class="about-mission" style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 2.5rem; border-radius: 12px; margin-bottom: 3rem; box-shadow: 0 4px 16px rgba(30, 58, 138, 0.2);">
                 <h2 style="color: white; margin-bottom: 1rem; font-size: 1.8rem;">Our Mission</h2>
                 <p style="font-size: 1.1rem; line-height: 1.8; margin: 0;">
-                    At Arrival Cards, we believe that international travel should be accessible and stress-free for everyone. Our mission is to provide clear, accurate, and up-to-date visa and entry requirement information for all 196 countries worldwide, helping millions of travelers prepare confidently for their journeys.
+                    At Arrival Cards, we believe that international travel should be accessible and stress-free for everyone. Our mission is to provide clear, accurate, and up-to-date visa and entry requirement information for all 179 countries worldwide, helping millions of travelers prepare confidently for their journeys.
                 </p>
             </div>
             
@@ -57,7 +57,7 @@ include __DIR__ . '/includes/header.php';
             <h2 style="margin-top: 3rem;">What We Offer</h2>
             <div class="about-offer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0 3rem;">
                 <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #3b82f6;">
-                    <h3 style="color: #1e3a8a; margin-bottom: 0.75rem;">🌍 196 Countries</h3>
+                    <h3 style="color: #1e3a8a; margin-bottom: 0.75rem;">🌍 179 Countries</h3>
                     <p style="color: var(--text-secondary); margin: 0; line-height: 1.7;">
                         Comprehensive visa and entry requirement information for every country in the world, all in one convenient location.
                     </p>
@@ -103,7 +103,7 @@ include __DIR__ . '/includes/header.php';
             <h2 style="margin-top: 3rem;">Why Choose Arrival Cards?</h2>
             <div class="about-padded" style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 2rem; border-radius: 8px; margin: 2rem 0;">
                 <p style="line-height: 1.8; margin-bottom: 1rem;">
-                    <strong>Comprehensive Coverage:</strong> Unlike scattered resources across the internet, we provide a centralized hub for visa information covering all 196 countries. No more jumping between multiple websites or government portals.
+                    <strong>Comprehensive Coverage:</strong> Unlike scattered resources across the internet, we provide a centralized hub for visa information covering all 179 countries. No more jumping between multiple websites or government portals.
                 </p>
                 <p style="line-height: 1.8; margin-bottom: 1rem;">
                     <strong>Regularly Updated:</strong> Visa regulations change frequently. Our dedicated team monitors official sources and updates our database to reflect the latest requirements, ensuring you always have current information.
@@ -173,7 +173,7 @@ include __DIR__ . '/includes/header.php';
             <!-- Stats -->
             <div class="about-stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 3rem 0;">
                 <div style="text-align: center; padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                    <div class="about-stat-value" style="font-size: 2.5rem; font-weight: bold; color: #3b82f6; margin-bottom: 0.5rem;">196</div>
+                    <div class="about-stat-value" style="font-size: 2.5rem; font-weight: bold; color: #3b82f6; margin-bottom: 0.5rem;">179</div>
                     <div style="color: var(--text-secondary);">Countries Covered</div>
                 </div>
                 <div style="text-align: center; padding: 1.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">

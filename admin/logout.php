@@ -3,6 +3,8 @@
  * Admin Logout
  */
 
+require_once __DIR__ . '/../includes/config.php';
+
 session_start();
 
 // Clear all session variables
@@ -17,5 +19,5 @@ if (isset($_COOKIE[session_name()])) {
 }
 
 // Redirect to login page
-header('Location: ' . (getenv('APP_URL') ?: 'http://localhost/ArrivalCards') . '/admin/login.php');
+header('Location: ' . APP_URL . '/admin/login.php');
 exit;

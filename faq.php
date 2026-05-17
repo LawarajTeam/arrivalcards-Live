@@ -25,7 +25,7 @@ $faqSchema = [
             'name' => 'What is Arrival Cards?',
             'acceptedAnswer' => [
                 '@type' => 'Answer',
-                'text' => 'Arrival Cards is a comprehensive, free information resource providing visa requirements and entry documentation details for all 196 countries worldwide. We help travelers understand what documents they need before international travel. Our service is available in 7 languages to serve global travelers.'
+                'text' => 'Arrival Cards is a comprehensive, free information resource providing visa requirements and entry documentation details for all 179 countries worldwide. We help travelers understand what documents they need before international travel. Our service is available in 7 languages to serve global travelers.'
             ]
         ],
         [

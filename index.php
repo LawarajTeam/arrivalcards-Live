@@ -9,18 +9,19 @@ require_once __DIR__ . '/includes/functions.php';
 require_once __DIR__ . '/includes/adsense_functions.php';
 require_once __DIR__ . '/includes/analytics_functions.php';
 
-$pageTitle = 'Visa Requirements & Arrival Cards for 196 Countries | Arrival Cards';
-$pageDescription = 'Free visa information, entry requirements, and arrival card details for 196 countries worldwide. Find out if you need a visa, eVisa, or visa on arrival in 7 languages. Fast search, comprehensive guides.';
 $pageKeywords = 'visa requirements, arrival cards, entry requirements, eVisa, visa on arrival, visa free countries, tourist visa, travel documents, passport requirements, international travel';
-
-// Track page view
-trackPageView(null, $pageTitle);
 
 // Get countries
 $countries = getCountries();
 $regions = getRegions();
 $visaTypes = getVisaTypes();
 $totalCountries = getCountryCount();
+
+$pageTitle = "Visa Requirements & Arrival Cards for {$totalCountries} Countries | Arrival Cards";
+$pageDescription = "Free visa information, entry requirements, and arrival card details for {$totalCountries} countries worldwide. Find out if you need a visa, eVisa, or visa on arrival in 7 languages. Fast search, comprehensive guides.";
+
+// Track page view
+trackPageView(null, $pageTitle);
 
 // Bulk-fetch live view counts for all countries (both queries bypass the session cache)
 $todayViewsMap = getAllCountriesTodayViews();

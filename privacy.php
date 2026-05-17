@@ -7,7 +7,7 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/functions.php';
 
 $pageTitle = 'Privacy Policy - Data Protection | Arrival Cards';
-$pageDescription = 'Privacy policy for Arrival Cards. Learn how we protect your data while providing visa and travel information for 196 countries worldwide.';
+$pageDescription = 'Privacy policy for Arrival Cards. Learn how we protect your data while providing visa and travel information for 179 countries worldwide.';
 $pageKeywords = 'privacy policy, data protection, user privacy, GDPR, travel data privacy, visa information privacy';
 ?>
 
