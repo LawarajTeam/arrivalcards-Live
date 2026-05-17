@@ -1221,15 +1221,15 @@ a:hover {
 .site-footer {
     background-color: var(--text-primary);
     color: white;
-    padding: var(--spacing-2xl) 0 var(--spacing-lg);
+    padding: var(--spacing-xl) 0 var(--spacing-md);
     margin-top: auto;
 }
 
 .footer-content {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--spacing-xl);
-    margin-bottom: var(--spacing-xl);
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
 }
 
 @media (min-width: 768px) {
@@ -1241,13 +1241,18 @@ a:hover {
 .footer-section h3,
 .footer-section h4 {
     color: white;
-    margin-bottom: var(--spacing-md);
-    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-base);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.6;
+    font-weight: 600;
 }
 
 .footer-section p {
     color: rgba(255, 255, 255, 0.8);
-    line-height: 1.6;
+    line-height: 1.5;
+    font-size: var(--font-size-sm);
 }
 
 .footer-links ul {
@@ -1255,11 +1260,12 @@ a:hover {
 }
 
 .footer-links li {
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: 0.3rem;
 }
 
 .footer-links a {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: var(--font-size-sm);
     transition: color var(--transition-fast);
 }
 
@@ -1268,10 +1274,11 @@ a:hover {
 }
 
 .stat-number {
-    font-size: var(--font-size-3xl);
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary-light);
     margin-bottom: 0;
+    line-height: 1.2;
 }
 
 .stat-label {
@@ -1279,11 +1286,27 @@ a:hover {
     color: rgba(255, 255, 255, 0.7);
 }
 
+.footer-stat-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin-bottom: 0.4rem;
+}
+
+.footer-stat-row .stat-number {
+    font-size: 1.25rem;
+}
+
+.footer-stat-row .stat-label {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
 .footer-disclaimer {
     background-color: rgba(0, 0, 0, 0.2);
-    padding: var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--radius-md);
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
 }
 
 .footer-disclaimer p {
@@ -1294,7 +1317,7 @@ a:hover {
 
 .footer-bottom {
     text-align: center;
-    padding-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 

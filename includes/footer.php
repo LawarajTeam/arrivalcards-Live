@@ -23,10 +23,11 @@
                 
                 <div class="footer-section footer-stats">
                     <h4><?php echo e(t('total_countries')); ?></h4>
-                    <p class="stat-number"><?php echo getCountryCount(); ?></p>
-                    <p class="stat-label"><?php echo e(t('last_updated')); ?>: <?php echo formatDate(date('Y-m-d')); ?></p>
+                    <div class="footer-stat-row">
+                        <span class="stat-number"><?php echo getCountryCount(); ?></span>
+                        <span class="stat-label">countries &nbsp;·&nbsp; updated <?php echo formatDate(date('Y-m-d'), 'M j, Y'); ?></span>
+                    </div>
                     <?php
-                    // Site-wide view stats
                     $footerViewStats = ['today' => 0, 'total' => 0];
                     try {
                         $row = $pdo->query("
@@ -41,11 +42,15 @@
                         ];
                     } catch (Exception $e) {}
                     ?>
-                    <p class="stat-label" style="margin-top:1rem;">Page Views</p>
-                    <p class="stat-number"><?php echo number_format($footerViewStats['today']); ?></p>
-                    <p class="stat-label">Today</p>
-                    <p class="stat-number" style="margin-top:0.4rem;"><?php echo number_format($footerViewStats['total']); ?></p>
-                    <p class="stat-label">All Time</p>
+                    <h4 style="margin-top:0.75rem;">Page Views</h4>
+                    <div class="footer-stat-row">
+                        <span class="stat-number"><?php echo number_format($footerViewStats['today']); ?></span>
+                        <span class="stat-label">today</span>
+                    </div>
+                    <div class="footer-stat-row">
+                        <span class="stat-number"><?php echo number_format($footerViewStats['total']); ?></span>
+                        <span class="stat-label">all time</span>
+                    </div>
                 </div>
             </div>
             
