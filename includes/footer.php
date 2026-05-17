@@ -40,7 +40,7 @@
             <!-- Bottom row: disclaimer · copyright -->
             <div class="footer-bottom">
                 <span>⚠️ <?php echo e(t('footer_disclaimer')); ?></span>
-                <span class="footer-copy"><?php echo e(t('footer_copyright')); ?> &nbsp;·&nbsp; An <a href="https://www.shmarlo.com" target="_blank" rel="noopener noreferrer">SDA Project</a></span>
+                <span class="footer-copy">&copy; <?php echo date('Y'); ?> Arrival Cards. All rights reserved. &nbsp;·&nbsp; An <a href="https://www.shmarlo.com" target="_blank" rel="noopener noreferrer">SDA Project</a></span>
             </div>
         </div>
     </footer>
