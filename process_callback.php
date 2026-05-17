@@ -43,10 +43,18 @@ if ($captchaAnswer !== $captchaExpected) {
 
 // Sanitize inputs
 $name                = trim($_POST['name'] ?? '');
-$phone               = trim($_POST['phone'] ?? '');
+$phoneCode           = preg_replace('/[^\+0-9]/', '', trim($_POST['phone_code'] ?? ''));
+$phoneNumber         = trim($_POST['phone_number'] ?? '');
+$phone               = $phoneCode . ' ' . $phoneNumber;
 $email               = trim($_POST['email'] ?? '');
 $passportCountry     = trim($_POST['passport_country'] ?? '');
-$destinationCountries = trim($_POST['destination_countries'] ?? '');
+// destination_countries comes as array from multi-select
+$rawDestinations     = $_POST['destination_countries'] ?? [];
+if (is_array($rawDestinations)) {
+    $destinationCountries = implode(', ', array_map('trim', array_slice($rawDestinations, 0, 20)));
+} else {
+    $destinationCountries = trim($rawDestinations);
+}
 $tripDetails         = trim($_POST['trip_details'] ?? '');
 $timeline            = trim($_POST['timeline'] ?? '');
 $comments            = trim($_POST['comments'] ?? '');
@@ -69,7 +77,7 @@ if (strlen($name) < 2 || strlen($name) > 100) {
 }
 
 // Validate phone
-if (strlen($phone) < 5 || strlen($phone) > 30) {
+if (strlen($phoneNumber) < 4 || strlen($phoneNumber) > 20) {
     $errors[] = 'Please provide a valid phone number.';
 }
 

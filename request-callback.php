@@ -22,6 +22,88 @@ $captchaA = random_int(2, 9);
 $captchaB = random_int(1, 9);
 $_SESSION['callback_captcha']     = $captchaA + $captchaB;
 $_SESSION['callback_form_loaded'] = time();
+
+// Dial codes list
+$dialCodes = [
+    ['+1','🇺🇸 +1 (US / Canada)'], ['+7','🇷🇺 +7 (Russia / KZ)'],
+    ['+20','🇪🇬 +20 (Egypt)'], ['+27','🇿🇦 +27 (South Africa)'],
+    ['+30','🇬🇷 +30 (Greece)'], ['+31','🇳🇱 +31 (Netherlands)'],
+    ['+32','🇧🇪 +32 (Belgium)'], ['+33','🇫🇷 +33 (France)'],
+    ['+34','🇪🇸 +34 (Spain)'], ['+36','🇭🇺 +36 (Hungary)'],
+    ['+39','🇮🇹 +39 (Italy)'], ['+40','🇷🇴 +40 (Romania)'],
+    ['+41','🇨🇭 +41 (Switzerland)'], ['+43','🇦🇹 +43 (Austria)'],
+    ['+44','🇬🇧 +44 (UK)'], ['+45','🇩🇰 +45 (Denmark)'],
+    ['+46','🇸🇪 +46 (Sweden)'], ['+47','🇳🇴 +47 (Norway)'],
+    ['+48','🇵🇱 +48 (Poland)'], ['+49','🇩🇪 +49 (Germany)'],
+    ['+51','🇵🇪 +51 (Peru)'], ['+52','🇲🇽 +52 (Mexico)'],
+    ['+54','🇦🇷 +54 (Argentina)'], ['+55','🇧🇷 +55 (Brazil)'],
+    ['+56','🇨🇱 +56 (Chile)'], ['+57','🇨🇴 +57 (Colombia)'],
+    ['+60','🇲🇾 +60 (Malaysia)'], ['+61','🇦🇺 +61 (Australia)'],
+    ['+62','🇮🇩 +62 (Indonesia)'], ['+63','🇵🇭 +63 (Philippines)'],
+    ['+64','🇳🇿 +64 (New Zealand)'], ['+65','🇸🇬 +65 (Singapore)'],
+    ['+66','🇹🇭 +66 (Thailand)'], ['+81','🇯🇵 +81 (Japan)'],
+    ['+82','🇰🇷 +82 (South Korea)'], ['+84','🇻🇳 +84 (Vietnam)'],
+    ['+86','🇨🇳 +86 (China)'], ['+90','🇹🇷 +90 (Turkey)'],
+    ['+91','🇮🇳 +91 (India)'], ['+92','🇵🇰 +92 (Pakistan)'],
+    ['+94','🇱🇰 +94 (Sri Lanka)'], ['+95','🇲🇲 +95 (Myanmar)'],
+    ['+98','🇮🇷 +98 (Iran)'], ['+212','🇲🇦 +212 (Morocco)'],
+    ['+213','🇩🇿 +213 (Algeria)'], ['+216','🇹🇳 +216 (Tunisia)'],
+    ['+234','🇳🇬 +234 (Nigeria)'], ['+254','🇰🇪 +254 (Kenya)'],
+    ['+351','🇵🇹 +351 (Portugal)'], ['+353','🇮🇪 +353 (Ireland)'],
+    ['+358','🇫🇮 +358 (Finland)'], ['+380','🇺🇦 +380 (Ukraine)'],
+    ['+420','🇨🇿 +420 (Czech Republic)'], ['+421','🇸🇰 +421 (Slovakia)'],
+    ['+852','🇭🇰 +852 (Hong Kong)'], ['+880','🇧🇩 +880 (Bangladesh)'],
+    ['+960','🇲🇻 +960 (Maldives)'], ['+961','🇱🇧 +961 (Lebanon)'],
+    ['+966','🇸🇦 +966 (Saudi Arabia)'], ['+971','🇦🇪 +971 (UAE)'],
+    ['+972','🇮🇱 +972 (Israel)'], ['+974','🇶🇦 +974 (Qatar)'],
+    ['+977','🇳🇵 +977 (Nepal)'], ['+998','🇺🇿 +998 (Uzbekistan)'],
+];
+
+// World country list (alphabetical)
+$worldCountries = [
+    'Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda',
+    'Argentina','Armenia','Australia','Austria','Azerbaijan',
+    'Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize',
+    'Benin','Bhutan','Bolivia','Bosnia and Herzegovina','Botswana','Brazil',
+    'Brunei','Bulgaria','Burkina Faso','Burundi',
+    'Cabo Verde','Cambodia','Cameroon','Canada','Central African Republic','Chad',
+    'Chile','China','Colombia','Comoros','Congo (Republic)','Congo (DRC)',
+    'Costa Rica','Croatia','Cuba','Cyprus','Czech Republic',
+    'Denmark','Djibouti','Dominica','Dominican Republic',
+    'Ecuador','Egypt','El Salvador','Equatorial Guinea','Eritrea','Estonia',
+    'Eswatini','Ethiopia',
+    'Fiji','Finland','France',
+    'Gabon','Gambia','Georgia','Germany','Ghana','Greece','Grenada',
+    'Guatemala','Guinea','Guinea-Bissau','Guyana',
+    'Haiti','Honduras','Hungary',
+    'Iceland','India','Indonesia','Iran','Iraq','Ireland','Israel','Italy',
+    'Jamaica','Japan','Jordan',
+    'Kazakhstan','Kenya','Kiribati','Kosovo','Kuwait','Kyrgyzstan',
+    'Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein',
+    'Lithuania','Luxembourg',
+    'Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Marshall Islands',
+    'Mauritania','Mauritius','Mexico','Micronesia','Moldova','Monaco','Mongolia',
+    'Montenegro','Morocco','Mozambique','Myanmar',
+    'Namibia','Nauru','Nepal','Netherlands','New Zealand','Nicaragua','Niger',
+    'Nigeria','North Korea','North Macedonia','Norway',
+    'Oman',
+    'Pakistan','Palau','Palestine','Panama','Papua New Guinea','Paraguay','Peru',
+    'Philippines','Poland','Portugal',
+    'Qatar',
+    'Romania','Russia','Rwanda',
+    'Saint Kitts and Nevis','Saint Lucia','Saint Vincent and the Grenadines',
+    'Samoa','San Marino','São Tomé and Príncipe','Saudi Arabia','Senegal','Serbia',
+    'Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia','Solomon Islands',
+    'Somalia','South Africa','South Korea','South Sudan','Spain','Sri Lanka',
+    'Sudan','Suriname','Sweden','Switzerland','Syria',
+    'Taiwan','Tajikistan','Tanzania','Thailand','Timor-Leste','Togo','Tonga',
+    'Trinidad and Tobago','Tunisia','Turkey','Turkmenistan','Tuvalu',
+    'Uganda','Ukraine','United Arab Emirates','United Kingdom','United States',
+    'Uruguay','Uzbekistan',
+    'Vanuatu','Vatican City','Venezuela','Vietnam',
+    'Yemen',
+    'Zambia','Zimbabwe',
+];
 ?>
 
 <?php include __DIR__ . '/includes/header.php'; ?>
@@ -76,19 +158,28 @@ $_SESSION['callback_form_loaded'] = time();
                     </div>
 
                     <div class="form-group">
-                        <label for="phone" class="form-label">
+                        <label for="phone_number" class="form-label">
                             Phone Number <span class="required-star">*</span>
                         </label>
-                        <input
-                            type="tel"
-                            id="phone"
-                            name="phone"
-                            class="form-input"
-                            required
-                            maxlength="30"
-                            placeholder="+1 555 000 0000"
-                            aria-required="true"
-                        >
+                        <div class="phone-input-group">
+                            <select name="phone_code" id="phone_code" class="form-input phone-code-select" aria-label="Country dial code">
+                                <?php foreach ($dialCodes as [$code, $label]): ?>
+                                <option value="<?php echo e($code); ?>"<?php echo $code === '+61' ? ' selected' : ''; ?>>
+                                    <?php echo e($label); ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <input
+                                type="tel"
+                                id="phone_number"
+                                name="phone_number"
+                                class="form-input phone-number-input"
+                                required
+                                maxlength="20"
+                                placeholder="555 000 0000"
+                                aria-required="true"
+                            >
+                        </div>
                     </div>
                 </div>
 
@@ -113,33 +204,40 @@ $_SESSION['callback_form_loaded'] = time();
                         <label for="passport_country" class="form-label">
                             Your Passport / Home Country <span class="required-star">*</span>
                         </label>
-                        <input
-                            type="text"
+                        <select
                             id="passport_country"
                             name="passport_country"
-                            class="form-input"
+                            class="form-input form-select"
                             required
-                            maxlength="100"
-                            placeholder="e.g. Australia"
                             aria-required="true"
                         >
+                            <option value="" disabled selected>Select your country</option>
+                            <?php foreach ($worldCountries as $c): ?>
+                            <option value="<?php echo e($c); ?>"><?php echo e($c); ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
 
                     <div class="form-group">
                         <label for="destination_countries" class="form-label">
-                            Destination Country / Countries <span class="required-star">*</span>
+                            Destination Countries <span class="required-star">*</span>
                         </label>
-                        <input
-                            type="text"
+                        <select
                             id="destination_countries"
-                            name="destination_countries"
-                            class="form-input"
+                            name="destination_countries[]"
+                            class="form-input form-select country-multiselect"
+                            multiple
                             required
-                            maxlength="200"
-                            placeholder="e.g. Japan, Thailand, Vietnam"
+                            size="5"
                             aria-required="true"
-                            value="<?php echo $prefillDestination; ?>"
                         >
+                            <?php foreach ($worldCountries as $c): ?>
+                            <option value="<?php echo e($c); ?>"<?php echo ($prefillDestination && strcasecmp($c, $prefillDestination) === 0) ? ' selected' : ''; ?>>
+                                <?php echo e($c); ?>
+                            </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <p class="form-hint">Hold Ctrl (Windows) or ⌘ (Mac) to select multiple countries</p>
                     </div>
                 </div>
 
