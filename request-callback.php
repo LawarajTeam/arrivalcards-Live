@@ -258,19 +258,43 @@ $worldCountries = [
                     ></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label for="timeline" class="form-label">
-                        When are you planning to travel? <span class="required-star">*</span>
-                    </label>
-                    <select id="timeline" name="timeline" class="form-input form-select" required aria-required="true">
-                        <option value="" disabled selected>Select your travel timeline</option>
-                        <option value="within_1_week">Within 1 week – urgent!</option>
-                        <option value="2_4_weeks">2 – 4 weeks</option>
-                        <option value="1_3_months">1 – 3 months</option>
-                        <option value="3_6_months">3 – 6 months</option>
-                        <option value="6_plus_months">6+ months away</option>
-                        <option value="not_sure">Not sure yet</option>
-                    </select>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label for="visa_type" class="form-label">
+                            Type of Visa <span class="required-star">*</span>
+                        </label>
+                        <select id="visa_type" name="visa_type" class="form-input form-select" required aria-required="true">
+                            <option value="" disabled selected>Select visa type</option>
+                            <option value="tourist">Tourist / Visitor</option>
+                            <option value="business">Business</option>
+                            <option value="work">Work / Employment</option>
+                            <option value="student">Student / Study</option>
+                            <option value="transit">Transit</option>
+                            <option value="family">Family / Spouse / Partner</option>
+                            <option value="retirement">Retirement / Long-stay</option>
+                            <option value="permanent_residency">Permanent Residency / PR</option>
+                            <option value="citizenship">Citizenship / Naturalisation</option>
+                            <option value="digital_nomad">Digital Nomad / Remote Work</option>
+                            <option value="medical">Medical Treatment</option>
+                            <option value="refugee">Asylum / Refugee</option>
+                            <option value="other">Other / Not sure</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timeline" class="form-label">
+                            When are you planning to travel? <span class="required-star">*</span>
+                        </label>
+                        <select id="timeline" name="timeline" class="form-input form-select" required aria-required="true">
+                            <option value="" disabled selected>Select your travel timeline</option>
+                            <option value="within_1_week">Within 1 week – urgent!</option>
+                            <option value="2_4_weeks">2 – 4 weeks</option>
+                            <option value="1_3_months">1 – 3 months</option>
+                            <option value="3_6_months">3 – 6 months</option>
+                            <option value="6_plus_months">6+ months away</option>
+                            <option value="not_sure">Not sure yet</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="form-group">

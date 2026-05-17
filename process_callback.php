@@ -57,7 +57,25 @@ if (is_array($rawDestinations)) {
 }
 $tripDetails         = trim($_POST['trip_details'] ?? '');
 $timeline            = trim($_POST['timeline'] ?? '');
+$visaType            = trim($_POST['visa_type'] ?? '');
 $comments            = trim($_POST['comments'] ?? '');
+
+// Allowed visa types
+$allowedVisaTypes = [
+    'tourist'             => 'Tourist / Visitor',
+    'business'            => 'Business',
+    'work'                => 'Work / Employment',
+    'student'             => 'Student / Study',
+    'transit'             => 'Transit',
+    'family'              => 'Family / Spouse / Partner',
+    'retirement'          => 'Retirement / Long-stay',
+    'permanent_residency' => 'Permanent Residency / PR',
+    'citizenship'         => 'Citizenship / Naturalisation',
+    'digital_nomad'       => 'Digital Nomad / Remote Work',
+    'medical'             => 'Medical Treatment',
+    'refugee'             => 'Asylum / Refugee',
+    'other'               => 'Other / Not sure',
+];
 
 // Allowed timeline values
 $allowedTimelines = [
@@ -101,6 +119,11 @@ if (strlen($tripDetails) < 10 || strlen($tripDetails) > 1000) {
     $errors[] = 'Trip details must be between 10 and 1000 characters.';
 }
 
+// Validate visa type
+if (!array_key_exists($visaType, $allowedVisaTypes)) {
+    $errors[] = 'Please select a visa type.';
+}
+
 // Validate timeline
 if (!array_key_exists($timeline, $allowedTimelines)) {
     $errors[] = 'Please select a travel timeline.';
@@ -131,10 +154,11 @@ if ((int) $stmt->fetchColumn() >= 3) {
 // Persist to the contact_submissions table (reuse existing table)
 try {
     $summaryMessage = sprintf(
-        "[CALLBACK REQUEST]\nPhone: %s\nPassport country: %s\nDestinations: %s\nTimeline: %s\nTrip details: %s\nComments: %s",
+        "[CALLBACK REQUEST]\nPhone: %s\nPassport country: %s\nDestinations: %s\nVisa type: %s\nTimeline: %s\nTrip details: %s\nComments: %s",
         $phone,
         $passportCountry,
         $destinationCountries,
+        $allowedVisaTypes[$visaType],
         $allowedTimelines[$timeline],
         $tripDetails,
         $comments ?: 'N/A'
@@ -160,6 +184,7 @@ try {
 
 // Build and send email
 $timelineLabel = htmlspecialchars($allowedTimelines[$timeline]);
+$visaTypeLabel = htmlspecialchars($allowedVisaTypes[$visaType]);
 
 $emailSubject = '📞 New Visa Agent Callback Request – Arrival Cards';
 $emailBody = "
@@ -209,6 +234,10 @@ $emailBody = "
         <div class='field'>
             <div class='label'>Destination Countries</div>
             <div class='value'>" . htmlspecialchars($destinationCountries) . "</div>
+        </div>
+        <div class='field'>
+            <div class='label'>Visa Type Required</div>
+            <div class='value'>" . $visaTypeLabel . "</div>
         </div>
         <div class='field'>
             <div class='label'>Travel Timeline</div>
