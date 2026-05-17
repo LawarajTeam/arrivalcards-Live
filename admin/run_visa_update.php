@@ -44,7 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm'])) {
     if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) die('Invalid CSRF token');
     if (!file_exists($sqlFile)) die('SQL file not found');
 
-    $statements = parseSqlStatements(file_get_contents($sqlFile));
+    $raw = file_get_contents($sqlFile);
+    $raw = ltrim($raw, "\xEF\xBB\xBF");  // strip UTF-8 BOM if present
+    $statements = parseSqlStatements($raw);
     $pdo->beginTransaction();
     try {
         foreach ($statements as $stmt) { $pdo->exec($stmt); $results[] = htmlspecialchars(substr($stmt, 0, 120)) . '…'; }
