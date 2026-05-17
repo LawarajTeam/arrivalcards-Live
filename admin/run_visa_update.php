@@ -11,6 +11,90 @@ $sqlFile = __DIR__ . '/../sql/update_visa_data_may2026.sql';
 $results = [];
 $errors  = [];
 
+/**
+ * Parse SQL into individual statements, correctly handling:
+ * - String literals (single/double/backtick quoted, with '' escaping)
+ * - -- line comments and # line comments (ignored outside strings)
+ * - /* block comments (ignored outside strings)
+ * - ; statement terminators (only outside strings/comments)
+ */
+function parseSqlStatements(string $sql): array {
+    $statements = [];
+    $current    = '';
+    $inString   = false;
+    $stringChar = '';
+    $len        = strlen($sql);
+    $i          = 0;
+
+    while ($i < $len) {
+        $c = $sql[$i];
+
+        if ($inString) {
+            $current .= $c;
+            if ($c === $stringChar) {
+                // '' is an escaped quote inside a string — keep going
+                if ($i + 1 < $len && $sql[$i + 1] === $stringChar) {
+                    $current .= $sql[++$i];
+                } else {
+                    $inString = false;
+                }
+            }
+            $i++;
+            continue;
+        }
+
+        // Outside a string
+        if ($c === "'" || $c === '"' || $c === '`') {
+            $inString   = true;
+            $stringChar = $c;
+            $current   .= $c;
+            $i++;
+            continue;
+        }
+
+        // -- line comment
+        if ($c === '-' && $i + 1 < $len && $sql[$i + 1] === '-') {
+            while ($i < $len && $sql[$i] !== "\n") $i++;
+            continue;
+        }
+
+        // # line comment
+        if ($c === '#') {
+            while ($i < $len && $sql[$i] !== "\n") $i++;
+            continue;
+        }
+
+        // /* block comment */
+        if ($c === '/' && $i + 1 < $len && $sql[$i + 1] === '*') {
+            $i += 2;
+            while ($i + 1 < $len && !($sql[$i] === '*' && $sql[$i + 1] === '/')) $i++;
+            $i += 2;
+            continue;
+        }
+
+        // Statement terminator
+        if ($c === ';') {
+            $stmt = trim($current);
+            if ($stmt !== '') {
+                $statements[] = $stmt;
+            }
+            $current = '';
+            $i++;
+            continue;
+        }
+
+        $current .= $c;
+        $i++;
+    }
+
+    $stmt = trim($current);
+    if ($stmt !== '') {
+        $statements[] = $stmt;
+    }
+
+    return $statements;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm'])) {
     if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
         die('Invalid CSRF token');
@@ -19,18 +103,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm'])) {
         die('SQL file not found: ' . htmlspecialchars($sqlFile));
     }
 
-    $sql = file_get_contents($sqlFile);
-
-    // Strip comment-only lines and split on semicolons
-    $statements = array_filter(
-        array_map('trim', explode(';', $sql)),
-        fn($s) => $s !== '' && !preg_match('/^(--|\/\*|#)/', ltrim($s))
-    );
+    $sql        = file_get_contents($sqlFile);
+    $statements = parseSqlStatements($sql);
 
     $pdo->beginTransaction();
     try {
         foreach ($statements as $stmt) {
-            if (empty(trim($stmt))) continue;
             $pdo->exec($stmt);
             $results[] = htmlspecialchars(substr($stmt, 0, 120)) . '…';
         }
