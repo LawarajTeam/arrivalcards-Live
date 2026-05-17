@@ -35,6 +35,9 @@ $priorityPassports = [
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_visa_data'])) {
+    if (!isset($_POST['csrf_token']) || !verifyCSRFToken($_POST['csrf_token'])) {
+        die('Security validation failed. Please go back and try again.');
+    }
     $fromCountryCode = $_POST['from_country'];
     $toCountryCode = $_POST['to_country'];
     $visaType = $_POST['visa_type'];
@@ -167,6 +170,7 @@ $existingData = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="card">
                 <h2>Add Visa Requirement</h2>
                 <form method="POST">
+                    <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
                     <div class="form-group">
                         <label>From Country (Passport Holder)</label>
                         <select name="from_country" required id="from_country">

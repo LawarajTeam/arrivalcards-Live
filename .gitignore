@@ -5,6 +5,7 @@
 
 # Database credentials (keep sample only)
 includes/config.php
+config.production.php
 
 # IDE files
 .vscode/

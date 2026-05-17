@@ -12,6 +12,11 @@ $message = '';
 $messageType = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // CSRF protection
+    if (!isset($_POST['csrf_token']) || !verifyCSRFToken($_POST['csrf_token'])) {
+        $message = 'Security validation failed. Please try again.';
+        $messageType = 'error';
+    } else {
     $country_name = trim($_POST['country_name'] ?? '');
     $error_type = trim($_POST['error_type'] ?? '');
     $description = trim($_POST['description'] ?? '');
@@ -64,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = implode(', ', $errors);
         $messageType = 'error';
     }
+    } // end CSRF check
 }
 
 // Get all countries for dropdown
@@ -90,6 +96,7 @@ $countries = getCountries();
             <?php endif; ?>
             
             <form method="POST" action="" class="report-form">
+                <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
                 <div class="form-group">
                     <label for="country_name">Country *</label>
                     <select name="country_name" id="country_name" required class="form-control">

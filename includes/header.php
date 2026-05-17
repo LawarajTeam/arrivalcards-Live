@@ -123,7 +123,7 @@ if (!isset($ogImage)) {
     <?php } ?>
     
     <?php if (isset($additionalCSS)): ?>
-        <link rel="stylesheet" href="/assets/css/<?php echo $additionalCSS; ?>">
+        <link rel="stylesheet" href="/assets/css/<?php echo e($additionalCSS); ?>">
     <?php endif; ?>
     
     <!-- Google Analytics - Add your tracking ID -->

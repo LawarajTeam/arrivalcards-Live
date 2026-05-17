@@ -1262,7 +1262,6 @@ a:hover {
 }
 
 .footer-stats-inline {
-    margin-left: auto;
     display: flex;
     align-items: center;
     gap: 0.35rem;
@@ -1292,7 +1291,6 @@ a:hover {
 
 .footer-copy {
     white-space: nowrap;
-    margin-left: auto;
     color: rgba(255,255,255,0.45);
 }
 
@@ -2291,14 +2289,10 @@ a:hover {
    MOBILE-FIRST RESPONSIVE OVERRIDES
    ============================================ */
 
-/* Footer: prevent stats from overflowing on small screens */
+/* Footer: wrap stats gracefully on small screens */
 @media (max-width: 600px) {
     .footer-stats-inline {
-        margin-left: 0;
         white-space: normal;
-    }
-    .footer-copy {
-        margin-left: 0;
     }
 }
 
