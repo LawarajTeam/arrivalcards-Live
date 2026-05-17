@@ -1,66 +1,46 @@
     </main>
-    
+
     <footer class="site-footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section footer-about">
-                    <h3><?php echo e(t('site_title')); ?></h3>
-                    <p><?php echo e(t('site_tagline')); ?></p>
-                </div>
-                
-                <div class="footer-section footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="<?php echo APP_URL; ?>/"><?php echo e(t('home')); ?></a></li>
-                        <li><a href="<?php echo APP_URL; ?>/about">About Us</a></li>
-                        <li><a href="<?php echo APP_URL; ?>/faq">FAQ</a></li>
-                        <li><a href="<?php echo APP_URL; ?>/contact"><?php echo e(t('contact_us')); ?></a></li>
-                        <li><a href="<?php echo APP_URL; ?>/privacy"><?php echo e(t('privacy_policy')); ?></a></li>
-                        <li><a href="<?php echo APP_URL; ?>/terms">Terms of Service</a></li>
-                        <li><a href="<?php echo APP_URL; ?>/report-error">Report an Error</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section footer-stats">
-                    <h4><?php echo e(t('total_countries')); ?></h4>
-                    <div class="footer-stat-row">
-                        <span class="stat-number"><?php echo getCountryCount(); ?></span>
-                        <span class="stat-label">countries &nbsp;·&nbsp; updated <?php echo formatDate(date('Y-m-d'), 'M j, Y'); ?></span>
-                    </div>
-                    <?php
-                    $footerViewStats = ['today' => 0, 'total' => 0];
-                    try {
-                        $row = $pdo->query("
-                            SELECT
-                                COUNT(*) AS total_views,
-                                SUM(CASE WHEN DATE(viewed_at) = CURDATE() THEN 1 ELSE 0 END) AS today_views
-                            FROM page_views
-                        ")->fetch();
-                        $footerViewStats = [
-                            'today' => (int)($row['today_views'] ?? 0),
-                            'total' => (int)($row['total_views'] ?? 0),
-                        ];
-                    } catch (Exception $e) {}
-                    ?>
-                    <h4 style="margin-top:0.75rem;">Page Views</h4>
-                    <div class="footer-stat-row">
-                        <span class="stat-number"><?php echo number_format($footerViewStats['today']); ?></span>
-                        <span class="stat-label">today</span>
-                    </div>
-                    <div class="footer-stat-row">
-                        <span class="stat-number"><?php echo number_format($footerViewStats['total']); ?></span>
-                        <span class="stat-label">all time</span>
-                    </div>
+            <!-- Main row: brand · links · stats -->
+            <div class="footer-main">
+                <span class="footer-brand"><?php echo e(t('site_title')); ?></span>
+                <nav class="footer-nav">
+                    <a href="<?php echo APP_URL; ?>/"><?php echo e(t('home')); ?></a>
+                    <a href="<?php echo APP_URL; ?>/about">About</a>
+                    <a href="<?php echo APP_URL; ?>/faq">FAQ</a>
+                    <a href="<?php echo APP_URL; ?>/contact">Contact</a>
+                    <a href="<?php echo APP_URL; ?>/privacy">Privacy</a>
+                    <a href="<?php echo APP_URL; ?>/terms">Terms</a>
+                    <a href="<?php echo APP_URL; ?>/report-error">Report Error</a>
+                </nav>
+                <?php
+                $footerViewStats = ['today' => 0, 'total' => 0];
+                try {
+                    $row = $pdo->query("
+                        SELECT COUNT(*) AS total_views,
+                               SUM(CASE WHEN DATE(viewed_at) = CURDATE() THEN 1 ELSE 0 END) AS today_views
+                        FROM page_views
+                    ")->fetch();
+                    $footerViewStats = [
+                        'today' => (int)($row['today_views'] ?? 0),
+                        'total' => (int)($row['total_views'] ?? 0),
+                    ];
+                } catch (Exception $e) {}
+                ?>
+                <div class="footer-stats-inline">
+                    <span><?php echo getCountryCount(); ?> countries</span>
+                    <span class="fsep">·</span>
+                    <span><?php echo number_format($footerViewStats['today']); ?> views today</span>
+                    <span class="fsep">·</span>
+                    <span><?php echo number_format($footerViewStats['total']); ?> all time</span>
                 </div>
             </div>
-            
-            <div class="footer-disclaimer">
-                <p>⚠️ <?php echo e(t('footer_disclaimer')); ?></p>
-            </div>
-            
+
+            <!-- Bottom row: disclaimer · copyright -->
             <div class="footer-bottom">
-                <p><?php echo e(t('footer_copyright')); ?></p>
-                <p class="footer-sda">An <a href="https://www.shmarlo.com" target="_blank" rel="noopener noreferrer">SDA Project</a></p>
+                <span>⚠️ <?php echo e(t('footer_disclaimer')); ?></span>
+                <span class="footer-copy"><?php echo e(t('footer_copyright')); ?> &nbsp;·&nbsp; An <a href="https://www.shmarlo.com" target="_blank" rel="noopener noreferrer">SDA Project</a></span>
             </div>
         </div>
     </footer>
