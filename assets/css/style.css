@@ -2286,3 +2286,37 @@ a:hover {
 .footer-sda a:hover {
     text-decoration: underline;
 }
+
+/* ============================================
+   MOBILE-FIRST RESPONSIVE OVERRIDES
+   ============================================ */
+
+/* Footer: prevent stats from overflowing on small screens */
+@media (max-width: 600px) {
+    .footer-stats-inline {
+        margin-left: 0;
+        white-space: normal;
+    }
+    .footer-copy {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Hide footer stats on very small screens to keep footer compact */
+    .footer-stats-inline {
+        display: none;
+    }
+}
+
+/* Filter selects: stretch to full width on mobile */
+@media (max-width: 600px) {
+    .filter-group {
+        flex-direction: column;
+    }
+    .filter-select {
+        flex: 1;
+        min-width: 0;
+        width: 100%;
+    }
+}
