@@ -22,6 +22,9 @@ $regions = getRegions();
 $visaTypes = getVisaTypes();
 $totalCountries = getCountryCount();
 
+// Bulk-fetch today's view counts for all countries (single query)
+$todayViewsMap = getAllCountriesTodayViews();
+
 // Pre-select region from URL slug (e.g. /en/region/north-america -> "North America")
 $preSelectedRegion = '';
 if (!empty($_GET['region'])) {
@@ -289,6 +292,16 @@ include __DIR__ . '/includes/header.php'; ?>
                     </div>
                     
                     <div class="country-footer">
+                        <!-- View stats -->
+                        <div class="card-view-stats">
+                            <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="view-today"><?php echo number_format($todayViewsMap[$country['id']] ?? 0); ?> today</span>
+                            <span class="view-sep">·</span>
+                            <span class="view-total"><?php echo number_format($country['view_count'] ?? 0); ?> total</span>
+                        </div>
                         <div class="card-actions">
                             <a 
                                 href="/<?php echo CURRENT_LANG; ?>/country/<?php echo strtolower($country['country_code']); ?>" 

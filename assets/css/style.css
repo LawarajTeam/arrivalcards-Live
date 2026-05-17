@@ -2237,3 +2237,51 @@ a:hover {
     margin-top: 4px;
     margin-bottom: 0;
 }
+
+/* ===== View Counters ===== */
+.card-view-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.45rem 1rem;
+    font-size: 0.76rem;
+    color: var(--text-light);
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-secondary, #f8f9fa);
+}
+.card-view-stats svg {
+    flex-shrink: 0;
+    opacity: 0.55;
+}
+.card-view-stats .view-today {
+    font-weight: 600;
+    color: var(--primary-color, #3b82f6);
+}
+.card-view-stats .view-sep {
+    opacity: 0.4;
+}
+.card-view-stats .view-total {
+    color: var(--text-light);
+}
+.country-view-stats {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.875rem;
+}
+.country-view-stats strong {
+    color: var(--primary-color, #3b82f6);
+}
+.footer-sda {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 0.25rem;
+}
+.footer-sda a {
+    color: var(--primary-color, #3b82f6);
+    text-decoration: none;
+}
+.footer-sda a:hover {
+    text-decoration: underline;
+}

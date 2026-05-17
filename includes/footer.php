@@ -25,6 +25,27 @@
                     <h4><?php echo e(t('total_countries')); ?></h4>
                     <p class="stat-number"><?php echo getCountryCount(); ?></p>
                     <p class="stat-label"><?php echo e(t('last_updated')); ?>: <?php echo formatDate(date('Y-m-d')); ?></p>
+                    <?php
+                    // Site-wide view stats
+                    $footerViewStats = ['today' => 0, 'total' => 0];
+                    try {
+                        $row = $pdo->query("
+                            SELECT
+                                COUNT(*) AS total_views,
+                                SUM(CASE WHEN DATE(viewed_at) = CURDATE() THEN 1 ELSE 0 END) AS today_views
+                            FROM page_views
+                        ")->fetch();
+                        $footerViewStats = [
+                            'today' => (int)($row['today_views'] ?? 0),
+                            'total' => (int)($row['total_views'] ?? 0),
+                        ];
+                    } catch (Exception $e) {}
+                    ?>
+                    <p class="stat-label" style="margin-top:1rem;">Page Views</p>
+                    <p class="stat-number"><?php echo number_format($footerViewStats['today']); ?></p>
+                    <p class="stat-label">Today</p>
+                    <p class="stat-number" style="margin-top:0.4rem;"><?php echo number_format($footerViewStats['total']); ?></p>
+                    <p class="stat-label">All Time</p>
                 </div>
             </div>
             
@@ -34,6 +55,7 @@
             
             <div class="footer-bottom">
                 <p><?php echo e(t('footer_copyright')); ?></p>
+                <p class="footer-sda">An <a href="https://www.shmarlo.com" target="_blank" rel="noopener noreferrer">SDA Project</a></p>
             </div>
         </div>
     </footer>

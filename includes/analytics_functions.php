@@ -286,3 +286,75 @@ function getAnalyticsSummary($days = 7) {
     
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+/**
+ * Get today's view counts for ALL countries in a single query (for homepage cards).
+ * Returns array keyed by country_id => today_count.
+ */
+function getAllCountriesTodayViews() {
+    global $pdo;
+    try {
+        $stmt = $pdo->query("
+            SELECT country_id, COUNT(*) AS today_count
+            FROM page_views
+            WHERE country_id IS NOT NULL AND DATE(viewed_at) = CURDATE()
+            GROUP BY country_id
+        ");
+        $result = [];
+        foreach ($stmt->fetchAll() as $row) {
+            $result[(int)$row['country_id']] = (int)$row['today_count'];
+        }
+        return $result;
+    } catch (PDOException $e) {
+        return [];
+    }
+}
+
+/**
+ * Get today + total view count for a specific country.
+ * Returns ['today' => X, 'total' => Y].
+ */
+function getCountryViewStats($countryId) {
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("
+            SELECT COUNT(*) FROM page_views
+            WHERE country_id = ? AND DATE(viewed_at) = CURDATE()
+        ");
+        $stmt->execute([$countryId]);
+        $todayViews = (int)$stmt->fetchColumn();
+
+        $stmt = $pdo->prepare("SELECT view_count FROM countries WHERE id = ?");
+        $stmt->execute([$countryId]);
+        $totalViews = (int)$stmt->fetchColumn();
+
+        return ['today' => $todayViews, 'total' => $totalViews];
+    } catch (PDOException $e) {
+        return ['today' => 0, 'total' => 0];
+    }
+}
+
+/**
+ * Get today + total view count for a specific page URL.
+ * Returns ['today' => X, 'total' => Y].
+ */
+function getPageViewStats($pageUrl) {
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("
+            SELECT
+                COUNT(*) AS total_views,
+                SUM(CASE WHEN DATE(viewed_at) = CURDATE() THEN 1 ELSE 0 END) AS today_views
+            FROM page_views
+            WHERE page_url = ?
+        ");
+        $stmt->execute([$pageUrl]);
+        $row = $stmt->fetch();
+        return [
+            'today' => (int)($row['today_views'] ?? 0),
+            'total' => (int)($row['total_views'] ?? 0),
+        ];
+    } catch (PDOException $e) {
+        return ['today' => 0, 'total' => 0];
+    }
+}
