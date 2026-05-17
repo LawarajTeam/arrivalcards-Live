@@ -19,8 +19,25 @@ if (!isset($_POST['csrf_token']) || !verifyCSRFToken($_POST['csrf_token'])) {
 }
 
 // Honeypot check (spam protection)
-if (!empty($_POST['website'])) {
+if (!empty($_POST['website']) || !empty($_POST['email_confirm'])) {
     setFlashMessage('Thank you! Your request has been received.', 'success');
+    redirect(APP_URL . '/request-callback.php');
+}
+
+// Timing check – bots submit in under a second; humans take several
+$formLoaded = $_SESSION['callback_form_loaded'] ?? 0;
+unset($_SESSION['callback_form_loaded']);
+if ((time() - $formLoaded) < 3) {
+    setFlashMessage('Please take a moment to complete the form.', 'error');
+    redirect(APP_URL . '/request-callback.php');
+}
+
+// Math CAPTCHA check
+$captchaAnswer   = (int) ($_POST['captcha'] ?? -1);
+$captchaExpected = (int) ($_SESSION['callback_captcha'] ?? -999);
+unset($_SESSION['callback_captcha']);
+if ($captchaAnswer !== $captchaExpected) {
+    setFlashMessage('Incorrect security answer. Please try again.', 'error');
     redirect(APP_URL . '/request-callback.php');
 }
 

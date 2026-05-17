@@ -16,6 +16,12 @@ $prefillDestination = '';
 if (!empty($_GET['destination'])) {
     $prefillDestination = htmlspecialchars(strip_tags(substr($_GET['destination'], 0, 200)));
 }
+
+// Generate math CAPTCHA and record form load time
+$captchaA = random_int(2, 9);
+$captchaB = random_int(1, 9);
+$_SESSION['callback_captcha']     = $captchaA + $captchaB;
+$_SESSION['callback_form_loaded'] = time();
 ?>
 
 <?php include __DIR__ . '/includes/header.php'; ?>
@@ -47,8 +53,9 @@ if (!empty($_GET['destination'])) {
                 <!-- CSRF Protection -->
                 <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
 
-                <!-- Honeypot for spam protection -->
-                <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <!-- Honeypot fields (hidden from humans, bots fill them) -->
+                <input type="text" name="website"          class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <input type="text" name="email_confirm"    class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
 
                 <div class="form-grid-2">
                     <div class="form-group">
@@ -180,6 +187,25 @@ if (!empty($_GET['destination'])) {
                         rows="3"
                         placeholder="Anything else we should know? Special circumstances, previous visa rejections, multiple nationalities, etc."
                     ></textarea>
+                </div>
+
+                <!-- Math CAPTCHA -->
+                <div class="form-group captcha-group">
+                    <label for="captcha" class="form-label">
+                        Security check: What is <strong><?php echo $captchaA; ?> + <?php echo $captchaB; ?></strong>? <span class="required-star">*</span>
+                    </label>
+                    <input
+                        type="number"
+                        id="captcha"
+                        name="captcha"
+                        class="form-input captcha-input"
+                        required
+                        min="0"
+                        max="18"
+                        placeholder="Your answer"
+                        autocomplete="off"
+                        aria-required="true"
+                    >
                 </div>
 
                 <button type="submit" class="btn btn-callback-submit">
