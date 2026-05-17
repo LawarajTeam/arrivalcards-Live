@@ -311,6 +311,29 @@ function getAllCountriesTodayViews() {
 }
 
 /**
+ * Get total (all-time) view counts for ALL countries in a single fresh query.
+ * Returns array keyed by country_id => total_count.
+ * Use this instead of the session-cached view_count to show live numbers.
+ */
+function getAllCountriesTotalViews() {
+    global $pdo;
+    try {
+        $stmt = $pdo->query("
+            SELECT id, view_count
+            FROM countries
+            WHERE is_active = 1
+        ");
+        $result = [];
+        foreach ($stmt->fetchAll() as $row) {
+            $result[(int)$row['id']] = (int)$row['view_count'];
+        }
+        return $result;
+    } catch (PDOException $e) {
+        return [];
+    }
+}
+
+/**
  * Get today + total view count for a specific country.
  * Returns ['today' => X, 'total' => Y].
  */
