@@ -234,60 +234,41 @@ include __DIR__ . '/includes/header.php';
 
 <style>
 .country-hero {
-    position: relative;
-    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
     color: white;
-    padding: 0;
-    margin-bottom: 2rem;
-    overflow: hidden;
-    border-radius: 0 0 16px 16px;
+    margin-bottom: 1.5rem;
 }
 
 .country-hero-image {
-    position: relative;
-    height: 400px;
-    background-size: cover;
-    background-position: center;
+    padding: 1.25rem 0;
     display: flex;
     align-items: center;
-}
-
-.country-hero-image::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, rgba(30, 58, 138, 0.7) 0%, rgba(30, 58, 138, 0.9) 100%);
 }
 
 .country-hero-content {
-    position: relative;
-    z-index: 2;
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
     flex-wrap: wrap;
 }
 
 .country-flag-large {
-    font-size: 80px;
+    font-size: 44px;
     line-height: 1;
-    text-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .country-title-section h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
+    margin: 0 0 0.2rem;
     color: white;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 .country-subtitle {
-    font-size: 1.1rem;
-    opacity: 0.95;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    font-size: 0.875rem;
+    opacity: 0.85;
+    margin: 0;
 }
 
 .country-content {
@@ -524,24 +505,12 @@ include __DIR__ . '/includes/header.php';
 }
 
 @media (max-width: 768px) {
-    .country-hero-image {
-        height: 280px;
-    }
-
     .country-flag-large {
-        font-size: 50px;
+        font-size: 36px;
     }
 
     .country-title-section h1 {
-        font-size: 1.75rem;
-    }
-
-    .country-subtitle {
-        font-size: 0.95rem;
-    }
-
-    .country-hero-content {
-        gap: 1.25rem;
+        font-size: 1.4rem;
     }
 
     .country-main {
@@ -579,16 +548,12 @@ include __DIR__ . '/includes/header.php';
 }
 
 @media (max-width: 480px) {
-    .country-hero-image {
-        height: 220px;
-    }
-
     .country-flag-large {
-        font-size: 40px;
+        font-size: 30px;
     }
 
     .country-title-section h1 {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
 
     .country-main {
@@ -614,18 +579,9 @@ include __DIR__ . '/includes/header.php';
 }
 </style>
 
-<!-- Breadcrumb -->
-<div class="container">
-    <div class="breadcrumb">
-        <a href="/">🏠 <?php echo t('home'); ?></a>
-        <span> / </span>
-        <span><?php echo e($country['country_name']); ?></span>
-    </div>
-</div>
-
 <!-- Country Hero -->
 <section class="country-hero">
-    <div class="country-hero-image" style="background-image: linear-gradient(to bottom, rgba(30, 58, 138, 0.7) 0%, rgba(30, 58, 138, 0.9) 100%), url('https://source.unsplash.com/1600x900/?<?php echo urlencode($country['country_name']); ?>,landmark,travel');">
+    <div class="country-hero-image">
         <div class="container">
             <div class="country-hero-content">
                 <div class="country-flag-large">
