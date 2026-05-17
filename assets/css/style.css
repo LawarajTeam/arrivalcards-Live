@@ -2073,3 +2073,64 @@ a:hover {
     background: #15803d;
     transform: translateY(-1px);
 }
+
+/* ============================================
+   CARD ACTION BUTTONS (View Details + Agent)
+   ============================================ */
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.btn-card-action {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+/* Override btn-view-details width when used as card-action */
+.btn-view-details.btn-card-action {
+    width: auto;
+    margin-top: 0;
+}
+
+.btn-agent-help {
+    background: #fff;
+    color: #16a34a;
+    border: 2px solid #16a34a;
+    box-shadow: none;
+}
+
+.btn-agent-help:hover,
+.btn-agent-help:focus-visible {
+    background: #16a34a;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+    text-decoration: none;
+}
+
+.btn-agent-help svg {
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+    .card-actions {
+        flex-direction: column;
+    }
+    .btn-card-action {
+        width: 100%;
+    }
+}

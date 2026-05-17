@@ -207,16 +207,6 @@ include __DIR__ . '/includes/header.php'; ?>
                                 <?php echo e($visaTypes[$country['visa_type']]); ?>
                             </span>
                         </div>
-                        <a 
-                            href="/<?php echo CURRENT_LANG; ?>/country/<?php echo strtolower($country['country_code']); ?>" 
-                            class="btn-view-details btn-view-details-top"
-                            aria-label="<?php echo e(t('view_details')); ?> - <?php echo e($country['country_name']); ?>"
-                        >
-                            <?php echo e(t('view_details')); ?>
-                            <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                            </svg>
-                        </a>
                     </div>
                     
                     <div class="country-info-box">
@@ -299,21 +289,29 @@ include __DIR__ . '/includes/header.php'; ?>
                     </div>
                     
                     <div class="country-footer">
-                        <div class="country-meta">
-                            <span class="country-meta-left">
-                                <?php echo e(t('last_updated')); ?>: <?php echo formatDate($country['last_verified']); ?>
-                            </span>
+                        <div class="card-actions">
+                            <a 
+                                href="/<?php echo CURRENT_LANG; ?>/country/<?php echo strtolower($country['country_code']); ?>" 
+                                class="btn-view-details btn-card-action"
+                                aria-label="<?php echo e(t('view_details')); ?> - <?php echo e($country['country_name']); ?>"
+                            >
+                                <?php echo e(t('view_details')); ?>
+                                <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </a>
+                            <a 
+                                href="<?php echo APP_URL; ?>/request-callback.php?destination=<?php echo urlencode($country['country_name']); ?>&code=<?php echo urlencode(strtolower($country['country_code'])); ?>"
+                                class="btn-agent-help btn-card-action"
+                                aria-label="Talk to a visa agent about <?php echo e($country['country_name']); ?>"
+                            >
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.37 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 5.53 5.53l1.62-1.85a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                </svg>
+                                Talk to Agent
+                            </a>
                         </div>
-                        <a 
-                            href="/<?php echo CURRENT_LANG; ?>/country/<?php echo strtolower($country['country_code']); ?>" 
-                            class="btn-view-details btn-view-details-bottom"
-                            aria-label="<?php echo e(t('view_details')); ?> - <?php echo e($country['country_name']); ?>"
-                        >
-                            <?php echo e(t('view_details')); ?>
-                            <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                            </svg>
-                        </a>
+                        <span class="country-meta-left"><?php echo e(t('last_updated')); ?>: <?php echo formatDate($country['last_verified']); ?></span>
                     </div>
                 </article>
             <?php endforeach; ?>

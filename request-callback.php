@@ -10,6 +10,12 @@ require_once __DIR__ . '/includes/functions.php';
 $pageTitle = 'Talk to a Visa Agent – Get Expert Help | Arrival Cards';
 $pageDescription = 'Request a free callback from one of our visa experts. Tell us about your trip and we\'ll guide you through the visa process step by step.';
 $pageKeywords = 'visa agent, visa help, visa consultation, talk to visa expert, visa callback, visa advice';
+
+// Pre-fill destination from card link (sanitised)
+$prefillDestination = '';
+if (!empty($_GET['destination'])) {
+    $prefillDestination = htmlspecialchars(strip_tags(substr($_GET['destination'], 0, 200)));
+}
 ?>
 
 <?php include __DIR__ . '/includes/header.php'; ?>
@@ -125,6 +131,7 @@ $pageKeywords = 'visa agent, visa help, visa consultation, talk to visa expert, 
                             maxlength="200"
                             placeholder="e.g. Japan, Thailand, Vietnam"
                             aria-required="true"
+                            value="<?php echo $prefillDestination; ?>"
                         >
                     </div>
                 </div>
