@@ -18,18 +18,27 @@ define('MAX_LOGIN_ATTEMPTS', 5);
 define('LOGIN_LOCKOUT_TIME', 900); // 15 minutes
 
 // Check for brute force lockout
-$clientIP = $_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN';
-$lockoutKey = 'login_attempts_' . md5($clientIP);
-if (!isset($_SESSION[$lockoutKey])) {
-    $_SESSION[$lockoutKey] = ['count' => 0, 'first_attempt' => time()];
+// Stored server-side per IP (not in the session) so clearing cookies can't reset the counter.
+$clientIP = getClientIP();
+$lockoutFile = sys_get_temp_dir() . '/ac_login_' . md5($clientIP) . '.json';
+function loadLoginAttempts($file) {
+    $data = is_file($file) ? json_decode((string)@file_get_contents($file), true) : null;
+    if (!is_array($data) || !isset($data['count'], $data['first_attempt'])) {
+        return ['count' => 0, 'first_attempt' => time()];
+    }
+    return $data;
 }
-$attempts = $_SESSION[$lockoutKey];
+function saveLoginAttempts($file, $data) {
+    @file_put_contents($file, json_encode($data), LOCK_EX);
+}
+$attempts = loadLoginAttempts($lockoutFile);
 $isLockedOut = ($attempts['count'] >= MAX_LOGIN_ATTEMPTS) && 
                (time() - $attempts['first_attempt'] < LOGIN_LOCKOUT_TIME);
 
 // Reset counter if lockout period expired
 if ($attempts['count'] >= MAX_LOGIN_ATTEMPTS && (time() - $attempts['first_attempt'] >= LOGIN_LOCKOUT_TIME)) {
-    $_SESSION[$lockoutKey] = ['count' => 0, 'first_attempt' => time()];
+    $attempts = ['count' => 0, 'first_attempt' => time()];
+    saveLoginAttempts($lockoutFile, $attempts);
     $isLockedOut = false;
 }
 
@@ -60,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 session_regenerate_id(true);
                 
                 // Reset login attempts on success
-                unset($_SESSION[$lockoutKey]);
+                @unlink($lockoutFile);
                 
                 // Login successful
                 $_SESSION['admin_id'] = $admin['id'];
@@ -77,8 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 redirect(APP_URL . '/admin/');
             } else {
                 // Increment failed attempt counter
-                $_SESSION[$lockoutKey]['count']++;
-                $remaining = MAX_LOGIN_ATTEMPTS - $_SESSION[$lockoutKey]['count'];
+                if ($attempts['count'] === 0) {
+                    $attempts['first_attempt'] = time();
+                }
+                $attempts['count']++;
+                saveLoginAttempts($lockoutFile, $attempts);
+                $remaining = MAX_LOGIN_ATTEMPTS - $attempts['count'];
                 
                 $error = 'Invalid username or password.';
                 if ($remaining > 0 && $remaining <= 2) {

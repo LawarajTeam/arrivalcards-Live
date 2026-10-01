@@ -169,9 +169,18 @@ function getVisitorCountry($ip) {
         return $_SERVER['HTTP_CF_IPCOUNTRY'];
     }
     
+    // Only look up valid public IPs (keeps arbitrary text out of the request URL)
+    if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+        return null;
+    }
+
     // Try ip-api.com (free, 45 requests/minute limit)
     try {
-        $data = @file_get_contents("http://ip-api.com/json/{$ip}?fields=country");
+        $data = @file_get_contents(
+            "http://ip-api.com/json/" . urlencode($ip) . "?fields=country",
+            false,
+            stream_context_create(['http' => ['timeout' => 2]])
+        );
         if ($data) {
             $json = json_decode($data, true);
             if (isset($json['country'])) {

@@ -24,6 +24,9 @@ RewriteBase /
     Deny from all
 </FilesMatch>
 
+# Block direct web access to internal and dotfile directories (.git, .github, .vscode, includes, sql)
+RewriteRule ^(\.git|\.github|\.vscode|includes|sql)(/|$) - [F,L]
+
 # Prevent directory browsing
 Options -Indexes
 
@@ -83,6 +86,9 @@ RewriteRule ^country/([a-z]{2,3})/?$ country.php?code=$1 [QSA,L]
     # Prevent MIME sniffing
     Header set X-Content-Type-Options "nosniff"
     
+    # Enforce HTTPS in browsers (skipped on localhost)
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains" "expr=%{HTTP_HOST} !~ /^localhost/"
+
     # Referrer Policy
     Header set Referrer-Policy "strict-origin-when-cross-origin"
     
