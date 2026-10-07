@@ -28,7 +28,16 @@
                     ];
                 } catch (Exception $e) {}
                 ?>
+                <?php
+                require_once __DIR__ . '/analytics_functions.php';
+                recordVisitorHeartbeat();
+                $onlineNow = getOnlineVisitors();
+                ?>
                 <div class="footer-stats-inline">
+                    <?php if ($onlineNow !== null): ?>
+                    <span class="live-traffic" title="Visitors active in the last 5 minutes"><span class="live-dot" aria-hidden="true"></span><strong id="liveVisitorCount"><?php echo number_format($onlineNow); ?></strong> online now</span>
+                    <span class="fsep">·</span>
+                    <?php endif; ?>
                     <span><?php echo getCountryCount(); ?> countries</span>
                     <span class="fsep">·</span>
                     <span><?php echo number_format($footerViewStats['today']); ?> views today</span>
@@ -56,6 +65,23 @@
         <span class="callback-fab-label">Talk to an Agent</span>
     </a>
     <?php endif; ?>
+
+    <!-- Realtime visitor counter: heartbeat + live count every 30s while the tab is visible -->
+    <script>
+    (function () {
+        var el = document.getElementById('liveVisitorCount');
+        if (!el) return;
+        function refresh() {
+            if (document.hidden) return;
+            fetch('<?php echo APP_URL; ?>/api/online.php', {cache: 'no-store', credentials: 'same-origin'})
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (d) { if (d && d.success) el.textContent = d.online.toLocaleString(); })
+                .catch(function () {});
+        }
+        setInterval(refresh, 30000);
+        document.addEventListener('visibilitychange', function () { if (!document.hidden) refresh(); });
+    })();
+    </script>
 
     <!-- JavaScript -->
     <script src="/assets/js/main.js" defer></script>

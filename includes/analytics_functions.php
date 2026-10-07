@@ -390,3 +390,66 @@ function getPageViewStats($pageUrl) {
         return ['today' => 0, 'total' => 0];
     }
 }
+
+
+/**
+ * Whether the current request looks like a bot (not counted as a visitor)
+ */
+function isBotRequest() {
+    $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    if ($userAgent === '') {
+        return true;
+    }
+    foreach (['bot', 'crawler', 'spider', 'scraper', 'curl', 'wget', 'headless'] as $pattern) {
+        if (stripos($userAgent, $pattern) !== false) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Record that this visitor is active right now (heartbeat).
+ * Creates the visitor_sessions row if the page didn't already (trackPageView),
+ * otherwise only refreshes last_activity.
+ */
+function recordVisitorHeartbeat() {
+    global $pdo;
+
+    if (isBotRequest()) {
+        return;
+    }
+
+    try {
+        if (!isset($_SESSION['visitor_session_id'])) {
+            $_SESSION['visitor_session_id'] = bin2hex(random_bytes(16));
+            $_SESSION['session_start_time'] = time();
+        }
+
+        $stmt = $pdo->prepare("
+            INSERT INTO visitor_sessions (session_id, visitor_ip, first_page, last_page, pages_viewed, started_at, last_activity)
+            VALUES (?, ?, ?, ?, 1, NOW(), NOW())
+            ON DUPLICATE KEY UPDATE last_activity = NOW()
+        ");
+        $page = substr($_SERVER['REQUEST_URI'] ?? '/', 0, 500);
+        $stmt->execute([$_SESSION['visitor_session_id'], getVisitorIP(), $page, $page]);
+    } catch (Exception $e) {
+        error_log('Heartbeat error: ' . $e->getMessage());
+    }
+}
+
+/**
+ * Number of real visitors active in the last $minutes minutes.
+ * Returns null if the data is unavailable.
+ */
+function getOnlineVisitors($minutes = 5) {
+    global $pdo;
+
+    try {
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM visitor_sessions WHERE last_activity >= (NOW() - INTERVAL ? MINUTE)");
+        $stmt->execute([(int)$minutes]);
+        return (int)$stmt->fetchColumn();
+    } catch (Exception $e) {
+        return null;
+    }
+}
