@@ -36,7 +36,11 @@ function trackPageView($countryId = null, $pageTitle = null) {
         
         // Get visitor details
         $visitorIp = getVisitorIP();
-        $visitorCountry = getVisitorCountry($visitorIp);
+        // Look the country up once per visit: it's a blocking call to an external API
+        if (!array_key_exists('visitor_country', $_SESSION)) {
+            $_SESSION['visitor_country'] = getVisitorCountry($visitorIp);
+        }
+        $visitorCountry = $_SESSION['visitor_country'];
         $deviceInfo = detectDevice();
         $browserInfo = detectBrowser();
         
@@ -303,17 +307,22 @@ function getAnalyticsSummary($days = 7) {
 function getAllCountriesTodayViews() {
     global $pdo;
     try {
-        $stmt = $pdo->query("
-            SELECT country_id, COUNT(*) AS today_count
-            FROM page_views
-            WHERE country_id IS NOT NULL AND DATE(viewed_at) = CURDATE()
-            GROUP BY country_id
-        ");
-        $result = [];
-        foreach ($stmt->fetchAll() as $row) {
-            $result[(int)$row['country_id']] = (int)$row['today_count'];
-        }
-        return $result;
+        // Range predicate (not DATE(viewed_at)) so idx_viewed_at can be used instead of a full table scan.
+        // Cached for 60s: this query ran on every homepage load.
+        return cacheRemember('today_views_by_country', 60, function () use ($pdo) {
+            $stmt = $pdo->query("
+                SELECT country_id, COUNT(*) AS today_count
+                FROM page_views
+                WHERE viewed_at >= CURDATE() AND viewed_at < CURDATE() + INTERVAL 1 DAY
+                  AND country_id IS NOT NULL
+                GROUP BY country_id
+            ");
+            $result = [];
+            foreach ($stmt->fetchAll() as $row) {
+                $result[(int)$row['country_id']] = (int)$row['today_count'];
+            }
+            return $result;
+        });
     } catch (PDOException $e) {
         return [];
     }

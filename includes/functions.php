@@ -116,16 +116,24 @@ function getVisaTypes() {
 function getCountries($region = null, $visaType = null, $search = null) {
     global $pdo;
     
-    // Create cache key based on parameters
-    $cacheKey = 'countries_' . CURRENT_LANG . '_' . ($region ?? 'all') . '_' . ($visaType ?? 'all') . '_' . ($search ?? 'none');
-    
-    // Check if we have cached data (valid for 5 minutes)
-    if (isset($_SESSION[$cacheKey]) && isset($_SESSION[$cacheKey . '_time'])) {
-        if (time() - $_SESSION[$cacheKey . '_time'] < 300) { // 5 minutes
-            return $_SESSION[$cacheKey];
-        }
+    // Free-text searches are never cached (unbounded keys); region/type/language combos are
+    if ($search) {
+        return queryCountries($pdo, $region, $visaType, $search);
     }
-    
+
+    $cacheKey = 'countries_' . CURRENT_LANG . '_' . ($region ?? 'all') . '_' . ($visaType ?? 'all');
+
+    // Shared cache (valid for 5 minutes). Kept out of $_SESSION: the full country list is
+    // ~1MB, which made every request read/write a huge session file and hold its lock.
+    return cacheRemember($cacheKey, 300, function () use ($pdo, $region, $visaType, $search) {
+        return queryCountries($pdo, $region, $visaType, $search);
+    });
+}
+
+/**
+ * Run the (uncached) countries query
+ */
+function queryCountries($pdo, $region, $visaType, $search) {
     $sql = "SELECT c.*, ct.country_name, ct.entry_summary, ct.visa_requirements, ct.last_verified
             FROM countries c
             INNER JOIN country_translations ct ON c.id = ct.country_id
@@ -152,13 +160,7 @@ function getCountries($region = null, $visaType = null, $search = null) {
     
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
-    $results = $stmt->fetchAll();
-    
-    // Cache the results
-    $_SESSION[$cacheKey] = $results;
-    $_SESSION[$cacheKey . '_time'] = time();
-    
-    return $results;
+    return $stmt->fetchAll();
 }
 
 /**
@@ -375,4 +377,31 @@ function getVisaTypeLabel($visaType) {
         'visa_required' => t('visa_required')
     ];
     return $labels[$visaType] ?? t('visa_required');
+}
+
+
+/**
+ * Small shared file cache (per server, not per visitor).
+ * Returns the cached value if fresh, otherwise computes it with $compute and stores it.
+ * Fails open: if the cache directory isn't writable the value is simply recomputed.
+ */
+function cacheRemember($key, $ttl, callable $compute) {
+    $file = sys_get_temp_dir() . '/ac_cache_' . md5($key) . '.bin';
+
+    if (is_file($file) && (time() - filemtime($file)) < $ttl) {
+        $data = @unserialize((string)@file_get_contents($file), ['allowed_classes' => false]);
+        if ($data !== false) {
+            return $data;
+        }
+    }
+
+    $value = $compute();
+
+    // Write atomically so concurrent requests never read a half-written file
+    $tmp = $file . '.' . getmypid() . '.tmp';
+    if (@file_put_contents($tmp, serialize($value)) !== false) {
+        @rename($tmp, $file);
+    }
+
+    return $value;
 }

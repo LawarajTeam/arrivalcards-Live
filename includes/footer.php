@@ -17,15 +17,18 @@
                 <?php
                 $footerViewStats = ['today' => 0, 'total' => 0];
                 try {
-                    $row = $pdo->query("
-                        SELECT COUNT(*) AS total_views,
-                               SUM(CASE WHEN DATE(viewed_at) = CURDATE() THEN 1 ELSE 0 END) AS today_views
-                        FROM page_views
-                    ")->fetch();
-                    $footerViewStats = [
-                        'today' => (int)($row['today_views'] ?? 0),
-                        'total' => (int)($row['total_views'] ?? 0),
-                    ];
+                    // Cached 60s: counting the whole page_views table on every page was a full scan
+                    $footerViewStats = cacheRemember('footer_view_stats', 60, function () use ($pdo) {
+                        $row = $pdo->query("
+                            SELECT COUNT(*) AS total_views,
+                                   SUM(viewed_at >= CURDATE() AND viewed_at < CURDATE() + INTERVAL 1 DAY) AS today_views
+                            FROM page_views
+                        ")->fetch();
+                        return [
+                            'today' => (int)($row['today_views'] ?? 0),
+                            'total' => (int)($row['total_views'] ?? 0),
+                        ];
+                    });
                 } catch (Exception $e) {}
                 ?>
                 <?php
